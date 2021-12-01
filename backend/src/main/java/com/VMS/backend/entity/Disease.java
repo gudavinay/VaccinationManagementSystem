@@ -4,6 +4,12 @@ public class Disease {
     private String diseaseName;
     private int diseaseId;
     private String diseaseDesc;
+
+    
+    public Disease(String diseaseName, String diseaseDesc) {
+        this.diseaseName = diseaseName;
+        this.diseaseDesc = diseaseDesc;
+    }
     public String getDiseaseName() {
         return diseaseName;
     }

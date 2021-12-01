@@ -10,6 +10,17 @@ public class Vaccination {
     private int numberOfShots;
     private int shotInternalVal;
     private int duration;
+
+    
+    public Vaccination(String vaccinationName, List<Disease> diseases, String manufacturer, int numberOfShots,
+            int shotInternalVal, int duration) {
+        this.vaccinationName = vaccinationName;
+        this.diseases = diseases;
+        this.manufacturer = manufacturer;
+        this.numberOfShots = numberOfShots;
+        this.shotInternalVal = shotInternalVal;
+        this.duration = duration;
+    }
     public int getVaccinationId() {
         return vaccinationId;
     }
