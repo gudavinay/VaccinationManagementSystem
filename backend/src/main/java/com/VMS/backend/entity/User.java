@@ -1,16 +1,50 @@
 package com.VMS.backend.entity;
 
-import java.sql.Date;
-
 public class User {
+    
     private String email;
     private String first_name;
     private String last_name;
     private String middle_name;
-    private Date dob;
+    private String dob;
     private int mrn;
     private int gender;
     private Address address;
+    private boolean isVerified;
+
+    
+
+    public User(String email, String first_name, String last_name, String middle_name, String dob, int mrn, int gender,
+            Address address, boolean isVerified, int role) {
+        this.email = email;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.middle_name = middle_name;
+        this.dob = dob;
+        this.mrn = mrn;
+        this.gender = gender;
+        this.address = address;
+        this.isVerified = isVerified;
+        this.role = role;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    private int role;
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
 
     public String getEmail() {
         return email;
@@ -44,11 +78,11 @@ public class User {
         this.middle_name = middle_name;
     }
 
-    public Date getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 
