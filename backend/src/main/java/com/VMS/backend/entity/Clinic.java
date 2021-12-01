@@ -1,17 +1,44 @@
 package com.VMS.backend.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import java.util.List;
+
+@Entity
+@Table(name = "Clinic")
 public class Clinic {
+
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
+    
+    @Column(unique = true)
     private String name;
     private Address address;
     private int noOfPhysician;
     private int bussinessHours;
+
+    @ManyToMany(targetEntity=Vaccination.class)
+    private List <Vaccination> vaccinations;
     
     public Clinic(String name, Address address, int noOfPhysician, int bussinessHours) {
         this.name = name;
         this.address = address;
         this.noOfPhysician = noOfPhysician;
         this.bussinessHours = bussinessHours;
+    }
+    public List <Vaccination> getVaccinations() {
+        return vaccinations;
+    }
+    public void setVaccinations(List <Vaccination> vaccinations) {
+        this.vaccinations = vaccinations;
     }
     public int getId() {
         return id;

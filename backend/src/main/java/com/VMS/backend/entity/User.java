@@ -1,31 +1,70 @@
 package com.VMS.backend.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.VMS.backend.Constants.Gender;
+
+@Entity
+@Table(name = "User")
 public class User {
     
-    private String email;
-    private String first_name;
-    private String last_name;
-    private String middle_name;
-    private String dob;
+    @Id
     private int mrn;
-    private int gender;
+    @Column(unique = true)
+    private String email;
+
+    @NotNull
+    private String firstName;
+
+    @NotNull
+    private String lastName;
+    private String middleName;
+
+    @NotNull
+    private String dob;
+
+    @NotNull
+    @Column(columnDefinition = "smallint")
+    @Enumerated
+    private Gender gender; //enum
     private Address address;
     private boolean isVerified;
 
-    
+    @OneToMany(targetEntity=Vaccination.class, cascade=CascadeType.ALL)
+    private List<Vaccination> vaccinations;
 
-    public User(String email, String first_name, String last_name, String middle_name, String dob, int mrn, int gender,
+    @OneToMany(targetEntity=Appointment.class, cascade=CascadeType.ALL)
+    private List<Appointment> appointments;
+
+    public User(String email, String firstName, String lastName,  String dob, int mrn, Gender gender,
             Address address, boolean isVerified, int role) {
         this.email = email;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.middle_name = middle_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.dob = dob;
         this.mrn = mrn;
         this.gender = gender;
         this.address = address;
         this.isVerified = isVerified;
         this.role = role;
+    }
+
+    public List<Vaccination> getVaccinations() {
+        return vaccinations;
+    }
+
+    public void setVaccinations(List<Vaccination> vaccinations) {
+        this.vaccinations = vaccinations;
     }
 
     public boolean isVerified() {
@@ -54,28 +93,28 @@ public class User {
         this.email = email;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirst_name(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLast_name(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getMiddle_name() {
-        return middle_name;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setMiddle_name(String middle_name) {
-        this.middle_name = middle_name;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getDob() {
@@ -94,11 +133,11 @@ public class User {
         this.mrn = mrn;
     }
 
-    public int getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

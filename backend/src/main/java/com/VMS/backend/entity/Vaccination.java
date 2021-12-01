@@ -2,10 +2,35 @@ package com.VMS.backend.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "Vaccination")
 public class Vaccination {
+
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int vaccinationId;
+
+    @Column(unique = true)
+    @NotNull
     private String vaccinationName;
+
+    @OneToMany(targetEntity=Disease.class, cascade=CascadeType.ALL)
     private List<Disease> diseases;
+
+    @ManyToMany(targetEntity=Clinic.class)
+    private List<Clinic> clinics;
+
     private String manufacturer;
     private int numberOfShots;
     private int shotInternalVal;
