@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Nav } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
 
 class NavigationBar extends Component {
   constructor(props) {
@@ -11,19 +12,17 @@ class NavigationBar extends Component {
   }
   render() {
     return (
-      <div style={{marginBottom:"4%"}}>
+      <div style={{ marginBottom: "4%" }}>
         <Navbar className="justify-content-end" expand="lg" bg="dark" variant="dark" fixed="top">
-          <Navbar.Brand style={{ cursor: "pointer" }} onClick={() => {
-              this.props.history.push("/");
-            }} > Vaccination Management System </Navbar.Brand>
+          <Navbar.Brand ><Link to="/dashboard">Vaccination Management System </Link></Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               {/* {this.state.isAdmin ?  */}
-              <AdminSnippet /> : <UserSnippet /> 
+              <AdminSnippet /> : <UserSnippet />
               {/* } */}
               <Nav.Link
-              className="justify-content-end"
+                className="justify-content-end"
                 onClick={() => {
                   localStorage.clear();
                   this.props.history.push("/");
@@ -39,53 +38,44 @@ class NavigationBar extends Component {
   }
 }
 
-function AdminSnippet() {
-  return  <>
-  <Nav.Link
-    onClick={() => {
-      this.props.history.push("/addDisease");
-    }}
-  >
-    Add Disease
-  </Nav.Link>
-  <Nav.Link
-    onClick={() => {
-      this.props.history.push("/addClinic");
-    }}
-  >
-    Add Clinic
-  </Nav.Link>
-  <Nav.Link
-    onClick={() => {
-      this.props.history.push("/addVaccination");
-    }}
-  >
-    Add Vaccination
-  </Nav.Link>
-  </>
-  
+const AdminSnippet = () => {
+  return <React.Fragment>
+    <Nav.Link >
+      <Link to="/addDisease">
+        Add Disease
+      </Link>
+    </Nav.Link>
+    <Nav.Link >
+      <Link to="/addClinic">
+        Add Clinic
+      </Link>
+    </Nav.Link>
+    <Nav.Link >
+      <Link to="/addVaccination">
+        Add Vaccination
+      </Link>
+    </Nav.Link>
+  </React.Fragment>
+
 }
-function UserSnippet() {
-  return <>
-    <Nav.Link
-      onClick={() => {
-        this.props.history.push("/appointments");
-      }} >
-      Appointments
-    </Nav.Link>
-    <Nav.Link
-      onClick={() => {
-        this.props.history.push("/vaccinationHistory");
-      }} >
+const UserSnippet = () => {
+  return <React.Fragment>
+  <Nav.Link >
+    <Link to="/vaccinationHistory">
       Vaccination History
+    </Link>
+  </Nav.Link>
+    <Nav.Link >
+      <Link to="/appointments">
+        Appointments
+      </Link>
     </Nav.Link>
-    <Nav.Link
-      onClick={() => {
-        this.props.history.push("/vaccinationsDue");
-      }} >
-      Vaccinations Due
+    <Nav.Link >
+      <Link to="/vaccinationsDue">
+        Vaccinations Due
+      </Link>
     </Nav.Link>
-  </>
+  </React.Fragment>
 }
 
 export default NavigationBar;
