@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff907b65-127c-481a-972c-c35de1bf5a3a" name="Changes" comment="vaccination APIS done">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/repository/VaccinationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/service/VaccinationService.java" afterDir="false" />
+    <list default="true" id="ff907b65-127c-481a-972c-c35de1bf5a3a" name="Changes" comment="Clinic APIS in progress &amp; need latest code">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/ClinicController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/repository/ClinicRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/service/ClinicService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/AppointmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/DiseaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/DiseaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/PatientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/PatientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/VaccinationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/VaccinationController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -44,7 +41,7 @@
       <map>
         <entry key="com.haulmont.jpb.jpaInspector" value="false" />
         <entry key="com.haulmont.jpb.jpaPalette" value="false" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
     </option>
   </component>
@@ -116,6 +113,14 @@
       <option name="presentableId" value="Default" />
       <updated>1638851682133</updated>
     </task>
+    <task id="LOCAL-00001" summary="vaccination APIS done">
+      <created>1638857476926</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1638857476926</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -131,6 +136,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="vaccination APIS done" />
-    <option name="LAST_COMMIT_MESSAGE" value="vaccination APIS done" />
+    <MESSAGE value="Clinic APIS in progress &amp; need latest code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Clinic APIS in progress &amp; need latest code" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/VaccinationManagementSystem$BackendApplication.ic" NAME="BackendApplication Coverage Results" MODIFIED="1638857445849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.VMS.backend.*</FILTER>
+    </SUITE>
   </component>
 </project>
