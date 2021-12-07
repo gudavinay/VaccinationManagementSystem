@@ -10,7 +10,7 @@ import {
     ButtonGroup
 } from "reactstrap";
 import axios from "axios";
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -95,6 +95,7 @@ class SignUp extends Component {
                             >
                                 {this.state.loginError}
                             </div>
+                <Link to="/dashboard">Dummy Link to Dashboard</Link>
                             <h3>Create VMS Account</h3>
                             <Form onSubmit={this.handleSubmit} className="form-stacked">
                                 <Row>
