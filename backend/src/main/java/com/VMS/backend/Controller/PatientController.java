@@ -1,4 +1,4 @@
-package com.VMS.backend.Controller;
+package com.VMS.backend.controller;
 
 import com.VMS.backend.entity.Address;
 import com.VMS.backend.service.PatientService;

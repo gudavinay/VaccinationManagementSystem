@@ -1,13 +1,6 @@
 package com.VMS.backend.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -21,6 +14,7 @@ public class Clinic {
     
     @Column(unique = true)
     private String name;
+    @Embedded
     private Address address;
     private int noOfPhysician;
     private int bussinessHours;
@@ -34,6 +28,11 @@ public class Clinic {
         this.noOfPhysician = noOfPhysician;
         this.bussinessHours = bussinessHours;
     }
+
+    public Clinic() {
+
+    }
+
     public List <Vaccination> getVaccinations() {
         return vaccinations;
     }

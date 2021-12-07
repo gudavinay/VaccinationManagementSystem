@@ -26,6 +26,17 @@ public class Disease {
         this.diseaseName = diseaseName;
         this.diseaseDesc = diseaseDesc;
     }
+
+    public Disease(String diseaseName, int diseaseId, String diseaseDesc) {
+        this.diseaseName = diseaseName;
+        this.diseaseId = diseaseId;
+        this.diseaseDesc = diseaseDesc;
+    }
+
+    public Disease() {
+
+    }
+
     public String getDiseaseName() {
         return diseaseName;
     }
