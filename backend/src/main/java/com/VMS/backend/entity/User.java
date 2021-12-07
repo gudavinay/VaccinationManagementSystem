@@ -34,9 +34,7 @@ public class User {
     private String dob;
 
     @NotNull
-    @Column(columnDefinition = "smallint")
-    @Enumerated
-    private Gender gender; //enum
+    private String gender; //enum
     private Address address;
     private boolean isVerified;
 
@@ -46,8 +44,8 @@ public class User {
     @OneToMany(targetEntity=Appointment.class, cascade=CascadeType.ALL)
     private List<Appointment> appointments;
 
-    public User(String email, String firstName, String lastName,  String dob, int mrn, Gender gender,
-            Address address, boolean isVerified, int role) {
+    public User( String firstName, String lastName, String middleName, String email, String dob, String gender,
+            Address address, boolean isVerified,int mrn, boolean role) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,13 +73,13 @@ public class User {
         this.isVerified = isVerified;
     }
 
-    private int role;
+    private boolean role;
 
-    public int getRole() {
+    public boolean getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(boolean role) {
         this.role = role;
     }
 
@@ -133,11 +131,11 @@ public class User {
         this.mrn = mrn;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
