@@ -1,8 +1,8 @@
 package com.VMS.backend.Controller;
 
-import com.VMS.backend.entity.Address;
-import com.VMS.backend.entity.Appointment;
-import com.VMS.backend.entity.User;
+import com.VMS.backend.entity.*;
+import com.VMS.backend.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,23 +10,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.util.*;
+
 @RestController
 public class AppointmentController {
-//    @RequestMapping(value = "/createAppointment", method = RequestMethod.POST, produces = {"application/json", "application/xml"})
-//    public ResponseEntity<?> createAppointment(
-//            @RequestParam("email") String email,
-//            @RequestParam("firstName") String firstName,
-//            @RequestParam("lastName") String lastName,
-//            @RequestParam(value = "middleName", required = false) String middleName,
-//            @RequestParam("dob") String dob,
-//            @RequestParam("gender") String gender,
-//            @RequestParam("address") Address address,
-//            @RequestParam("isVerified") boolean isVerified) {
-//        try {
-//            return patientService.createUser(firstName, lastName, middleName, email, dob, gender, address, isVerified);
-//        } catch (IllegalArgumentException ex) {
-//            return null;
-//        }
-//    }
-    
+
+    @Autowired
+    private AppointmentService appointmentService;
+
+    @RequestMapping(value = "/createAppointment", method = RequestMethod.POST, produces = {"application/json", "application/xml"})
+    public ResponseEntity<?> createAppointment(
+            @RequestParam("appointmentDateTime") String appointmentDateTime,
+            @RequestParam("vaccinations") List<Vaccination> vaccinations,
+            @RequestParam("clinic") Clinic clinic,
+            @RequestParam("user") User user_id) {
+        try {
+            return appointmentService.createAppointment(appointmentDateTime, user_id, vaccinations, clinic);
+        } catch (Exception ex) {
+            return null;
+        } 
+    }
 }

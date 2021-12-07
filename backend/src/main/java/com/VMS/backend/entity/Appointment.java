@@ -1,5 +1,7 @@
 package com.VMS.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.*;
 //import com.VMS.backend.entity.Vaccination;
@@ -9,12 +11,13 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int appointmentId;
+
     private Date appointmentDateTime;
 
     @OneToMany(targetEntity=Vaccination.class, cascade= CascadeType.ALL)
     private List<Vaccination> vaccinations; // make validation for upto 4
 
-    @ManyToOne(targetEntity = Clinic.class, cascade= CascadeType.ALL)
+    @ManyToOne(targetEntity = Clinic.class)
     private Clinic clinic;
 
     @ManyToOne(targetEntity=User.class, cascade= CascadeType.DETACH)
