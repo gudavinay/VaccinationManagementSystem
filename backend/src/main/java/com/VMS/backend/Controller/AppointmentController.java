@@ -1,4 +1,4 @@
-package com.VMS.backend.controller;
+package com.VMS.backend.Controller;
 
 public class AppointmentController {
     
