@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff907b65-127c-481a-972c-c35de1bf5a3a" name="Changes" comment="Clinic APIS in progress &amp; need latest code">
-      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+    <list default="true" id="ff907b65-127c-481a-972c-c35de1bf5a3a" name="Changes" comment="git pull issue">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/repository/AppointmentRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/service/AppointmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/AppointmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Appointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Clinic.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Clinic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Disease.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Disease.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Vaccination.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Vaccination.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638857476926</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="git pull issue">
+      <created>1638859550861</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1638859550861</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -134,7 +149,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="vaccination APIS done" />
     <MESSAGE value="Clinic APIS in progress &amp; need latest code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clinic APIS in progress &amp; need latest code" />
+    <MESSAGE value="git pull issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="git pull issue" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/VaccinationManagementSystem$BackendApplication.ic" NAME="BackendApplication Coverage Results" MODIFIED="1638857445849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
