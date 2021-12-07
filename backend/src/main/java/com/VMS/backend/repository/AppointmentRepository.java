@@ -5,5 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
 
 public interface AppointmentRepository extends JpaRepository<Appointment,Integer> {
-        List<Appointment> findbyUser(int mrn);
 }

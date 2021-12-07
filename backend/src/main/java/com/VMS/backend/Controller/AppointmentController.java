@@ -29,6 +29,6 @@ public class AppointmentController {
             return appointmentService.createAppointment(appointmentDateTime, user_id, vaccinations, clinic);
         } catch (Exception ex) {
             return null;
-        } 
+        }
     }
 }
