@@ -10,21 +10,21 @@ import com.VMS.backend.util.ExceptionHandle;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 public class ClinicController {
 
     @Autowired
     private ClinicService clinicService;
 
     @RequestMapping(value = "/clinic", method = RequestMethod.POST, produces ={"application/json"})
-    public ResponseEntity<?> createVaccination(@RequestParam("clinicName") String clinicName, @RequestParam("address") Address address,
-                                               @RequestParam("numberOfPhysicians") int numberOfPhysicians, @RequestParam("businessHours") String businessHours
+    public ResponseEntity<?> createClinic(@RequestParam("clinicName") String clinicName,
+                                          @RequestParam("address") Address address,
+                                          @RequestParam("numberOfPhysicians") int numberOfPhysicians,
+                                          @RequestParam("businessHours") String businessHours
     ){
         try {
             return clinicService.createClinic(clinicName,address,numberOfPhysicians, businessHours );
