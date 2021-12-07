@@ -12,7 +12,7 @@ class NavigationBar extends Component {
   }
   render() {
     return (
-      <div style={{ marginBottom: "4%" }}>
+      <div style={{ marginBottom: "5%" }}>
         <Navbar className="justify-content-end" expand="lg" bg="dark" variant="dark" fixed="top">
           <Navbar.Brand ><Link to="/dashboard">Vaccination Management System </Link></Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />

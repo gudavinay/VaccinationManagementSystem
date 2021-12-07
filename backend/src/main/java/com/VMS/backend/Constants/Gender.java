@@ -1,4 +1,4 @@
-package com.VMS.backend.Constants;
+package com.VMS.backend.constants;
 
 public enum Gender {
     MALE(1), FEMALE(2), OTHER(3);

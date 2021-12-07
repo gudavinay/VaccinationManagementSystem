@@ -2,22 +2,15 @@ package com.VMS.backend.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import com.VMS.backend.Constants.Gender;
+import com.VMS.backend.constants.Gender;
 
 @Entity
 @Table(name = "User")
 public class User {
-    
+
     @Id
     private int mrn;
     @Column(unique = true)
@@ -46,11 +39,11 @@ public class User {
     private String dob;
 
     @NotNull
-    private String gender; //enum
+    private String gender; // enum
     private Address address;
     private boolean isVerified;
 
-    @OneToMany(targetEntity=Vaccination.class, cascade=CascadeType.ALL)
+    @OneToMany(targetEntity = Vaccination.class, cascade = CascadeType.ALL)
     private List<Vaccination> vaccinations;
 
     public List<Appointment> getAppointments() {
@@ -64,8 +57,8 @@ public class User {
     @OneToMany(targetEntity=Appointment.class, cascade=CascadeType.ALL)
     private List<Appointment> appointments;
 
-    public User( String firstName, String lastName, String middleName, String email, String dob, String gender,
-            Address address, boolean isVerified,int mrn, boolean role) {
+    public User(String firstName, String lastName, String middleName, String email, String dob, String gender,
+            Address address, boolean isVerified, int mrn, boolean role) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,6 +68,10 @@ public class User {
         this.address = address;
         this.isVerified = isVerified;
         this.role = role;
+    }
+
+    public User() {
+
     }
 
     public List<Vaccination> getVaccinations() {

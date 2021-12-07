@@ -14,16 +14,16 @@ class Main extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar/>
-          <Route exact path="/" component={SignUp} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/addClinic" component={AddClinic} />
-          <Route path="/addDisease" component={AddDisease} />
-          <Route path="/addVaccination" component={AddVaccination} />
-          <Route path="/appointments" component={Appointments} />
-          <Route path="/vaccinationHistory" component={VaccinationHistory} />
-          <Route path="/vaccinationsDue" component={VaccinationsDue} />
+        <Navbar />
+        <Route exact path="/" component={SignUp} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/addClinic" component={AddClinic} />
+        <Route path="/addDisease" component={AddDisease} />
+        <Route path="/addVaccination" component={AddVaccination} />
+        <Route path="/appointments" component={Appointments} />
+        <Route path="/vaccinationHistory" component={VaccinationHistory} />
+        <Route path="/vaccinationsDue" component={VaccinationsDue} />
       </React.Fragment>
     );
   }

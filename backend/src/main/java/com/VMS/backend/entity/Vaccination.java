@@ -41,6 +41,11 @@ public class Vaccination {
         this.shotInternalVal = shotInternalVal;
         this.duration = duration;
     }
+
+    public Vaccination() {
+
+    }
+
     public int getVaccinationId() {
         return vaccinationId;
     }

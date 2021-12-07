@@ -3,7 +3,7 @@ package com.VMS.backend.entity;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Address{
+public class Address {
     public String street;
     public String aptNo;
     public String city;

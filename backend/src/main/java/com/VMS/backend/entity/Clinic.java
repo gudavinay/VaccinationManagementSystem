@@ -13,6 +13,7 @@ public class Clinic {
     private int id;
     @Column(unique = true)
     private String name;
+    @Embedded
     private Address address;
     private int noOfPhysician;
     private int bussinessHours;
@@ -37,6 +38,11 @@ public class Clinic {
         this.noOfPhysician = noOfPhysician;
         this.bussinessHours = bussinessHours;
     }
+
+    public Clinic() {
+
+    }
+
     public List <Vaccination> getVaccinations() {
         return vaccinations;
     }
