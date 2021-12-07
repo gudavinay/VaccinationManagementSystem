@@ -13,16 +13,16 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
-    public ResponseEntity<?> createUser(String firstname, String lastname, String middleName, String email, String dob, String gender,
-                                        Address address, boolean isVerified) {
-        User isUser =patientRepository.findByEmail(email);
+    public ResponseEntity<?> createUser(User req) {
+        User isUser =patientRepository.findByEmail(req.getEmail());
         if (isUser == null) {
             int mrn=this.getRandomNumber(100,999999999);
             boolean isAdmin=false;
-            if(email.endsWith("sjsu.edu")){
+            if(req.getEmail().endsWith("sjsu.edu")){
                 isAdmin=true;
             }
-            User newPatient = new User(firstname, lastname,middleName,email,dob, gender, address, isVerified,mrn,isAdmin);
+            User newPatient = new User(req.getFirstName(), req.getLastName(), req.getMiddleName(),req.getEmail(),
+                    req.getDob(), req.getGender(), req.getAddress(), req.isVerified() , mrn, isAdmin);
             User res = patientRepository.save(newPatient);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {

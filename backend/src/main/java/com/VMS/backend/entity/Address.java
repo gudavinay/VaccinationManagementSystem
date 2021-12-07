@@ -40,4 +40,15 @@ public class Address {
     public void setZipcode(int zipcode) {
         this.zipcode = zipcode;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "street='" + street + '\'' +
+                ", aptNo='" + aptNo + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zipcode=" + zipcode +
+                '}';
+    }
 }

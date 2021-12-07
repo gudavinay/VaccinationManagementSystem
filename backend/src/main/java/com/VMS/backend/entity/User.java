@@ -1,11 +1,13 @@
 package com.VMS.backend.entity;
 
+import lombok.Data;
+
 import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import com.VMS.backend.constants.Gender;
+//import com.VMS.backend.Constants.*;
 
 @Entity
 @Table(name = "User")
@@ -23,36 +25,18 @@ public class User {
     private String lastName;
     private String middleName;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public boolean isRole() {
-        return role;
-    }
-
     @NotNull
     private String dob;
 
     @NotNull
     private String gender; // enum
+    @Embedded
     private Address address;
     private boolean isVerified;
+    private boolean role;
 
     @OneToMany(targetEntity = Vaccination.class, cascade = CascadeType.ALL)
     private List<Vaccination> vaccinations;
-
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
 
     @OneToMany(targetEntity=Appointment.class, cascade=CascadeType.ALL)
     private List<Appointment> appointments;
@@ -74,30 +58,30 @@ public class User {
 
     }
 
-    public List<Vaccination> getVaccinations() {
-        return vaccinations;
+    @Override
+    public String toString() {
+        return "User{" +
+                "mrn=" + mrn +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", dob='" + dob + '\'' +
+                ", gender='" + gender + '\'' +
+                ", address=" + address +
+                ", isVerified=" + isVerified +
+                ", vaccinations=" + vaccinations +
+                ", appointments=" + appointments +
+                ", role=" + role +
+                '}';
     }
 
-    public void setVaccinations(List<Vaccination> vaccinations) {
-        this.vaccinations = vaccinations;
+    public int getMrn() {
+        return mrn;
     }
 
-    public boolean isVerified() {
-        return isVerified;
-    }
-
-    public void setVerified(boolean isVerified) {
-        this.isVerified = isVerified;
-    }
-
-    private boolean role;
-
-    public boolean getRole() {
-        return role;
-    }
-
-    public void setRole(boolean role) {
-        this.role = role;
+    public void setMrn(int mrn) {
+        this.mrn = mrn;
     }
 
     public String getEmail() {
@@ -108,6 +92,21 @@ public class User {
         this.email = email;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public String getMiddleName() {
         return middleName;
@@ -123,14 +122,6 @@ public class User {
 
     public void setDob(String dob) {
         this.dob = dob;
-    }
-
-    public int getMrn() {
-        return mrn;
-    }
-
-    public void setMrn(int mrn) {
-        this.mrn = mrn;
     }
 
     public String getGender() {
@@ -149,4 +140,35 @@ public class User {
         this.address = address;
     }
 
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
+    public boolean isRole() {
+        return role;
+    }
+
+    public void setRole(boolean role) {
+        this.role = role;
+    }
+
+    public List<Vaccination> getVaccinations() {
+        return vaccinations;
+    }
+
+    public void setVaccinations(List<Vaccination> vaccinations) {
+        this.vaccinations = vaccinations;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 }
