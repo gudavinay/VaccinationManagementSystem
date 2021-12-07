@@ -15,9 +15,11 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.idea/uiDesigner.xml
 *.iws
 *.iml
 *.ipr
+
 
 ### NetBeans ###
 /nbproject/private/
