@@ -1,13 +1,6 @@
 package com.VMS.backend.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -18,12 +11,22 @@ public class Clinic {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
-    
     @Column(unique = true)
     private String name;
     private Address address;
     private int noOfPhysician;
     private int bussinessHours;
+
+    @OneToMany(targetEntity = Appointment.class, cascade=CascadeType.ALL)
+    private List<Appointment> appointments;
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 
     @ManyToMany(targetEntity=Vaccination.class)
     private List <Vaccination> vaccinations;

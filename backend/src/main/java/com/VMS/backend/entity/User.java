@@ -30,6 +30,18 @@ public class User {
     private String lastName;
     private String middleName;
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public boolean isRole() {
+        return role;
+    }
+
     @NotNull
     private String dob;
 
@@ -40,6 +52,14 @@ public class User {
 
     @OneToMany(targetEntity=Vaccination.class, cascade=CascadeType.ALL)
     private List<Vaccination> vaccinations;
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 
     @OneToMany(targetEntity=Appointment.class, cascade=CascadeType.ALL)
     private List<Appointment> appointments;
@@ -91,21 +111,6 @@ public class User {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirst_name(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLast_name(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getMiddleName() {
         return middleName;

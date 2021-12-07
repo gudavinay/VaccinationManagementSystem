@@ -18,7 +18,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="backend [clean,install]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+    <configuration name="backend [clean,install,exec:java...]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
         <option name="myRunnerSettings" />
@@ -31,6 +31,8 @@
               <list>
                 <option value="clean" />
                 <option value="install" />
+                <option value="exec:java" />
+                <option value="-Dexec.mainClass=com.VMS.backend.BackendApplication" />
               </list>
             </option>
             <option name="pomFileName" />

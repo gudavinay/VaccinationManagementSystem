@@ -1,18 +1,27 @@
 package com.VMS.backend.entity;
 
-import java.util.Date;
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 //import com.VMS.backend.entity.Vaccination;
-
+@Entity
+@Table(name = "Appointment")
 public class Appointment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int appointmentId;
     private Date appointmentDateTime;
+
+    @OneToMany(targetEntity=Vaccination.class, cascade= CascadeType.ALL)
     private List<Vaccination> vaccinations; // make validation for upto 4
+
+    @ManyToOne(targetEntity = Clinic.class, cascade= CascadeType.ALL)
     private Clinic clinic;
+
+    @ManyToOne(targetEntity=User.class, cascade= CascadeType.DETACH)
     private User user;
+
     private int isCheckedIn; // 1- CheckedIn, 2- NoShow, 3- No
 
-    
     public Appointment(Date appointmentDateTime, List<Vaccination> vaccinations, Clinic clinic, User user,
             int isCheckedIn) {
         this.appointmentDateTime = appointmentDateTime;
