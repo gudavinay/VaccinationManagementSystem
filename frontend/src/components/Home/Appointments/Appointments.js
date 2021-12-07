@@ -4,6 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { Button, Container } from "@mui/material";
+import { Link } from "react-router-dom";
 class Appointments extends Component {
     constructor(props) {
         super(props);
@@ -18,9 +19,9 @@ class Appointments extends Component {
                 I'm in Appointments
                 <Container>
 
-                    <Button color="info" variant="outlined" style={{}}> 
+                    <Link to="/newAppointment"><Button color="info" variant="outlined" style={{}}> 
                         New Appointment
-                    </Button>
+                    </Button></Link>
                 <Accordion square expanded={this.state.expanded === 'panel1'} onChange={(e) => { this.setState({ expanded: 'panel1' }) }}>
                     <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                         <Typography>Future Appointments</Typography>

@@ -5,6 +5,7 @@ import AddDisease from "./Admin/AddDisease/Appointments";
 import AddVaccination from "./Admin/AddVaccination/AddVaccination";
 import Appointments from "./Home/Appointments/Appointments";
 import Dashboard from "./Home/Dashboard/Dashboard";
+import NewAppointment from "./Home/NewAppointment/NewAppointment";
 import VaccinationHistory from "./Home/VaccinationHistory/VaccinationHistory";
 import VaccinationsDue from "./Home/VaccinationsDue/VaccinationsDue";
 import Navbar from "./Navbar/Navbar";
@@ -24,6 +25,7 @@ class Main extends Component {
         <Route path="/appointments" component={Appointments} />
         <Route path="/vaccinationHistory" component={VaccinationHistory} />
         <Route path="/vaccinationsDue" component={VaccinationsDue} />
+        <Route path="/newAppointment" component={NewAppointment} />
       </React.Fragment>
     );
   }
