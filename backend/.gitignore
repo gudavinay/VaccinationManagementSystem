@@ -16,6 +16,8 @@ target/
 ### IntelliJ IDEA ###
 .idea
 .idea/uiDesigner.xml
+.idea/workspace.xml
+
 *.iws
 *.iml
 *.ipr

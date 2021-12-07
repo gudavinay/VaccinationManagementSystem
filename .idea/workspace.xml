@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff907b65-127c-481a-972c-c35de1bf5a3a" name="Changes" comment="git pull issue">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/repository/AppointmentRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/service/AppointmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/AppointmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Clinic.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Clinic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Disease.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Disease.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Vaccination.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Vaccination.java" afterDir="false" />
-    </list>
+    <list default="true" id="ff907b65-127c-481a-972c-c35de1bf5a3a" name="Changes" comment="git pull issue" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
