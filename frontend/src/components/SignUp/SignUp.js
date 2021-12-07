@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import { Link, Redirect } from 'react-router-dom';
+import backendServer from "./../../webConfig";
 class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -44,8 +45,8 @@ class SignUp extends Component {
 
     handleSubmit = async e => {
         e.preventDefault();
-        axios.defaults.withCredentials = true;
-        axios.post(`http://localhost:3001/signup`, this.state.userInfo)``.then((response) => {
+        axios.defaults.headers["Access-Control-Allow-Origin"] = true;
+        axios.post(`${backendServer}/signup`, this.state.userInfo).then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
                     this.setState({
@@ -109,6 +110,7 @@ class SignUp extends Component {
                                                 id="firstName"
                                                 name="firstName"
                                                 placeholder="First Name"
+                                                value="a"
                                                 onChange={this.handleChange}
                                                 required
                                             ></Input>
@@ -138,6 +140,7 @@ class SignUp extends Component {
                                                 id="lastName"
                                                 name="lastName"
                                                 placeholder="Last Name"
+                                                value="a"
                                                 onChange={this.handleChange}
                                                 required
                                             ></Input>
@@ -185,6 +188,7 @@ class SignUp extends Component {
                                                 name="email"
                                                 placeholder="Email"
                                                 onChange={this.handleChange}
+                                                value="a@gmail.com"
                                                 required
                                             ></Input>
                                         </FormGroup>
@@ -199,6 +203,7 @@ class SignUp extends Component {
                                                 id="password"
                                                 name="password"
                                                 placeholder="Password"
+                                                value="a"
                                                 onChange={this.handleChange}
                                                 required
                                             ></Input>
@@ -222,6 +227,7 @@ class SignUp extends Component {
                                                 id="street"
                                                 name="street"
                                                 placeholder="Street"
+                                                value="a"
                                                 onChange={this.handleChange}
                                                 required
                                             ></Input>
@@ -230,6 +236,7 @@ class SignUp extends Component {
                                             type="text"
                                             id="number"
                                             name="number"
+                                            value="a"
                                             placeholder="Apt Number (Optional)"
                                             onChange={this.handleChange}
                                         ></Input>
@@ -241,6 +248,7 @@ class SignUp extends Component {
                                             id="city"
                                             name="city"
                                             placeholder="City"
+                                            value="a"
                                             onChange={this.handleChange}
                                             required
                                         ></Input>
@@ -250,6 +258,7 @@ class SignUp extends Component {
                                             id="zipcode"
                                             name="zipcode"
                                             placeholder="Zip Code"
+                                            value="a"
                                             onChange={this.handleChange}
                                             required
                                         ></Input>
@@ -261,6 +270,7 @@ class SignUp extends Component {
                                             id="state"
                                             name="state"
                                             placeholder="State"
+                                            
                                             onChange={this.handleChange}
                                             required
                                         ></Input>

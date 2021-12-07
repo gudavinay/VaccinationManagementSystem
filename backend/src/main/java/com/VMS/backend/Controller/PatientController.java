@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 public class PatientController {
@@ -15,8 +16,9 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    @RequestMapping(value = "/createPatient", method = RequestMethod.POST, produces = {"application/json", "application/xml"})
-    public ResponseEntity<?> createPassenger(
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = {"application/json", "application/xml"})
+    public ResponseEntity<?> createPatient(
             @RequestParam("email") String email,
             @RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName,
