@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff907b65-127c-481a-972c-c35de1bf5a3a" name="Changes" comment="git pull issue" />
+    <list default="true" id="ff907b65-127c-481a-972c-c35de1bf5a3a" name="Changes" comment="git pull issue">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/ClinicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/Controller/ClinicController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Clinic.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/entity/Clinic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/repository/ClinicRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/repository/ClinicRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/service/ClinicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/service/ClinicService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/service/VaccinationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/VMS/backend/service/VaccinationService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -135,6 +142,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="vaccination APIS done" />

@@ -16,7 +16,7 @@ public class Clinic {
     @Embedded
     private Address address;
     private int noOfPhysician;
-    private int bussinessHours;
+    private String bussinessHours;
 
     @OneToMany(targetEntity = Appointment.class, cascade=CascadeType.ALL)
     private List<Appointment> appointments;
@@ -32,7 +32,7 @@ public class Clinic {
     @ManyToMany(targetEntity=Vaccination.class)
     private List <Vaccination> vaccinations;
     
-    public Clinic(String name, Address address, int noOfPhysician, int bussinessHours) {
+    public Clinic(String name, Address address, int noOfPhysician, String bussinessHours) {
         this.name = name;
         this.address = address;
         this.noOfPhysician = noOfPhysician;
@@ -73,10 +73,10 @@ public class Clinic {
     public void setNoOfPhysician(int noOfPhysician) {
         this.noOfPhysician = noOfPhysician;
     }
-    public int getBussinessHours() {
+    public String getBussinessHours() {
         return bussinessHours;
     }
-    public void setBussinessHours(int bussinessHours) {
+    public void setBussinessHours(String bussinessHours) {
         this.bussinessHours = bussinessHours;
     }
 }

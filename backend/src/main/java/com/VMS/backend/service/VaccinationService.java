@@ -46,7 +46,7 @@ public class VaccinationService {
     public ResponseEntity<?> getVaccinationById(int vaccinationId) throws NotFoundException {
         Optional<Vaccination> vaccination= vaccinationRepository.findById(vaccinationId);
         if(vaccination.isPresent()){
-            return new ResponseEntity<>(vaccination, HttpStatus.OK);
+            return new ResponseEntity<>(vaccination.get(), HttpStatus.OK);
         }else{
             throw new NotFoundException("Sorry, the requested vaccination with Id "+vaccinationId+" does not exist");
         }
