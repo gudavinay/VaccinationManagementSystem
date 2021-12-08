@@ -4,6 +4,7 @@ import com.VMS.backend.entity.Address;
 import com.VMS.backend.entity.Clinic;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.Vaccination;
+import com.VMS.backend.service.AppointmentService;
 import com.VMS.backend.service.ClinicService;
 import com.VMS.backend.util.BadRequest;
 import com.VMS.backend.util.ExceptionHandle;
@@ -19,6 +20,9 @@ public class ClinicController {
 
     @Autowired
     private ClinicService clinicService;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     @RequestMapping(value = "/clinic", method = RequestMethod.POST, produces ={"application/json"})
     public ResponseEntity<?> createClinic(@RequestParam("clinicName") String clinicName,
