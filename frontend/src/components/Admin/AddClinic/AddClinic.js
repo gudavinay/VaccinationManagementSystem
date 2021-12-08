@@ -17,7 +17,7 @@ class AddClinic extends Component {
         super(props);
         this.state = {
             clinicInfo:{
-                clinicName:"",
+                name:"",
                 noOfPhysician:0,
                 aptNo: "",
                 street: "",
@@ -45,7 +45,7 @@ class AddClinic extends Component {
         e.preventDefault();
         axios.defaults.headers["Access-Control-Allow-Origin"] = true;
         let data = {
-          clinicName: this.state.clinicInfo.clinicName,
+          name: this.state.clinicInfo.name,
           noOfPhysician: this.state.clinicInfo.noOfPhysician,
           startBussinessHour: this.state.clinicInfo.startBussinessHour,
           endBussinessHour: this.state.clinicInfo.endBussinessHour,
@@ -107,8 +107,8 @@ class AddClinic extends Component {
                       <Label for="clinicName">Clinic Name</Label>
                       <Input
                         type="text"
-                        id="clinicName"
-                        name="clinicName"
+                        id="name"
+                        name="name"
                         placeholder="Clinic Name"
                         onChange={this.handleChange}
                         required
