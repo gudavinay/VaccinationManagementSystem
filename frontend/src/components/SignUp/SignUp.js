@@ -127,7 +127,6 @@ class SignUp extends Component {
                         id="firstName"
                         name="firstName"
                         placeholder="First Name"
-                        value="a"
                         onChange={this.handleChange}
                         required
                       ></Input>
@@ -153,7 +152,6 @@ class SignUp extends Component {
                         id="lastName"
                         name="lastName"
                         placeholder="Last Name"
-                        value="a"
                         onChange={this.handleChange}
                         required
                       ></Input>
@@ -222,7 +220,6 @@ class SignUp extends Component {
                         name="email"
                         placeholder="Email"
                         onChange={this.handleChange}
-                        value="a@gmail.com"
                         required
                       ></Input>
                     </FormGroup>
@@ -237,7 +234,6 @@ class SignUp extends Component {
                         id="password"
                         name="password"
                         placeholder="Password"
-                        value="a"
                         onChange={this.handleChange}
                         required
                       ></Input>
@@ -257,7 +253,6 @@ class SignUp extends Component {
                         id="street"
                         name="street"
                         placeholder="Street"
-                        value="a"
                         onChange={this.handleChange}
                         required
                       ></Input>
@@ -267,7 +262,6 @@ class SignUp extends Component {
                         type="text"
                         id="number"
                         name="number"
-                        value="a"
                         placeholder="Apt Number (Optional)"
                         onChange={this.handleChange}
                       ></Input>
@@ -281,7 +275,6 @@ class SignUp extends Component {
                         id="city"
                         name="city"
                         placeholder="City"
-                        value="a"
                         onChange={this.handleChange}
                         required
                       ></Input>
@@ -293,7 +286,6 @@ class SignUp extends Component {
                         id="zipcode"
                         name="zipcode"
                         placeholder="Zip Code"
-                        value="a"
                         onChange={this.handleChange}
                         required
                       ></Input>
