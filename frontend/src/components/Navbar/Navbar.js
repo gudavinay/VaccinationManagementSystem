@@ -1,13 +1,23 @@
 import React, { Component } from "react";
 import { Nav } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
+import { DatePicker } from '@mui/lab';
 import { Link } from "react-router-dom";
+import { TextField } from "@mui/material";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import moment from "moment";
+import Clock from 'react-live-clock';
 
 class NavigationBar extends Component {
   constructor(props) {
+    let today = new Date(moment());
+    let maxDate = new Date(moment().add(1, 'year'));
     super(props);
     this.state = {
       isAdmin: false,
+      currentTime: new Date(today),
+      maxDate: maxDate
     };
   }
   render() {
@@ -20,6 +30,21 @@ class NavigationBar extends Component {
             <Nav className="me-auto">
               {/* {this.state.isAdmin ?  */}
               <AdminSnippet /> : <UserSnippet />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="GLOBAL DATE"
+                value={this.state.currentTime}
+                onChange={(e)=>{
+                  this.setState({currentTime:e});
+                }}
+                renderInput={(params) => <TextField {...params} />}
+                minDate={this.state.currentTime}
+                maxDate={this.state.maxDate}
+              />
+              <div style={{color:'whitesmoke'}}>Global Clock: {moment(this.state.currentTime).format("MMM Do YYYY")} <Clock format={'HH:mm:ss'} ticking={true} timezone={'US/Pacific'} /></div>
+              </LocalizationProvider>
+              {this.state.today}
+              {/* {this.state.maxDate} */}
               {/* } */}
               <Nav.Link
                 className="justify-content-end"
