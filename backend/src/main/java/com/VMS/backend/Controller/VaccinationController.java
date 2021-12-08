@@ -1,6 +1,7 @@
 package com.VMS.backend.Controller;
 
 
+import com.VMS.backend.POJO.VaccinationPOJO;
 import com.VMS.backend.entity.Clinic;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.Vaccination;
@@ -23,7 +24,7 @@ public class VaccinationController {
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
     @RequestMapping(value = "/addVaccination", method = RequestMethod.POST, produces ={"application/json"})
-    public ResponseEntity<?> addVaccination(@RequestBody Vaccination req){
+    public ResponseEntity<?> addVaccination(@RequestBody VaccinationPOJO req){
         try {
             return vaccinationService.addVaccination(req);
         } catch (Exception ex){

@@ -1,7 +1,11 @@
 package com.VMS.backend.service;
 
+import com.VMS.backend.POJO.DiseasePOJO;
+import com.VMS.backend.POJO.VaccinationPOJO;
+import com.VMS.backend.entity.Clinic;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.Vaccination;
+import com.VMS.backend.repository.DiseaseRepository;
 import com.VMS.backend.repository.VaccinationRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +23,20 @@ public class VaccinationService {
     @Autowired
     private VaccinationRepository vaccinationRepository;
 
-    public ResponseEntity<?> addVaccination(Vaccination req ) throws IllegalAccessException {
+    @Autowired
+    private DiseaseRepository diseaseRepository;
+
+    public ResponseEntity<?> addVaccination(VaccinationPOJO req ) throws IllegalAccessException {
         Vaccination isVaccinationExists = vaccinationRepository.findByVaccinationName(req.getVaccinationName());
         if(isVaccinationExists == null){
-            Vaccination newVaccination = new Vaccination(req.getVaccinationName(),req.getDiseases(),req.getManufacturer(),req.getNumberOfShots(), req.getShotInternalVal(),req.getDuration());
+            List<Disease> diseases=new ArrayList<>();
+            for(int i:req.getDiseases()){
+                Optional<Disease> d= diseaseRepository.findById(i);
+                if(d.isPresent())
+                    diseases.add(d.get());
+            }
+            Vaccination newVaccination = new Vaccination(req.getVaccinationName(),diseases
+                    ,req.getManufacturer(),req.getNumberOfShots(), req.getShotInternalVal(),req.getDuration());
             Vaccination res = vaccinationRepository.save(newVaccination);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
