@@ -28,9 +28,6 @@ public class Clinic {
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
-
-    @ManyToMany(targetEntity=Vaccination.class)
-    private List <Vaccination> vaccinations;
     
     public Clinic(String name, Address address, int noOfPhysician, String bussinessHours) {
         this.name = name;
@@ -43,12 +40,6 @@ public class Clinic {
 
     }
 
-    public List <Vaccination> getVaccinations() {
-        return vaccinations;
-    }
-    public void setVaccinations(List <Vaccination> vaccinations) {
-        this.vaccinations = vaccinations;
-    }
     public int getId() {
         return id;
     }

@@ -50,11 +50,11 @@ class AddClinic extends Component {
           startBussinessHour: this.state.clinicInfo.startBussinessHour,
           endBussinessHour: this.state.clinicInfo.endBussinessHour,
           address: {
-            street: this.state.userInfo.street,
-            aptNo: this.state.userInfo.aptNo,
-            city: this.state.userInfo.city,
-            state: this.state.userInfo.state,
-            zipcode: this.state.userInfo.zipcode,
+            street: this.state.clinicInfo.street,
+            aptNo: this.state.clinicInfo.aptNo,
+            city: this.state.clinicInfo.city,
+            state: this.state.clinicInfo.state,
+            zipcode: this.state.clinicInfo.zipcode,
           },
         };
         axios
