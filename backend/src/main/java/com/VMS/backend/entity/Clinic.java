@@ -30,11 +30,6 @@ public class Clinic {
         this.appointments = appointments;
     }
 
-    @ManyToMany(targetEntity=Vaccination.class)
-    private List <Vaccination> vaccinations;
-    
-
-
     public Clinic() {
 
     }
@@ -47,12 +42,6 @@ public class Clinic {
         this.endBussinessHour = endBussinessHour;
     }
 
-    public List <Vaccination> getVaccinations() {
-        return vaccinations;
-    }
-    public void setVaccinations(List <Vaccination> vaccinations) {
-        this.vaccinations = vaccinations;
-    }
     public int getId() {
         return id;
     }

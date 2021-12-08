@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import AddClinic from "./Admin/AddClinic/AddClinic";
-import AddDisease from "./Admin/AddDisease/Appointments";
+import AddDisease from "./Admin/AddDisease/AddDisease";
 import AddVaccination from "./Admin/AddVaccination/AddVaccination";
 import Appointments from "./Home/Appointments/Appointments";
 import Dashboard from "./Home/Dashboard/Dashboard";

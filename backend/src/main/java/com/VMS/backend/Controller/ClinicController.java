@@ -1,6 +1,8 @@
 package com.VMS.backend.Controller;
 
-import com.VMS.backend.entity.*;
+
+import com.VMS.backend.entity.Clinic;
+import com.VMS.backend.service.AppointmentService;
 import com.VMS.backend.service.ClinicService;
 import com.VMS.backend.util.BadRequest;
 import com.VMS.backend.util.ExceptionHandle;
@@ -17,6 +19,9 @@ public class ClinicController {
 
     @Autowired
     private ClinicService clinicService;
+    @Autowired
+    private AppointmentService appointmentService;
+
 
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
