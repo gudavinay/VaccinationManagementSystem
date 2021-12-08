@@ -214,10 +214,7 @@ class AddClinic extends Component {
                 <FormGroup row>
                   <Col>
                     <Button type="submit" color="btn btn-info">
-                      Sign me up!
-                    </Button>
-                    <Button type="submit" color="btn btn-info">
-                      Signup with Google
+                      Create Clinic
                     </Button>
                   </Col>
                 </FormGroup>
