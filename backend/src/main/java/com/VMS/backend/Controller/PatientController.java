@@ -14,8 +14,6 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = {"application/json", "application/xml"})
     public ResponseEntity<?> createPatient(
             @RequestBody User req){

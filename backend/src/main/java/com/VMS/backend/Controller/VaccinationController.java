@@ -21,8 +21,6 @@ public class VaccinationController {
     @Autowired
     private VaccinationService vaccinationService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/addVaccination", method = RequestMethod.POST, produces ={"application/json"})
     public ResponseEntity<?> addVaccination(@RequestBody VaccinationPOJO req){
         try {
