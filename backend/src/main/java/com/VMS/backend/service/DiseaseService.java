@@ -17,11 +17,10 @@ public class DiseaseService {
     @Autowired
     private DiseaseRepository diseaseRepository;
 
-    public ResponseEntity<?> createDisease(String diseaseName, String diseaseDescription) throws IllegalAccessException {
-        Disease isDiseaseExists = diseaseRepository.findByDiseaseNameEquals(diseaseName);
+    public ResponseEntity<?> createDisease(Disease disease) throws IllegalAccessException {
+        Disease isDiseaseExists = diseaseRepository.findByDiseaseNameEquals(disease.getDiseaseName());
         if(isDiseaseExists == null){
-            Disease newDisease = new Disease(diseaseName, diseaseDescription);
-            Disease res = diseaseRepository.save(newDisease);
+            Disease res = diseaseRepository.save(disease);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
             throw new IllegalAccessException("Another Disease with the same name exists");

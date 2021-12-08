@@ -17,23 +17,28 @@ public class DiseaseController {
     @Autowired
     private DiseaseService diseaseService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
     @RequestMapping(value = "/disease", method = RequestMethod.POST, produces ={"application/json"})
     public ResponseEntity<?> createDisease(
-            @RequestParam("diseaseName") String diseaseName,
-            @RequestParam("diseaseDescription") String diseaseDescription
+            @RequestBody Disease disease
     ){
         try {
-            return diseaseService.createDisease(diseaseName, diseaseDescription);
+            return diseaseService.createDisease(disease);
         } catch (Exception ex){
             return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
     @RequestMapping(value = "/diseases", method = RequestMethod.GET, produces = {"application/json"})
     public List<Disease> getAllDiseases(){
         return diseaseService.getAllDiseases();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
     @RequestMapping(value = "/disease/{diseaseId}", method = RequestMethod.GET, produces = {"application/json"})
     public ResponseEntity<?> getDisease(
             @PathVariable("diseaseId") int diseaseId
