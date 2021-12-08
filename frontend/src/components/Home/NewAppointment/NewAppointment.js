@@ -28,7 +28,8 @@ class NewAppointment extends Component {
             clinicOptions: <option key="CLINIC" value="CLINIC">hello1</option>,
             vaccineOptions: <option key="VACCINE" value="VACCINE">hello2</option>,
             timeList: createTimeSlots("10:30", "22:30", false),
-            physiciansAvailable: 0
+            physiciansAvailable: 0,
+            appointments:[]
         };
     }
 
@@ -47,6 +48,7 @@ class NewAppointment extends Component {
     }
 
     render() {
+        let noSlotsAvailable = this.state.physiciansAvailable === this.state.appointments.length;
         return (
             <React.Fragment>
                 <h1>NEW APPOINTMENT</h1>
@@ -66,8 +68,8 @@ class NewAppointment extends Component {
                                 <datalist id="vaccinesList">{this.state.vaccineOptions}</datalist>
                             </Row>
                             <Row>
-                                <Label>Select Time Slot</Label>
-                                <Select value={this.state.selectedTime} onChange={(e) => { this.setState({ selectedTime: e.target.value }); }}>
+                                <Label>Available Time Slot {noSlotsAvailable && <span style={{color:"red"}}>No Physicians Available</span>}</Label>
+                                <Select disabled={noSlotsAvailable} value={this.state.selectedTime} onChange={(e) => { this.setState({ selectedTime: e.target.value }); }}>
                                     {this.state.timeList.map((element, index) =>
                                         <MenuItem key={element} value={element}>{element}</MenuItem>
                                     )}
