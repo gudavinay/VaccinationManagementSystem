@@ -64,7 +64,7 @@ class AddClinic extends Component {
             if (response.status === 200) {
               this.setState({
                 isSuccess: true,
-                loginError: "",
+                error: "",
               });
               this.SetLocalStorage(JSON.stringify(response.data));
             } else {
