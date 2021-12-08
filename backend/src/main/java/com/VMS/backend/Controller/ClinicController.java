@@ -1,6 +1,7 @@
 package com.VMS.backend.Controller;
 
 
+import com.VMS.backend.POJO.ClinicPOJO;
 import com.VMS.backend.entity.Clinic;
 import com.VMS.backend.service.AppointmentService;
 import com.VMS.backend.service.ClinicService;
@@ -26,7 +27,7 @@ public class ClinicController {
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
     @RequestMapping(value = "/clinic", method = RequestMethod.POST, produces ={"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createClinic( @RequestBody Clinic req){
+    public ResponseEntity<?> createClinic( @RequestBody ClinicPOJO req){
         try {
             return clinicService.createClinic(req);
         } catch (Exception ex){
@@ -36,7 +37,7 @@ public class ClinicController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
-    @RequestMapping(value = "/clinics", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/getAllClinics", method = RequestMethod.GET, produces = {"application/json"})
     public List<Clinic> getAllClinics(){
         return clinicService.getAllClinics();
     }

@@ -58,7 +58,7 @@ class AddClinic extends Component {
           },
         };
         axios
-          .post(`${backendServer}/createClinic`, data)
+          .post(`${backendServer}/clinic`, data)
           .then((response) => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -187,7 +187,7 @@ class AddClinic extends Component {
                     <Col>
                       {" "}
                       <Input
-                        type="text"
+                        type="number"
                         id="zipcode"
                         name="zipcode"
                         placeholder="Zip Code"

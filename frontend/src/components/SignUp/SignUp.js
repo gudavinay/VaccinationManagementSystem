@@ -282,7 +282,7 @@ class SignUp extends Component {
                     <Col>
                       {" "}
                       <Input
-                        type="text"
+                        type="number"
                         id="zipcode"
                         name="zipcode"
                         placeholder="Zip Code"
