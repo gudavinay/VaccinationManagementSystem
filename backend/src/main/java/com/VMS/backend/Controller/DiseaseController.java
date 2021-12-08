@@ -18,8 +18,6 @@ public class DiseaseController {
     @Autowired
     private DiseaseService diseaseService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/addDisease", method = RequestMethod.POST, produces ={"application/json"})
     public ResponseEntity<?> addDisease(
             @RequestBody DiseasePOJO disease
@@ -31,15 +29,11 @@ public class DiseaseController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/diseases", method = RequestMethod.GET, produces = {"application/json"})
     public List<Disease> getAllDiseases(){
         return diseaseService.getAllDiseases();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/disease/{diseaseId}", method = RequestMethod.GET, produces = {"application/json"})
     public ResponseEntity<?> getDisease(
             @PathVariable("diseaseId") int diseaseId

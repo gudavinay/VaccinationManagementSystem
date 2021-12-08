@@ -23,9 +23,6 @@ public class ClinicController {
     @Autowired
     private AppointmentService appointmentService;
 
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/addClinic", method = RequestMethod.POST, produces ={"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addClinic( @RequestBody ClinicPOJO req){
         try {
@@ -35,15 +32,11 @@ public class ClinicController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/getAllClinics", method = RequestMethod.GET, produces = {"application/json"})
     public List<Clinic> getAllClinics(){
         return clinicService.getAllClinics();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/clinic/{clinicId}", method = RequestMethod.GET, produces = {"application/json"})
     public ResponseEntity<?> getClinicById(
             @PathVariable("clinicId") int clinicId
@@ -51,8 +44,6 @@ public class ClinicController {
         return clinicService.getClinicById(clinicId);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
     @RequestMapping(value = "/clinic/{clinicName}", method = RequestMethod.GET, produces = {"application/json"})
     public ResponseEntity<?> getClinicByName(
             @PathVariable("clinicName") String clinicName

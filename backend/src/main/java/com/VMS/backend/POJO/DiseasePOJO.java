@@ -5,6 +5,14 @@ public class DiseasePOJO {
     private String diseaseName;
     private String diseaseDesc;
 
+    public DiseasePOJO() {
+    }
+
+    public DiseasePOJO(String diseaseName, String diseaseDesc) {
+        this.diseaseName = diseaseName;
+        this.diseaseDesc = diseaseDesc;
+    }
+
     public DiseasePOJO(int diseaseId, String diseaseName, String diseaseDesc) {
         this.diseaseId = diseaseId;
         this.diseaseName = diseaseName;
