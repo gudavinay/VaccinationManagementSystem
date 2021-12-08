@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import Select from '@material-ui/core/Select';
 import backendServer from "../../../webConfig";
+import SelectedClinicDetails from './SelectedClinicDetails'
 import {
     Button,
     Form,
@@ -25,65 +26,105 @@ class NewAppointment extends Component {
         super(props);
         this.state = {
             expanded: "panel1",
-            clinicOptions: <option key="CLINIC" value="CLINIC">hello1</option>,
-            vaccineOptions: <option key="VACCINE" value="VACCINE">hello2</option>,
-            timeList: createTimeSlots("10:30", "22:30", false),
+            clinicData: [],
+            vaccinationData: [],
+            timeSlotsList: [],
             physiciansAvailable: 0,
-            appointments:[]
+            appointments: [],
         };
     }
 
     getAllClinics() {
-        Axios.defaults.headers["Access-Control-Allow-Origin"] = '*';
         Axios.get(`${backendServer}/getAllClinics`).then(result => {
-            this.setState({ clinicData: result, clinicError: false });
-            this.setState({ clinicOptions: <option key="1" value="1"></option> });
+            this.setState({ clinicData: result.data, clinicError: false });
         }).catch(err => {
-            this.setState({ clinicError: true });
+            this.setState({ clinicData: [], clinicError: true });
+        })
+    }
+
+    getAllVaccinations() {
+        Axios.get(`${backendServer}/getAllVaccinations`).then(result => {
+            this.setState({ vaccinationData: result.data, vaccinationError: false });
+        }).catch(err => {
+            this.setState({ vaccinationData: [], vaccinationError: true });
         })
     }
 
     componentDidMount() {
         this.getAllClinics();
+        this.getAllVaccinations();
     }
 
     render() {
-        let noSlotsAvailable = this.state.physiciansAvailable === this.state.appointments.length;
+        let noSlotsAvailable = false;//this.state.physiciansAvailable === this.state.appointments.length; TODO
         return (
             <React.Fragment>
-                <h1>NEW APPOINTMENT</h1>
-
-                <pre>{JSON.stringify(this.state, " ", 5)}</pre>
 
                 {this.state.clinicError && <span style={{ color: "red" }}>Error fetching clinic data</span>}
                 <Container>
+                    <h2>NEW APPOINTMENT</h2>
                     <Form onSubmit={this.handleSubmit} className="form-stacked">
                         <Row>
-                            <Row>
-                                <Input id="clinics" onChange={(e) => this.setState({ selectedClinic: e.target.value })} type="text" list="clinicsList" placeholder="Enter Clinic Name" />
-                                <datalist id="clinicsList">{this.state.clinicOptions}</datalist>
-                            </Row>
-                            <Row>
-                                <Input id="vaccinations" onChange={(e) => this.setState({ selectedVaccination: e.target.value })} type="text" list="vaccinesList" placeholder="Enter Vaccine Name" />
-                                <datalist id="vaccinesList">{this.state.vaccineOptions}</datalist>
-                            </Row>
-                            <Row>
-                                <Label>Available Time Slot {noSlotsAvailable && <span style={{color:"red"}}>No Physicians Available</span>}</Label>
-                                <Select disabled={noSlotsAvailable} value={this.state.selectedTime} onChange={(e) => { this.setState({ selectedTime: e.target.value }); }}>
-                                    {this.state.timeList.map((element, index) =>
-                                        <MenuItem key={element} value={element}>{element}</MenuItem>
-                                    )}
-                                </Select>
-                            </Row>
-                            <Row>
-                                Available Physicians: {this.state.physiciansAvailable}
-                            </Row>
-                            <Row>
-                                <Button>Submit</Button>
-                            </Row>
-
+                            <Col>
+                                <Row>
+                                    <Col>
+                                        <Label>Select Clinic</Label>
+                                        <Select style={{ width: 'inherit' }} value={this.state.selectedClinic} onChange={(e) => {
+                                            const item = this.state.clinicData.find(element => element.name === e.target.value)
+                                            this.setState({
+                                                selectedClinic: e.target.value,
+                                                selectedClinicFullInfo: item,
+                                                timeSlotsList: createTimeSlots(item.startBussinessHour, item.endBussinessHour, false)
+                                            });
+                                        }}>
+                                            {this.state.clinicData.map((element, index) =>
+                                                <MenuItem key={index} value={element.name}>{element.name}</MenuItem>
+                                            )}
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <br />
+                                <Row>
+                                    <Col>
+                                        <Label>Select Vaccination</Label>
+                                        <Select style={{ width: 'inherit' }} value={this.state.selectedVaccination} onChange={(e) => { this.setState({ selectedVaccination: e.target.value }); }}>
+                                            {this.state.vaccinationData.map((element, index) =>
+                                                <MenuItem key={element.id} value={element.name}>{element.name}</MenuItem>
+                                            )}
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <br />
+                                <Row>
+                                    <Col>
+                                        <Label>Available Time Slot {noSlotsAvailable && <span style={{ color: "red" }}>No Physicians Available</span>}</Label>
+                                        <Select style={{ width: 'inherit' }} disabled={noSlotsAvailable} value={this.state.selectedTime} onChange={(e) => { this.setState({ selectedTime: e.target.value }); }}>
+                                            {this.state.timeSlotsList.map((element, index) =>
+                                                <MenuItem key={element} value={element}>{element}</MenuItem>
+                                            )}
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <br />
+                                <Row>
+                                    {this.state.selectedClinicFullInfo && <span>Available Physicians: {this.state.selectedClinicFullInfo.noOfPhysician}</span>}
+                                </Row>
+                                <br />
+                                <Row>
+                                    <Button>Submit</Button>
+                                </Row>
+                            </Col>
+                            <Col>
+                            {this.state.selectedClinicFullInfo && <Row>
+                                    <SelectedClinicDetails {...this.state.selectedClinicFullInfo}/>
+                                </Row>}
+                            </Col>
                         </Row>
+
+
                     </Form>
+
+                    <pre>{JSON.stringify(this.state, " ", 5)}</pre>
                 </Container>
 
             </React.Fragment>
