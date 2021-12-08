@@ -1,5 +1,6 @@
 package com.VMS.backend.service;
 
+import com.VMS.backend.POJO.DiseasePOJO;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.repository.DiseaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,11 @@ public class DiseaseService {
     @Autowired
     private DiseaseRepository diseaseRepository;
 
-    public ResponseEntity<?> addDisease(Disease disease) throws IllegalAccessException {
+    public ResponseEntity<?> addDisease(DiseasePOJO disease) throws IllegalAccessException {
         Disease isDiseaseExists = diseaseRepository.findByDiseaseNameEquals(disease.getDiseaseName());
         if(isDiseaseExists == null){
-            Disease res = diseaseRepository.save(disease);
+            Disease newDisease = new Disease(disease.getDiseaseName(), disease.getDiseaseDesc());
+            Disease res = diseaseRepository.save(newDisease);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
             throw new IllegalAccessException("Another Disease with the same name exists");

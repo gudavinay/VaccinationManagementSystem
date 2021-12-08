@@ -32,7 +32,7 @@ class AddDisease extends Component {
     e.preventDefault();
     axios.defaults.headers["Access-Control-Allow-Origin"] = true;
     axios
-      .post(`${backendServer}/disease`, this.state)
+      .post(`${backendServer}/addDisease`, this.state)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {

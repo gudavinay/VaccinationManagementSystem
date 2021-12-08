@@ -1,5 +1,6 @@
 package com.VMS.backend.Controller;
 
+import com.VMS.backend.POJO.DiseasePOJO;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.service.DiseaseService;
 import com.VMS.backend.util.BadRequest;
@@ -21,7 +22,7 @@ public class DiseaseController {
     @ResponseBody
     @RequestMapping(value = "/addDisease", method = RequestMethod.POST, produces ={"application/json"})
     public ResponseEntity<?> addDisease(
-            @RequestBody Disease disease
+            @RequestBody DiseasePOJO disease
     ){
         try {
             return diseaseService.addDisease(disease);
