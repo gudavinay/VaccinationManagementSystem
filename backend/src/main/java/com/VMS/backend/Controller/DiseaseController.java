@@ -19,12 +19,12 @@ public class DiseaseController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
-    @RequestMapping(value = "/disease", method = RequestMethod.POST, produces ={"application/json"})
-    public ResponseEntity<?> createDisease(
+    @RequestMapping(value = "/addDisease", method = RequestMethod.POST, produces ={"application/json"})
+    public ResponseEntity<?> addDisease(
             @RequestBody Disease disease
     ){
         try {
-            return diseaseService.createDisease(disease);
+            return diseaseService.addDisease(disease);
         } catch (Exception ex){
             return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
         }

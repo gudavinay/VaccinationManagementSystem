@@ -1,7 +1,6 @@
 package com.VMS.backend.service;
 
 import com.VMS.backend.POJO.ClinicPOJO;
-import com.VMS.backend.entity.Address;
 import com.VMS.backend.entity.Clinic;
 import com.VMS.backend.repository.ClinicRepository;
 import javassist.NotFoundException;
@@ -19,7 +18,7 @@ public class ClinicService {
     @Autowired
     private ClinicRepository clinicRepository;
 
-    public ResponseEntity<?> createClinic(ClinicPOJO req ) throws IllegalAccessException {
+    public ResponseEntity<?> addClinic(ClinicPOJO req ) throws IllegalAccessException {
         Clinic isClinicExists = clinicRepository.findByName(req.getName());
         if(isClinicExists == null){
             Clinic newClinic = new Clinic(req.getName(),req.getAddress(),req.getNoOfPhysician(), req.getStartBussinessHour() , req.getEndBussinessHour());

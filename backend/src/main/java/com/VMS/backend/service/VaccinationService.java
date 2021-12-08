@@ -18,7 +18,7 @@ public class VaccinationService {
     @Autowired
     private VaccinationRepository vaccinationRepository;
 
-    public ResponseEntity<?> createVaccination(Vaccination req ) throws IllegalAccessException {
+    public ResponseEntity<?> addVaccination(Vaccination req ) throws IllegalAccessException {
         Vaccination isVaccinationExists = vaccinationRepository.findByVaccinationName(req.getVaccinationName());
         if(isVaccinationExists == null){
             Vaccination newVaccination = new Vaccination(req.getVaccinationName(),req.getDiseases(),req.getManufacturer(),req.getNumberOfShots(), req.getShotInternalVal(),req.getDuration());

@@ -22,16 +22,16 @@ public class VaccinationController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
-    @RequestMapping(value = "/vaccination", method = RequestMethod.POST, produces ={"application/json"})
-    public ResponseEntity<?> createVaccination(@RequestBody Vaccination req){
+    @RequestMapping(value = "/addVaccination", method = RequestMethod.POST, produces ={"application/json"})
+    public ResponseEntity<?> addVaccination(@RequestBody Vaccination req){
         try {
-            return vaccinationService.createVaccination(req);
+            return vaccinationService.addVaccination(req);
         } catch (Exception ex){
             return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
         }
     }
 
-    @RequestMapping(value = "/vaccinations", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/getAllVaccinations", method = RequestMethod.GET, produces = {"application/json"})
     public List<Vaccination> getAllVaccinations(){
         return vaccinationService.getAllVaccinations();
     }

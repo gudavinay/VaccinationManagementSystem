@@ -26,10 +26,10 @@ public class ClinicController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
-    @RequestMapping(value = "/clinic", method = RequestMethod.POST, produces ={"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createClinic( @RequestBody ClinicPOJO req){
+    @RequestMapping(value = "/addClinic", method = RequestMethod.POST, produces ={"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> addClinic( @RequestBody ClinicPOJO req){
         try {
-            return clinicService.createClinic(req);
+            return clinicService.addClinic(req);
         } catch (Exception ex){
             return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
         }

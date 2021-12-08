@@ -17,7 +17,7 @@ public class DiseaseService {
     @Autowired
     private DiseaseRepository diseaseRepository;
 
-    public ResponseEntity<?> createDisease(Disease disease) throws IllegalAccessException {
+    public ResponseEntity<?> addDisease(Disease disease) throws IllegalAccessException {
         Disease isDiseaseExists = diseaseRepository.findByDiseaseNameEquals(disease.getDiseaseName());
         if(isDiseaseExists == null){
             Disease res = diseaseRepository.save(disease);
