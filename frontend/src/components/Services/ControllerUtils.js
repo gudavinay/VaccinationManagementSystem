@@ -13,3 +13,7 @@ export function createTimeSlots(opening, closing, includeExtra) {
     }
     return tempList;
 }
+
+export function getTimeFromInt(number){
+    return new moment(moment(number, "hh:mm A")).format("hh:mm A");
+}
