@@ -16,7 +16,8 @@ public class Clinic {
     @Embedded
     private Address address;
     private int noOfPhysician;
-    private String bussinessHours;
+    private int startBussinessHour;
+    private int endBussinessHour;
 
     @OneToMany(targetEntity = Appointment.class, cascade=CascadeType.ALL)
     private List<Appointment> appointments;
@@ -32,15 +33,18 @@ public class Clinic {
     @ManyToMany(targetEntity=Vaccination.class)
     private List <Vaccination> vaccinations;
     
-    public Clinic(String name, Address address, int noOfPhysician, String bussinessHours) {
-        this.name = name;
-        this.address = address;
-        this.noOfPhysician = noOfPhysician;
-        this.bussinessHours = bussinessHours;
-    }
+
 
     public Clinic() {
 
+    }
+
+    public Clinic(String name, Address address, int noOfPhysician, int startBussinessHour, int endBussinessHour) {
+        this.name = name;
+        this.address = address;
+        this.noOfPhysician = noOfPhysician;
+        this.startBussinessHour = startBussinessHour;
+        this.endBussinessHour = endBussinessHour;
     }
 
     public List <Vaccination> getVaccinations() {
@@ -73,10 +77,20 @@ public class Clinic {
     public void setNoOfPhysician(int noOfPhysician) {
         this.noOfPhysician = noOfPhysician;
     }
-    public String getBussinessHours() {
-        return bussinessHours;
+
+    public int getStartBussinessHour() {
+        return startBussinessHour;
     }
-    public void setBussinessHours(String bussinessHours) {
-        this.bussinessHours = bussinessHours;
+
+    public void setStartBussinessHour(int startBussinessHour) {
+        this.startBussinessHour = startBussinessHour;
+    }
+
+    public int getEndBussinessHour() {
+        return endBussinessHour;
+    }
+
+    public void setEndBussinessHour(int endBussinessHour) {
+        this.endBussinessHour = endBussinessHour;
     }
 }

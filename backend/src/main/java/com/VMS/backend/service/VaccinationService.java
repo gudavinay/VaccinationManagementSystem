@@ -18,10 +18,10 @@ public class VaccinationService {
     @Autowired
     private VaccinationRepository vaccinationRepository;
 
-    public ResponseEntity<?> createVaccination(String vaccinationName, List<Disease> diseases, String manufacturer, int numberOfShots, int shotInternalVal, int duration ) throws IllegalAccessException {
-        Vaccination isVaccinationExists = vaccinationRepository.findByVaccinationName(vaccinationName);
+    public ResponseEntity<?> createVaccination(Vaccination req ) throws IllegalAccessException {
+        Vaccination isVaccinationExists = vaccinationRepository.findByVaccinationName(req.getVaccinationName());
         if(isVaccinationExists == null){
-            Vaccination newVaccination = new Vaccination(vaccinationName,diseases,manufacturer,numberOfShots, shotInternalVal,duration);
+            Vaccination newVaccination = new Vaccination(req.getVaccinationName(),req.getDiseases(),req.getManufacturer(),req.getNumberOfShots(), req.getShotInternalVal(),req.getDuration());
             Vaccination res = vaccinationRepository.save(newVaccination);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {

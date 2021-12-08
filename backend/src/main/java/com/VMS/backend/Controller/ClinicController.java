@@ -1,14 +1,12 @@
 package com.VMS.backend.Controller;
 
-import com.VMS.backend.entity.Address;
-import com.VMS.backend.entity.Clinic;
-import com.VMS.backend.entity.Disease;
-import com.VMS.backend.entity.Vaccination;
+import com.VMS.backend.entity.*;
 import com.VMS.backend.service.ClinicService;
 import com.VMS.backend.util.BadRequest;
 import com.VMS.backend.util.ExceptionHandle;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,24 +18,26 @@ public class ClinicController {
     @Autowired
     private ClinicService clinicService;
 
-    @RequestMapping(value = "/clinic", method = RequestMethod.POST, produces ={"application/json"})
-    public ResponseEntity<?> createClinic(@RequestParam("clinicName") String clinicName,
-                                          @RequestParam("address") Address address,
-                                          @RequestParam("numberOfPhysicians") int numberOfPhysicians,
-                                          @RequestParam("businessHours") String businessHours
-    ){
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
+    @RequestMapping(value = "/clinic", method = RequestMethod.POST, produces ={"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createClinic( @RequestBody Clinic req){
         try {
-            return clinicService.createClinic(clinicName,address,numberOfPhysicians, businessHours );
+            return clinicService.createClinic(req);
         } catch (Exception ex){
             return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
     @RequestMapping(value = "/clinics", method = RequestMethod.GET, produces = {"application/json"})
     public List<Clinic> getAllClinics(){
         return clinicService.getAllClinics();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
     @RequestMapping(value = "/clinic/{clinicId}", method = RequestMethod.GET, produces = {"application/json"})
     public ResponseEntity<?> getClinicById(
             @PathVariable("clinicId") int clinicId
@@ -45,6 +45,8 @@ public class ClinicController {
         return clinicService.getClinicById(clinicId);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
     @RequestMapping(value = "/clinic/{clinicName}", method = RequestMethod.GET, produces = {"application/json"})
     public ResponseEntity<?> getClinicByName(
             @PathVariable("clinicName") String clinicName

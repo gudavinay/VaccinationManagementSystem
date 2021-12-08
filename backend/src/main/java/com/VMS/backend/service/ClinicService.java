@@ -18,10 +18,10 @@ public class ClinicService {
     @Autowired
     private ClinicRepository clinicRepository;
 
-    public ResponseEntity<?> createClinic(String clinicName, Address address, int numberOfPhysicians,String businessHours ) throws IllegalAccessException {
-        Clinic isClinicExists = clinicRepository.findByName(clinicName);
+    public ResponseEntity<?> createClinic(Clinic req ) throws IllegalAccessException {
+        Clinic isClinicExists = clinicRepository.findByName(req.getName());
         if(isClinicExists == null){
-            Clinic newClinic = new Clinic(clinicName,address,numberOfPhysicians, businessHours );
+            Clinic newClinic = new Clinic(req.getName(),req.getAddress(),req.getNoOfPhysician(), req.getStartBussinessHour() , req.getEndBussinessHour());
             Clinic res = clinicRepository.save(newClinic);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {

@@ -1,6 +1,7 @@
 package com.VMS.backend.Controller;
 
 
+import com.VMS.backend.entity.Clinic;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.Vaccination;
 import com.VMS.backend.service.VaccinationService;
@@ -19,13 +20,12 @@ public class VaccinationController {
     @Autowired
     private VaccinationService vaccinationService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @ResponseBody
     @RequestMapping(value = "/vaccination", method = RequestMethod.POST, produces ={"application/json"})
-    public ResponseEntity<?> createVaccination(@RequestParam("vaccinationName") String vaccinationName, @RequestParam("diseases") List<Disease> diseases,
-                                           @RequestParam("manufacturer") String manufacturer, @RequestParam("numberOfShots") int numberOfShots, @RequestParam("shotInternalVal") int shotInternalVal,
-                                           @RequestParam("duration")  int duration
-    ){
+    public ResponseEntity<?> createVaccination(@RequestBody Vaccination req){
         try {
-            return vaccinationService.createVaccination(vaccinationName,diseases,manufacturer,numberOfShots,shotInternalVal,duration );
+            return vaccinationService.createVaccination(req);
         } catch (Exception ex){
             return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
         }
