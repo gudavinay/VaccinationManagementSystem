@@ -15,7 +15,7 @@ public class PatientService {
     public ResponseEntity<?> createUser(User req) {
         User isUser =patientRepository.findByEmail(req.getEmail());
         if (isUser == null) {
-            int mrn=this.getRandomNumber(100,999999999);
+            int mrn=this.getRandomNumber(100,99999);
             boolean isAdmin=false;
             if(req.getEmail().endsWith("sjsu.edu")){
                 isAdmin=true;

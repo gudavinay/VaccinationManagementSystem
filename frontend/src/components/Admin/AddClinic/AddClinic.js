@@ -44,15 +44,15 @@ class AddClinic extends Component {
         // axios.defaults.headers["Access-Control-Allow-Origin"] = true;
         let data = {
           name: this.state.clinicInfo.name,
-          noOfPhysician: this.state.clinicInfo.noOfPhysician,
-          startBussinessHour: this.state.clinicInfo.startBussinessHour,
-          endBussinessHour: this.state.clinicInfo.endBussinessHour,
+          noOfPhysician: Number(this.state.clinicInfo.noOfPhysician),
+          startBussinessHour: Number(this.state.clinicInfo.startBussinessHour),
+          endBussinessHour: Number(this.state.clinicInfo.endBussinessHour),
           address: {
             street: this.state.clinicInfo.street,
             aptNo: this.state.clinicInfo.aptNo,
             city: this.state.clinicInfo.city,
             state: this.state.clinicInfo.state,
-            zipcode: this.state.clinicInfo.zipcode,
+            zipcode: Number(this.state.clinicInfo.zipcode),
           },
         };
         axios

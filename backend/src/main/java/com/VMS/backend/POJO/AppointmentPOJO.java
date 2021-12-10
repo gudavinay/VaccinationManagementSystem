@@ -6,17 +6,29 @@ public class AppointmentPOJO {
     private String appointmentDateTime;
     private List<Integer> vaccinations;
     private int clinic;
-    private int user_id;
+    private int userId;
+    private String userEmail;
     
     public AppointmentPOJO() {
     }
 
 
-    public AppointmentPOJO(String appointmentDateTime, List<Integer> vaccinations, int clinic, int user_id) {
+    public AppointmentPOJO(String appointmentDateTime, List<Integer> vaccinations, int clinic, int userId, String userEmail) {
         this.appointmentDateTime = appointmentDateTime;
         this.vaccinations = vaccinations;
         this.clinic = clinic;
-        this.user_id = user_id;
+        this.userId = userId;
+        this.userEmail = userEmail;
+    }
+
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
 
@@ -50,13 +62,13 @@ public class AppointmentPOJO {
     }
 
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
     
 

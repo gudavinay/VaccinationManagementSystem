@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, MenuItem } from "@mui/material";
+import { Checkbox, Container, ListItemText, MenuItem } from "@mui/material";
 import Axios from "axios";
 import Select from '@material-ui/core/Select';
 import backendServer from "../../../webConfig";
@@ -23,6 +23,7 @@ class NewAppointment extends Component {
             timeSlotsList: [],
             physiciansAvailable: 0,
             appointments: [],
+            selectedVaccinations: []
         };
     }
 
@@ -44,11 +45,17 @@ class NewAppointment extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        let listOfIds = [];
+        for (let vaccination of this.state.selectedVaccinations) {
+            listOfIds.push(this.state.vaccinationData.find(element => element.vaccinationName === vaccination).vaccinationId);
+        }
+
         let data = {
             appointmentDateTime: "2009-12-31",
-            vaccinations: this.state.selectedVaccinationFullInfo.vaccinationId,
+            vaccinations: listOfIds,
             clinic: this.state.selectedClinicFullInfo.id,
-            user_id: 895388947
+            user_id: 85887,
+            userEmail: "test@test.com"
         };
 
         axios
@@ -110,7 +117,7 @@ class NewAppointment extends Component {
                                 <Row>
                                     <Col>
                                         <Label>Select Vaccination</Label>
-                                        <Select style={{ width: 'inherit' }} value={this.state.selectedVaccination} onChange={(e) => {
+                                        {/* <Select style={{ width: 'inherit' }} value={this.state.selectedVaccination} onChange={(e) => {
                                             const item = this.state.vaccinationData.find(element => element.vaccinationName === e.target.value)
                                             this.setState({
                                                 selectedVaccination: e.target.value,
@@ -120,7 +127,19 @@ class NewAppointment extends Component {
                                             {this.state.vaccinationData.map((element, index) =>
                                                 <MenuItem key={index} value={element.vaccinationName}>{element.vaccinationName}</MenuItem>
                                             )}
-                                        </Select>
+                                        </Select> */}
+                                        {this.state.vaccinationError ? <span style={{ color: "red" }}>Error fetching vaccinations</span> : <Select style={{ width: 'inherit' }} multiple value={this.state.selectedVaccinations}
+                                            renderValue={(selected) => selected.join(', ')} onChange={(e) => {
+                                                this.setState({
+                                                    selectedVaccinations: e.target.value,
+                                                });
+                                            }}>
+                                            {this.state.vaccinationData.map((element, index) =>
+                                                <MenuItem key={index} value={element.vaccinationName}>
+                                                    <Checkbox checked={this.state.selectedVaccinations.indexOf(element.vaccinationName) > -1} />
+                                                    <ListItemText primary={element.vaccinationName} /></MenuItem>
+                                            )}
+                                        </Select>}
                                     </Col>
                                 </Row>
                                 <br />

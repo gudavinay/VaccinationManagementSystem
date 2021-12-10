@@ -46,16 +46,16 @@ public class AppointmentService {
 
     public ResponseEntity<?> createAppointment(AppointmentPOJO req) throws IllegalAccessException {
         try{
-            SimpleDateFormat formatter = new SimpleDateFormat();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             List<Vaccination> vaccinations=new ArrayList<>();
-            Optional<User> u = patientRepository.findById(req.getUser_id());
+            User u = patientRepository.findByEmail(req.getUserEmail());
             Optional<Clinic> c = clinicRepository.findById(req.getClinic());
             for(int i:req.getVaccinations()){
                 Optional<Vaccination> v= vaccinationRepository.findById(i);
                 if(v.isPresent())
                     vaccinations.add(v.get());
             }
-            Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u.get(), 0);
+            Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0);
             Appointment res = appointmentRepository.save(appointment);
             return new ResponseEntity<>(res, HttpStatus.OK);
         }catch (Exception ex){

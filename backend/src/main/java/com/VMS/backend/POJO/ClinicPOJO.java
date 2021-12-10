@@ -10,6 +10,9 @@ public class ClinicPOJO {
     private int noOfPhysician;
     private int startBussinessHour;
 
+    public ClinicPOJO() {
+    }
+
     public ClinicPOJO(Address address, int endBussinessHour, String name, int noOfPhysician,
             int startBussinessHour) {
         this.address = address;
@@ -18,6 +21,7 @@ public class ClinicPOJO {
         this.noOfPhysician = noOfPhysician;
         this.startBussinessHour = startBussinessHour;
     }
+    
     public Address getAddress() {
         return address;
     }
