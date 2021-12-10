@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
   Button,
   Form,
   FormGroup,
   Label,
   Input,
-  Col,
   Row,
-  ButtonGroup,
 } from "reactstrap";
 import { Container } from "react-bootstrap";
 import axios from "axios";
@@ -30,7 +28,7 @@ class AddDisease extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    axios.defaults.headers["Access-Control-Allow-Origin"] = true;
+    // axios.defaults.headers["Access-Control-Allow-Origin"] = true;
     axios
       .post(`${backendServer}/addDisease`, this.state)
       .then((response) => {

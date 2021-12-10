@@ -1,7 +1,5 @@
 package com.VMS.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.util.*;
 //import com.VMS.backend.entity.Vaccination;

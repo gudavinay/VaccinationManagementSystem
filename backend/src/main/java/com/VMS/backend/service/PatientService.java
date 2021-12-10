@@ -1,6 +1,5 @@
 package com.VMS.backend.service;
 
-import com.VMS.backend.entity.Address;
 import com.VMS.backend.entity.User;
 import com.VMS.backend.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;

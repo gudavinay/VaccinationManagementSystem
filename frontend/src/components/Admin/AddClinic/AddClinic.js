@@ -8,9 +8,7 @@ import {
     Input,
     Col,
     Row,
-    ButtonGroup,
   } from "reactstrap";
-import { Link, Redirect } from "react-router-dom";
 import backendServer from "../../../webConfig";
 class AddClinic extends Component {
     constructor(props) {
@@ -43,7 +41,7 @@ class AddClinic extends Component {
 
       handleSubmit = async (e) => {
         e.preventDefault();
-        axios.defaults.headers["Access-Control-Allow-Origin"] = true;
+        // axios.defaults.headers["Access-Control-Allow-Origin"] = true;
         let data = {
           name: this.state.clinicInfo.name,
           noOfPhysician: this.state.clinicInfo.noOfPhysician,
@@ -58,7 +56,7 @@ class AddClinic extends Component {
           },
         };
         axios
-          .post(`${backendServer}/clinic`, data)
+          .post(`${backendServer}/addClinic`, data)
           .then((response) => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -69,16 +67,13 @@ class AddClinic extends Component {
               this.SetLocalStorage(JSON.stringify(response.data));
             } else {
               this.setState({
-                error: "User is already registered",
-                authFlag: false,
-                error: {},
+                error: "Error adding clinic to the Database",
               });
             }
           })
           .catch(() => {
             this.setState({
-                error: "User is already registered",
-              authFlag: false,
+                error: "Error adding clinic to the Database",
             });
           });
       };

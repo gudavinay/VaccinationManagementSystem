@@ -1,10 +1,8 @@
 package com.VMS.backend.Controller;
 
-import com.VMS.backend.entity.Address;
 import com.VMS.backend.entity.User;
 import com.VMS.backend.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

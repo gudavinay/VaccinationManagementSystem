@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import { Container, MenuItem } from "@mui/material";
-import { Link } from "react-router-dom";
 import Axios from "axios";
 import Select from '@material-ui/core/Select';
 import backendServer from "../../../webConfig";
@@ -12,15 +7,12 @@ import SelectedClinicDetails from './SelectedClinicDetails'
 import {
     Button,
     Form,
-    FormGroup,
     Label,
-    Input,
     Col,
-    Row,
-    ButtonGroup
+    Row
 } from "reactstrap";
-import { FormControl, InputGroup } from "react-bootstrap";
 import { createTimeSlots } from "../../Services/ControllerUtils";
+import axios from "axios";
 class NewAppointment extends Component {
     constructor(props) {
         super(props);
@@ -49,6 +41,37 @@ class NewAppointment extends Component {
             this.setState({ vaccinationData: [], vaccinationError: true });
         })
     }
+
+    handleSubmit = async (e) => {
+        e.preventDefault();
+        let data = {
+            appointmentDateTime: "2009-12-31",
+            vaccinations: this.state.selectedVaccinationFullInfo.vaccinationId,
+            clinic: this.state.selectedClinicFullInfo.id,
+            user_id: 895388947
+        };
+
+        axios
+            .post(`${backendServer}/createAppointment`, data)
+            .then((response) => {
+                console.log("Status Code : ", response.status);
+                if (response.status === 200) {
+                    this.setState({
+                        isSuccess: true,
+                        error: "",
+                    });
+                } else {
+                    this.setState({
+                        error: "Error in adding vaccine to the database",
+                    });
+                }
+            })
+            .catch(() => {
+                this.setState({
+                    error: "Error in adding vaccine to the database",
+                });
+            });
+    };
 
     componentDidMount() {
         this.getAllClinics();
@@ -87,9 +110,15 @@ class NewAppointment extends Component {
                                 <Row>
                                     <Col>
                                         <Label>Select Vaccination</Label>
-                                        <Select style={{ width: 'inherit' }} value={this.state.selectedVaccination} onChange={(e) => { this.setState({ selectedVaccination: e.target.value }); }}>
+                                        <Select style={{ width: 'inherit' }} value={this.state.selectedVaccination} onChange={(e) => {
+                                            const item = this.state.vaccinationData.find(element => element.vaccinationName === e.target.value)
+                                            this.setState({
+                                                selectedVaccination: e.target.value,
+                                                selectedVaccinationFullInfo: item
+                                            });
+                                        }}>
                                             {this.state.vaccinationData.map((element, index) =>
-                                                <MenuItem key={element.id} value={element.name}>{element.name}</MenuItem>
+                                                <MenuItem key={index} value={element.vaccinationName}>{element.vaccinationName}</MenuItem>
                                             )}
                                         </Select>
                                     </Col>
@@ -115,8 +144,8 @@ class NewAppointment extends Component {
                                 </Row>
                             </Col>
                             <Col>
-                            {this.state.selectedClinicFullInfo && <Row>
-                                    <SelectedClinicDetails {...this.state.selectedClinicFullInfo}/>
+                                {this.state.selectedClinicFullInfo && <Row>
+                                    <SelectedClinicDetails {...this.state.selectedClinicFullInfo} />
                                 </Row>}
                             </Col>
                         </Row>

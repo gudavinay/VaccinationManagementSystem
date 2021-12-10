@@ -47,7 +47,7 @@ class SignUp extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    axios.defaults.headers["Access-Control-Allow-Origin"] = true;
+    // axios.defaults.headers["Access-Control-Allow-Origin"] = true;
     let data = {
       email: this.state.userInfo.email,
       firstName: this.state.userInfo.firstName,

@@ -1,7 +1,5 @@
 package com.VMS.backend.entity;
 
-import lombok.Data;
-
 import java.util.List;
 
 import javax.persistence.*;

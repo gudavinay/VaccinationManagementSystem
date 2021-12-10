@@ -1,8 +1,6 @@
 package com.VMS.backend.service;
 
-import com.VMS.backend.POJO.DiseasePOJO;
 import com.VMS.backend.POJO.VaccinationPOJO;
-import com.VMS.backend.entity.Clinic;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.Vaccination;
 import com.VMS.backend.repository.DiseaseRepository;
@@ -36,7 +34,7 @@ public class VaccinationService {
                     diseases.add(d.get());
             }
             Vaccination newVaccination = new Vaccination(req.getVaccinationName(),diseases
-                    ,req.getManufacturer(),req.getNumberOfShots(), req.getShotInternalVal(),req.getDuration());
+                    ,req.getManufacturer(),req.getNumberOfShots(), req.getShotIntervalVal(),req.getDuration());
             Vaccination res = vaccinationRepository.save(newVaccination);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
