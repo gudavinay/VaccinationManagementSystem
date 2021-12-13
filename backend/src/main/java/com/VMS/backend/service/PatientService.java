@@ -36,18 +36,18 @@ public class PatientService {
     }
 
     public ResponseEntity<?> loginUser(LoginPOJO req) {
-        System.out.println("came here 222222");
-        return null;
-//        User isUser = patientRepository.findByEmail(req.getEmail());
-//        if (isUser == null) {
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        } else {
-//            if (req.getPassword() == isUser.getPassword()) {
-//                return new ResponseEntity<>(isUser, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
-//            }
-//        }
+        User isUser = patientRepository.findByEmail(req.getEmail());
+        System.out.println(isUser.getEmail());
+        if (isUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
+            if (req.getPassword().equals(isUser.getPassword())) {
+                System.out.println("Password verified");
+                return new ResponseEntity<>(isUser, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
+            }
+        }
     }
 
     public List<String> getAllEmails() {

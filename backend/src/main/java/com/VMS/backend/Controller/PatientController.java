@@ -29,7 +29,6 @@ public class PatientController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = { "application/json" })
     public ResponseEntity<?> loginUser(@RequestBody LoginPOJO req) {
         try {
-            System.out.println("came here 111111");
             return patientService.loginUser(req);
         } catch (IllegalArgumentException ex) {
             return null;
