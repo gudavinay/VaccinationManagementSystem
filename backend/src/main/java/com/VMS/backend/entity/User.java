@@ -11,7 +11,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "User")
 public class User {
 
+    @TableGenerator(name = "MRN", table = "ID_GEN", initialValue = 100)
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "MRN")
     private int mrn;
     @Column(unique = true)
     private String email;
