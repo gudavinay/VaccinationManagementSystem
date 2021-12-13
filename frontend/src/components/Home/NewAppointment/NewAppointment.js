@@ -13,17 +13,22 @@ import {
 } from "reactstrap";
 import { createTimeSlots } from "../../Services/ControllerUtils";
 import axios from "axios";
+import moment from "moment";
 class NewAppointment extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            minDate: moment().format("YYYY-MM-DD"),
+            maxDate: moment().add(365, "days").format("YYYY-MM-DD"),
             expanded: "panel1",
             clinicData: [],
             vaccinationData: [],
             timeSlotsList: [],
             physiciansAvailable: 0,
             appointments: [],
-            selectedVaccinations: []
+            selectedVaccinations: [],
+            selectedDate: "",
+            selectedTime: ""
         };
     }
 
@@ -43,6 +48,14 @@ class NewAppointment extends Component {
         })
     }
 
+    getAllAppointmentsOnDate() { // TODO
+        Axios.get(`${backendServer}/getAllAppointmentsOnDate?date=${this.state.selectedDate},clinic=${this.state.selectedClinicFullInfo.id}`).then(result => {
+            console.log(result);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
         let listOfIds = [];
@@ -51,15 +64,15 @@ class NewAppointment extends Component {
         }
 
         let data = {
-            appointmentDateTime: "2009-12-31",
+            appointmentDateTime: this.state.selectedDate + " " + this.state.selectedTime,
+            createdDate: "" + moment().format('yyyy-MM-DD hh:mm A'),
             vaccinations: listOfIds,
             clinic: this.state.selectedClinicFullInfo.id,
             user_id: 85887,
-            userEmail: "test@test.com"
+            userEmail: "test@test.com",
         };
-
-        axios
-            .post(`${backendServer}/createAppointment`, data)
+        console.log(data);
+        axios.post(`${backendServer}/createAppointment`, data)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
@@ -89,7 +102,6 @@ class NewAppointment extends Component {
         let noSlotsAvailable = false;//this.state.physiciansAvailable === this.state.appointments.length; TODO
         return (
             <React.Fragment>
-
                 {this.state.clinicError && <span style={{ color: "red" }}>Error fetching clinic data</span>}
                 <Container>
                     <h2>NEW APPOINTMENT</h2>
@@ -145,6 +157,13 @@ class NewAppointment extends Component {
                                 <br />
                                 <Row>
                                     <Col>
+                                        <Label>Select Date of appointment</Label>
+                                        <input className="form-control" type="date" onChange={(e) => {
+                                            this.setState({ selectedDate: e.target.value });
+                                            this.getAllAppointmentsOnDate();
+                                        }} min={this.state.minDate} max={this.state.maxDate} placeholder="mm-dd-yyyy" />
+                                    </Col>
+                                    <Col>
                                         <Label>Available Time Slot {noSlotsAvailable && <span style={{ color: "red" }}>No Physicians Available</span>}</Label>
                                         <Select style={{ width: 'inherit' }} disabled={noSlotsAvailable} value={this.state.selectedTime} onChange={(e) => { this.setState({ selectedTime: e.target.value }); }}>
                                             {this.state.timeSlotsList.map((element, index) =>
@@ -159,7 +178,7 @@ class NewAppointment extends Component {
                                 </Row>
                                 <br />
                                 <Row>
-                                    <Button>Submit</Button>
+                                    <Button disabled={(!this.state.selectedDate || !this.state.selectedTime || !this.state.selectedClinic || !this.state.selectedVaccinations)}>Submit</Button>
                                 </Row>
                             </Col>
                             <Col>

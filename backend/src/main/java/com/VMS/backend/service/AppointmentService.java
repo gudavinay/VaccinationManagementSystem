@@ -36,7 +36,7 @@ public class AppointmentService {
 
     public ResponseEntity<?> createAppointment(AppointmentPOJO req) throws IllegalAccessException {
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm A");
             List<Vaccination> vaccinations = new ArrayList<>();
             User u = patientRepository.findByEmail(req.getUserEmail());
             Optional<Clinic> c = clinicRepository.findById(req.getClinic());
@@ -58,5 +58,10 @@ public class AppointmentService {
         } catch (Exception ex) {
             throw new IllegalArgumentException("Error getting appointments for user");
         }
+    }
+
+    public List<Appointment> getAllAppointmentsOnDate(String date, int clinicId) {
+        // List<Clinic> c = appointmentRepository.get
+        return null;
     }
 }
