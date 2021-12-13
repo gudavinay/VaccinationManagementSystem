@@ -1,6 +1,7 @@
 package com.VMS.backend.Controller;
 
 import com.VMS.backend.POJO.LoginPOJO;
+import com.VMS.backend.POJO.SignUpPOJO;
 import com.VMS.backend.entity.User;
 import com.VMS.backend.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class PatientController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = { "application/json",
             "application/xml" })
     public ResponseEntity<?> createPatient(
-            @RequestBody User req) {
+            @RequestBody SignUpPOJO req) {
         try {
             return patientService.createUser(req);
         } catch (IllegalArgumentException ex) {

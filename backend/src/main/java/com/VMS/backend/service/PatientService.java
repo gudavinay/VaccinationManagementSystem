@@ -1,6 +1,8 @@
 package com.VMS.backend.service;
 
 import com.VMS.backend.POJO.LoginPOJO;
+import com.VMS.backend.POJO.SignUpPOJO;
+import com.VMS.backend.entity.Address;
 import com.VMS.backend.entity.User;
 import com.VMS.backend.repository.AppointmentRepository;
 import com.VMS.backend.repository.PatientRepository;
@@ -21,14 +23,15 @@ public class PatientService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public ResponseEntity<?> createUser(User req) {
+    public ResponseEntity<?> createUser(SignUpPOJO req) {
         User isUser = patientRepository.findByEmail(req.getEmail());
         if (isUser == null) {
             int mrn = this.getRandomNumber(100, 99999);
-            User newPatient = new User(mrn, req.getFirstName(), req.getLastName(), req.getMiddleName(), req.getEmail(),
-                    req.getDob(), req.getGender(), req.getAddress(), req.isVerified(), req.isAdmin(),
-                    req.getPassword());
-            User res = patientRepository.save(newPatient);
+            User newUser = new User(mrn,req.getEmail(), req.getFirstName(), req.getLastName(), req.getMiddleName(),
+                    req.getDob(), req.getGender(), new Address(req.getAddress().getStreet(),
+                    req.getAddress().getAptNo(), req.getAddress().getCity(), req.getAddress().getState(),
+                    req.getAddress().getZipcode()), req.isVerified(), req.isAdmin(), "");
+            User res = patientRepository.save(newUser);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
             throw new IllegalArgumentException("Another patient with the same email already exists.");
@@ -38,15 +41,11 @@ public class PatientService {
     public ResponseEntity<?> loginUser(LoginPOJO req) {
         User isUser = patientRepository.findByEmail(req.getEmail());
         System.out.println(isUser.getEmail());
-        if (isUser == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (req.getPassword().equals(isUser.getPassword())) {
+            System.out.println("Password verified");
+            return new ResponseEntity<>(isUser, HttpStatus.OK);
         } else {
-            if (req.getPassword().equals(isUser.getPassword())) {
-                System.out.println("Password verified");
-                return new ResponseEntity<>(isUser, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
-            }
+            return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -86,5 +85,5 @@ public class PatientService {
     // }
     //
     // }
-    
+
 }

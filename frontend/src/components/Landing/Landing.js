@@ -34,8 +34,9 @@ class Landing extends Component {
     firebase
       .auth()
       .signInWithPopup(googleProvider)
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
+        await this.setState({ signIn: true, user: res });
         if (!this.state.allEmails.includes(res.user.email)) {
           this.setState({ newUser: true });
           firebase.auth().currentUser.sendEmailVerification();
@@ -43,7 +44,6 @@ class Landing extends Component {
           this.proceedWithSignUp();
         }
         console.log(res.user.emailVerified);
-        this.setState({ signIn: true, user: res });
       })
       .catch((err) => {
         console.log(err);
@@ -67,8 +67,11 @@ class Landing extends Component {
         lastName: this.state.user.additionalUserInfo.profile.family_name,
         dob: new Date().toDateString(),
         gender: "Male",
-        isVerified: true,
-        role: emailId.substring(emailId.indexOf("@")) === "@sjsu.edu" ? 0 : 1,
+        verified: true,
+        admin:
+          emailId.substring(emailId.indexOf("@")) === "@sjsu.edu"
+            ? true
+            : false,
         address: {
           street: "",
           aptNo: "",
@@ -78,6 +81,23 @@ class Landing extends Component {
         },
       };
       console.log(user);
+      axios.post(`${backendServer}/signup`, user).then((response) => {
+        console.log("Status Code : ", response.status);
+        if (response.status === 200) {
+          console.log(response.data);
+          this.setState({
+            isSuccess: true,
+            loginError: "",
+          });
+          let responseUser = {
+            mrn: response.data.mrn,
+            email: response.data.email,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+          };
+          localStorage.setItem("user", JSON.stringify(responseUser));
+        }
+      });
     }
   };
 

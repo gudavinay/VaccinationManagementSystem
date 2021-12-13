@@ -1,48 +1,25 @@
-package com.VMS.backend.entity;
+package com.VMS.backend.POJO;
 
-import java.util.List;
+import com.VMS.backend.entity.Address;
 
-import javax.persistence.*;
+import javax.persistence.Embedded;
 import javax.validation.constraints.NotNull;
 
-//import com.VMS.backend.Constants.*;
-
-@Entity
-@Table(name = "User")
-public class User {
-
-    @TableGenerator(name = "MRN", table = "ID_GEN", initialValue = 100)
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "MRN")
-    private int mrn;
-    @Column(unique = true)
+public class SignUpPOJO {
     private String email;
-    @NotNull
     private String firstName;
-    @NotNull
     private String lastName;
     private String middleName;
-    @NotNull
     private String dob;
-    @NotNull
     private String gender;
-    @Embedded
     private Address address;
     private boolean verified;
     private boolean admin;
-    private String password;
 
-    @OneToMany(targetEntity = Vaccination.class, cascade = CascadeType.ALL)
-    private List<Vaccination> vaccinations;
-
-    @OneToMany(targetEntity = Appointment.class, cascade = CascadeType.ALL)
-    private List<Appointment> appointments;
-
-    public User() {
+    public SignUpPOJO() {
     }
 
-    public User(int mrn, String email, String firstName, String lastName, String middleName, String dob, String gender, Address address, boolean verified, boolean admin, String password) {
-        this.mrn = mrn;
+    public SignUpPOJO(String email, String firstName, String lastName, String middleName, String dob, String gender, Address address, boolean verified, boolean admin) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,15 +29,6 @@ public class User {
         this.address = address;
         this.verified = verified;
         this.admin = admin;
-        this.password = password;
-    }
-
-    public int getMrn() {
-        return mrn;
-    }
-
-    public void setMrn(int mrn) {
-        this.mrn = mrn;
     }
 
     public String getEmail() {
@@ -133,29 +101,5 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<Vaccination> getVaccinations() {
-        return vaccinations;
-    }
-
-    public void setVaccinations(List<Vaccination> vaccinations) {
-        this.vaccinations = vaccinations;
-    }
-
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
     }
 }

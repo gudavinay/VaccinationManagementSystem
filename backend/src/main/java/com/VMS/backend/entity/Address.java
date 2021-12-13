@@ -9,7 +9,19 @@ public class Address {
     public String city;
     public String state;
     public int zipcode;
-    
+
+    public Address(String street, String aptNo, String city, String state, int zipcode) {
+        this.street = street;
+        this.aptNo = aptNo;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+    }
+
+    public Address() {
+
+    }
+
     public String getStreet() {
         return street;
     }
