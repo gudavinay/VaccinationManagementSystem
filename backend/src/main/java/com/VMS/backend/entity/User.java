@@ -33,7 +33,16 @@ public class User {
     @Embedded
     private Address address;
     private boolean isVerified;
-    private boolean role;
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    private boolean isAdmin;
 
     public String getPassword() {
         return password;
@@ -52,7 +61,7 @@ public class User {
     private List<Appointment> appointments;
 
     public User(String firstName, String lastName, String middleName, String email, String dob, String gender,
-            Address address, boolean isVerified, boolean role, String password) {
+            Address address, boolean isVerified, boolean isAdmin, String password) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -61,7 +70,7 @@ public class User {
         this.gender = gender;
         this.address = address;
         this.isVerified = isVerified;
-        this.role = role;
+        this.isAdmin = isAdmin;
         this.password=password;
     }
 
@@ -83,7 +92,7 @@ public class User {
                 ", isVerified=" + isVerified +
                 ", vaccinations=" + vaccinations +
                 ", appointments=" + appointments +
-                ", role=" + role +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 
@@ -157,14 +166,6 @@ public class User {
 
     public void setVerified(boolean verified) {
         isVerified = verified;
-    }
-
-    public boolean isRole() {
-        return role;
-    }
-
-    public void setRole(boolean role) {
-        this.role = role;
     }
 
     public List<Vaccination> getVaccinations() {
