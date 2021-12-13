@@ -14,6 +14,7 @@ import {
 import { createTimeSlots } from "../../Services/ControllerUtils";
 import axios from "axios";
 import moment from "moment";
+import {Redirect} from 'react-router-dom';
 class NewAppointment extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +29,7 @@ class NewAppointment extends Component {
             selectedVaccinations: [],
             selectedDate: "",
             selectedTime: "",
-            existingBookings:[]
+            existingBookings: []
         };
     }
 
@@ -57,15 +58,15 @@ class NewAppointment extends Component {
             }
             console.log(map);
             let timeSlotsList = this.state.timeSlotsList;
-            console.log("Before"+timeSlotsList);
-            map.forEach((value,key)=>{
-                if(value >= this.state.selectedClinicFullInfo.noOfPhysician){
-                    console.log("removing "+key+" as count is "+value+" which is greater than "+this.state.selectedClinicFullInfo.noOfPhysician);
-                    timeSlotsList.splice( timeSlotsList.indexOf(key),1);
+            console.log("Before" + timeSlotsList);
+            map.forEach((value, key) => {
+                if (value >= this.state.selectedClinicFullInfo.noOfPhysician) {
+                    console.log("removing " + key + " as count is " + value + " which is greater than " + this.state.selectedClinicFullInfo.noOfPhysician);
+                    timeSlotsList.splice(timeSlotsList.indexOf(key), 1);
                 }
             });
-            console.log("After"+timeSlotsList);
-            this.setState({timeSlotsList: timeSlotsList});
+            console.log("After" + timeSlotsList);
+            this.setState({ timeSlotsList: timeSlotsList });
 
         }).catch(err => {
             this.setState({ existingBookings: [] });
@@ -86,8 +87,8 @@ class NewAppointment extends Component {
             clinic: this.state.selectedClinicFullInfo.id,
             user_id: 85887,
             userEmail: "test@test.com",
-            appointmentDateStr:this.state.selectedDate,
-            appointmentTimeStr:this.state.selectedTime
+            appointmentDateStr: this.state.selectedDate,
+            appointmentTimeStr: this.state.selectedTime
         };
         console.log(data);
         axios.post(`${backendServer}/createAppointment`, data)
@@ -118,6 +119,9 @@ class NewAppointment extends Component {
 
     render() {
         let noSlotsAvailable = false;//this.state.physiciansAvailable === this.state.appointments.length; TODO
+        if(this.state.isSuccess){
+            return <Redirect to="/"/>
+        }else
         return (
             <React.Fragment>
                 {this.state.clinicError && <span style={{ color: "red" }}>Error fetching clinic data</span>}
@@ -171,29 +175,26 @@ class NewAppointment extends Component {
                                             )}
                                         </Select>}
                                     </Col>
-                                </Row>
-                                <br />
-                                <Row>
+                                </Row> <br />
+                                {this.state.selectedClinic && <Row>
                                     <Col>
                                         <Label>Select Date of appointment</Label>
                                         <input className="form-control" type="date" onChange={(e) => {
-                                            this.setState({ selectedDate: e.target.value });
-                                            this.getAllAppointmentsOnDate( e.target.value );
+                                            this.setState({ selectedDate: e.target.value, timeSlotsList: createTimeSlots(this.state.selectedClinicFullInfo.startBussinessHour, this.state.selectedClinicFullInfo.endBussinessHour, false) });
+                                            this.getAllAppointmentsOnDate(e.target.value);
                                         }} min={this.state.minDate} max={this.state.maxDate} placeholder="mm-dd-yyyy" />
                                     </Col>
                                     <Col>
-                                        <Label>Available Time Slot {noSlotsAvailable && <span style={{ color: "red" }}>No Physicians Available</span>}</Label>
-                                        <Select style={{ width: 'inherit' }} disabled={noSlotsAvailable} value={this.state.selectedTime} onChange={(e) => { this.setState({ selectedTime: e.target.value }); }}>
-                                            {this.state.timeSlotsList.map((element, index) =>
-                                                <MenuItem key={element} value={element}>{element}</MenuItem>
-                                            )}
-                                        </Select>
+                                        {this.state.selectedDate && <Row>
+                                            <Label>Available Time Slot {noSlotsAvailable && <span style={{ color: "red" }}>No Physicians Available</span>}</Label>
+                                            <Select disabled={noSlotsAvailable} value={this.state.selectedTime} onChange={(e) => { this.setState({ selectedTime: e.target.value }); }}>
+                                                {this.state.timeSlotsList.map((element, index) =>
+                                                    <MenuItem key={element} value={element}>{element}</MenuItem>
+                                                )}
+                                            </Select>
+                                        </Row>}
                                     </Col>
-                                </Row>
-                                <br />
-                                <Row>
-                                    {this.state.selectedClinicFullInfo && <span>Available Physicians: {this.state.selectedClinicFullInfo.noOfPhysician}</span>}
-                                </Row>
+                                </Row>}
                                 <br />
                                 <Row>
                                     <Button disabled={(!this.state.selectedDate || !this.state.selectedTime || !this.state.selectedClinic || !this.state.selectedVaccinations)}>Submit</Button>
@@ -209,6 +210,9 @@ class NewAppointment extends Component {
 
                     </Form>
 
+                    <br />
+                    <br />
+                    <br />
                     <pre>{JSON.stringify(this.state, " ", 5)}</pre>
                 </Container>
 

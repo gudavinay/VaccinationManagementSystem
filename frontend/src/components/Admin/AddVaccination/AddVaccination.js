@@ -12,6 +12,7 @@ import axios from "axios";
 import backendServer from "../../../webConfig";
 import Select from '@material-ui/core/Select';
 import { Checkbox, ListItemText, MenuItem } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
 
 class AddVaccination extends Component {
   constructor(props) {
@@ -92,6 +93,9 @@ class AddVaccination extends Component {
 
 
   render() {
+    if(this.state.isSuccess){
+      return <Redirect to="/" />
+    }else
     return (
       <React.Fragment>
         <div className="container-fluid form-cont">
