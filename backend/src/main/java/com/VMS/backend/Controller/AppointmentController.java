@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -38,9 +39,9 @@ public class AppointmentController {
 
     @RequestMapping(value = "/getAllAppointmentsOnDate", method = RequestMethod.GET, produces = {
             "application/json" })
-    public List<Appointment> getAllAppointmentsOnDate( 
-        @PathVariable("date") String date,
-        @PathVariable("clinic") int clinicId) {
+    public List<String> getAllAppointmentsOnDate( 
+        @RequestParam("date") String date,
+        @RequestParam("clinicId") int clinicId) throws ParseException {
         return appointmentService.getAllAppointmentsOnDate(date,clinicId);
     }
 }

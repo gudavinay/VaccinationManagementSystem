@@ -12,6 +12,10 @@ public class Appointment {
 
     private Date appointmentDateTime;
 
+    private String appointmentDateStr;
+
+    private String appointmentTimeStr;
+
     private Date createdDate;
 
     @ManyToMany(targetEntity=Vaccination.class, cascade=CascadeType.ALL)
@@ -32,13 +36,15 @@ public class Appointment {
     }
 
     public Appointment(Date appointmentDateTime, List<Vaccination> vaccinations, Clinic clinic, User user,
-                       int isCheckedIn, Date createdDate) {
+                       int isCheckedIn, Date createdDate, String appointmentDateStr, String appointmentTimeStr) {
         this.appointmentDateTime = appointmentDateTime;
         this.vaccinations = vaccinations;
         this.clinic = clinic;
         this.user = user;
         this.isCheckedIn = isCheckedIn;
         this.createdDate = createdDate;
+        this.appointmentDateStr = appointmentDateStr;
+        this.appointmentTimeStr = appointmentTimeStr;
     }
     public int getAppointmentId() {
         return appointmentId;
@@ -84,4 +90,22 @@ public class Appointment {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    public String getAppointmentDateStr() {
+        return appointmentDateStr;
+    }
+
+    public void setAppointmentDateStr(String appointmentDateStr) {
+        this.appointmentDateStr = appointmentDateStr;
+    }
+
+    public String getAppointmentTimeStr() {
+        return appointmentTimeStr;
+    }
+
+    public void setAppointmentTimeStr(String appointmentTimeStr) {
+        this.appointmentTimeStr = appointmentTimeStr;
+    }
+
+    
 }

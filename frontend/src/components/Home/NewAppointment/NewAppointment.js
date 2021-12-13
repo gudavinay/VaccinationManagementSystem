@@ -24,11 +24,11 @@ class NewAppointment extends Component {
             clinicData: [],
             vaccinationData: [],
             timeSlotsList: [],
-            physiciansAvailable: 0,
             appointments: [],
             selectedVaccinations: [],
             selectedDate: "",
-            selectedTime: ""
+            selectedTime: "",
+            existingBookings:[]
         };
     }
 
@@ -48,11 +48,27 @@ class NewAppointment extends Component {
         })
     }
 
-    getAllAppointmentsOnDate() { // TODO
-        Axios.get(`${backendServer}/getAllAppointmentsOnDate?date=${this.state.selectedDate},clinic=${this.state.selectedClinicFullInfo.id}`).then(result => {
-            console.log(result);
+    getAllAppointmentsOnDate(date) { // TODO
+        Axios.get(`${backendServer}/getAllAppointmentsOnDate/?date=${date}&clinicId=${this.state.selectedClinicFullInfo.id}`).then(result => {
+            this.setState({ existingBookings: result.data });
+            const map = new Map();
+            for (let item of result.data) {
+                map.set(item, map.has(item) ? (map.get(item) + 1) : 1);
+            }
+            console.log(map);
+            let timeSlotsList = this.state.timeSlotsList;
+            console.log("Before"+timeSlotsList);
+            map.forEach((value,key)=>{
+                if(value >= this.state.selectedClinicFullInfo.noOfPhysician){
+                    console.log("removing "+key+" as count is "+value+" which is greater than "+this.state.selectedClinicFullInfo.noOfPhysician);
+                    timeSlotsList.splice( timeSlotsList.indexOf(key),1);
+                }
+            });
+            console.log("After"+timeSlotsList);
+            this.setState({timeSlotsList: timeSlotsList});
+
         }).catch(err => {
-            console.log(err);
+            this.setState({ existingBookings: [] });
         })
     }
 
@@ -70,6 +86,8 @@ class NewAppointment extends Component {
             clinic: this.state.selectedClinicFullInfo.id,
             user_id: 85887,
             userEmail: "test@test.com",
+            appointmentDateStr:this.state.selectedDate,
+            appointmentTimeStr:this.state.selectedTime
         };
         console.log(data);
         axios.post(`${backendServer}/createAppointment`, data)
@@ -160,7 +178,7 @@ class NewAppointment extends Component {
                                         <Label>Select Date of appointment</Label>
                                         <input className="form-control" type="date" onChange={(e) => {
                                             this.setState({ selectedDate: e.target.value });
-                                            this.getAllAppointmentsOnDate();
+                                            this.getAllAppointmentsOnDate( e.target.value );
                                         }} min={this.state.minDate} max={this.state.maxDate} placeholder="mm-dd-yyyy" />
                                     </Col>
                                     <Col>

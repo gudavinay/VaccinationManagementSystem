@@ -9,18 +9,23 @@ public class AppointmentPOJO {
     private int userId;
     private String userEmail;
     private String  createdDate;
+
+    private String appointmentDateStr;
+    private String appointmentTimeStr;
     
     public AppointmentPOJO() {
     }
 
 
-    public AppointmentPOJO(String appointmentDateTime, List<Integer> vaccinations, int clinic, int userId, String userEmail, String createdDate) {
+    public AppointmentPOJO(String appointmentDateTime, List<Integer> vaccinations, int clinic, int userId, String userEmail, String createdDate, String appointmentDateStr, String appointmentTimeStr) {
         this.appointmentDateTime = appointmentDateTime;
         this.vaccinations = vaccinations;
         this.clinic = clinic;
         this.userId = userId;
         this.userEmail = userEmail;
         this.createdDate=createdDate;
+        this.appointmentDateStr = appointmentDateStr;
+        this.appointmentTimeStr = appointmentTimeStr;
     }
 
 
@@ -85,6 +90,8 @@ public class AppointmentPOJO {
     public String toString() {
         return "AppointmentPOJO{" +
                 "appointmentDateTime='" + appointmentDateTime + '\'' +
+                "appointmentDateStr='" + appointmentDateStr + '\'' +
+                "appointmentTimeStr='" + appointmentTimeStr + '\'' +
                 ", vaccinations=" + vaccinations +
                 ", clinic=" + clinic +
                 ", userId=" + userId +
@@ -92,4 +99,26 @@ public class AppointmentPOJO {
                 ", createdDate='" + createdDate + '\'' +
                 '}';
     }
+
+
+    public String getAppointmentDateStr() {
+        return appointmentDateStr;
+    }
+
+
+    public void setAppointmentDateStr(String appointmentDateStr) {
+        this.appointmentDateStr = appointmentDateStr;
+    }
+
+
+    public String getAppointmentTimeStr() {
+        return appointmentTimeStr;
+    }
+
+
+    public void setAppointmentTimeStr(String appointmentTimeStr) {
+        this.appointmentTimeStr = appointmentTimeStr;
+    }
+
+    
 }
