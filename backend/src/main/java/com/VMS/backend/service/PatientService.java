@@ -1,16 +1,24 @@
 package com.VMS.backend.service;
 
+import com.VMS.backend.entity.Appointment;
 import com.VMS.backend.entity.User;
+import com.VMS.backend.entity.Vaccination;
+import com.VMS.backend.repository.AppointmentRepository;
 import com.VMS.backend.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     public ResponseEntity<?> createUser(User req) {
         User isUser =patientRepository.findByEmail(req.getEmail());
@@ -31,5 +39,16 @@ public class PatientService {
 
     public int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    //need to rework
+    public List<Vaccination> getVaccinationHistory (int user_mrn) {
+        try {
+            List<Appointment> appointmentList=appointmentRepository.findAllByUserMrnAndAppointmentDateTimeBefore(user_mrn);
+
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Error getting vaccination history for user");
+        }
+        return null;
     }
 }

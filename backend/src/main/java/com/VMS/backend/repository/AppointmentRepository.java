@@ -9,4 +9,6 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment,Integer> {
 
     List<Appointment> findAllByUserMrnOrderByAppointmentDateTimeDesc(int user_mrn);
+
+    List<Appointment> findAllByUserMrnAndAppointmentDateTimeBefore(int user_mrn);
 }

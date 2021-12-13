@@ -14,7 +14,10 @@ public class Appointment {
 
     private Date createdDate;
 
-    @OneToMany(targetEntity=Vaccination.class, cascade= CascadeType.ALL)
+    @ManyToMany(targetEntity=Vaccination.class, cascade=CascadeType.ALL)
+    @JoinTable(name="appointment_vaccinations",
+            joinColumns={@JoinColumn(name="appointment_id")},
+            inverseJoinColumns={@JoinColumn(name="vaccination_id")})
     private List<Vaccination> vaccinations; // make validation for upto 4
 
     @ManyToOne(targetEntity = Clinic.class)
