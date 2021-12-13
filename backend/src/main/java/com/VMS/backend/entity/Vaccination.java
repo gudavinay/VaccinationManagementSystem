@@ -20,9 +20,6 @@ public class Vaccination {
     @OneToMany(targetEntity=Disease.class, cascade=CascadeType.ALL)
     private List<Disease> diseases;
 
-    @ManyToOne(targetEntity=Vaccination.class, cascade= CascadeType.DETACH)
-    private Vaccination vaccination;
-
     @ManyToMany(targetEntity=Clinic.class)
     private List<Clinic> clinics;
 
