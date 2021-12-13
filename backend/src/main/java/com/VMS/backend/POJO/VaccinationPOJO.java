@@ -59,6 +59,15 @@ public class VaccinationPOJO {
         this.diseases = diseases;
     }
 
-    
-
+    @Override
+    public String toString() {
+        return "VaccinationPOJO{" +
+                "vaccinationName='" + vaccinationName + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", numberOfShots=" + numberOfShots +
+                ", shotIntervalVal=" + shotIntervalVal +
+                ", duration=" + duration +
+                ", diseases=" + diseases +
+                '}';
+    }
 }

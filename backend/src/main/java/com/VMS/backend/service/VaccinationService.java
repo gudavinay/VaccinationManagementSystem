@@ -1,5 +1,6 @@
 package com.VMS.backend.service;
 
+
 import com.VMS.backend.POJO.VaccinationPOJO;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.Vaccination;
@@ -25,6 +26,7 @@ public class VaccinationService {
     private DiseaseRepository diseaseRepository;
 
     public ResponseEntity<?> addVaccination(VaccinationPOJO req ) throws IllegalAccessException {
+      System.out.println("Incoming vaccinationRequest: " +req.toString());
         Vaccination isVaccinationExists = vaccinationRepository.findByVaccinationName(req.getVaccinationName());
         if(isVaccinationExists == null){
             List<Disease> diseases=new ArrayList<>();

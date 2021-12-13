@@ -17,7 +17,10 @@ public class Vaccination {
     @NotNull
     private String vaccinationName;
 
-    @OneToMany(targetEntity=Disease.class, cascade=CascadeType.ALL)
+    @ManyToMany(targetEntity=Disease.class, cascade=CascadeType.ALL)
+    @JoinTable(name="vaccination_diseases",
+            joinColumns={@JoinColumn(name="vaccination_id")},
+            inverseJoinColumns={@JoinColumn(name="disease_id")})
     private List<Disease> diseases;
 
     @ManyToMany(targetEntity=Clinic.class)
