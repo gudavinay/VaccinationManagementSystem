@@ -35,4 +35,12 @@ public class AppointmentController {
     ) {
         return appointmentService.getAppointmentsForUser(user_mrn);
     }
+
+    @RequestMapping(value = "/getAllAppointmentsOnDate", method = RequestMethod.GET, produces = {
+            "application/json" })
+    public List<Appointment> getAllAppointmentsOnDate( 
+        @PathVariable("date") String date,
+        @PathVariable("clinic") int clinicId) {
+        return appointmentService.getAllAppointmentsOnDate(date,clinicId);
+    }
 }
