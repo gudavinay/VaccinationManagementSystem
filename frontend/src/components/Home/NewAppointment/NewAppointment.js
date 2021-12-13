@@ -138,7 +138,7 @@ class NewAppointment extends Component {
                                             this.setState({
                                                 selectedClinic: e.target.value,
                                                 selectedClinicFullInfo: item,
-                                                timeSlotsList: createTimeSlots(item.startBussinessHour, item.endBussinessHour, false)
+                                                timeSlotsList: createTimeSlots(this.state.selectedDate, item.startBussinessHour, item.endBussinessHour, false)
                                             });
                                         }}>
                                             {this.state.clinicData.map((element, index) =>
@@ -180,7 +180,7 @@ class NewAppointment extends Component {
                                     <Col>
                                         <Label>Select Date of appointment</Label>
                                         <input className="form-control" type="date" onChange={(e) => {
-                                            this.setState({ selectedDate: e.target.value, timeSlotsList: createTimeSlots(this.state.selectedClinicFullInfo.startBussinessHour, this.state.selectedClinicFullInfo.endBussinessHour, false) });
+                                            this.setState({ selectedDate: e.target.value, timeSlotsList: createTimeSlots(e.target.value, this.state.selectedClinicFullInfo.startBussinessHour, this.state.selectedClinicFullInfo.endBussinessHour, false) });
                                             this.getAllAppointmentsOnDate(e.target.value);
                                         }} min={this.state.minDate} max={this.state.maxDate} placeholder="mm-dd-yyyy" />
                                     </Col>
