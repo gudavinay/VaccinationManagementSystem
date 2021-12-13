@@ -15,6 +15,8 @@ import { createTimeSlots } from "../../Services/ControllerUtils";
 import axios from "axios";
 import moment from "moment";
 import {Redirect} from 'react-router-dom';
+import emailjs from 'emailjs-com';
+import{ init } from 'emailjs-com';
 class NewAppointment extends Component {
     constructor(props) {
         super(props);
@@ -47,6 +49,26 @@ class NewAppointment extends Component {
         }).catch(err => {
             this.setState({ vaccinationData: [], vaccinationError: true });
         })
+    }
+
+    sendEmailToClient(){
+        alert("booking successful");
+        init("user_VU6t0UaXlMzjO5o6MJQjc");
+        let data = {
+            to_name: "VINAY GGG TEST",
+            clinic_name: this.state.selectedClinicFullInfo.name,
+            vaccination_list: this.state.selectedVaccinations.toString(),
+            appointment_date: this.state.selectedDate,
+            start_time: this.state.selectedTime,
+            to_email: "vinayguda05@gmail.com",
+        };
+        console.log(data);
+        emailjs.send("service_10aywqh", "template_8ht3awb", data).then(resp => {
+            console.log(resp);
+        }).catch(err => {
+            console.log(err);
+        });
+        this.setState({ redirectVar: <Redirect to="/dashboard/bookings" /> });
     }
 
     getAllAppointmentsOnDate(date) { // TODO
@@ -95,6 +117,7 @@ class NewAppointment extends Component {
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200) {
+                    // this.sendEmailToClient(); // TODO: uncomment later to send email
                     this.setState({
                         isSuccess: true,
                         error: "",
