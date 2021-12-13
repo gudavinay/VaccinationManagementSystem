@@ -1,17 +1,12 @@
 package com.VMS.backend.service;
 
-import com.VMS.backend.entity.Appointment;
 import com.VMS.backend.entity.User;
-import com.VMS.backend.entity.Vaccination;
 import com.VMS.backend.repository.AppointmentRepository;
 import com.VMS.backend.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class PatientService {
@@ -43,13 +38,20 @@ public class PatientService {
     }
 
     //need to rework
-    public List<Vaccination> getVaccinationHistory (int user_mrn, Date current) {
-        try {
-            List<Appointment> appointmentList=appointmentRepository.findAllByUserMrn(user_mrn);
-
-        } catch (Exception ex) {
-            throw new IllegalArgumentException("Error getting vaccination history for user");
-        }
-        return null;
-    }
+//    public List<VaccinationHistoryPojo> getVaccinationHistory (int user_mrn, int isCheckedIn) {
+//        try {
+//            List<Vaccination> vaccinationList = new ArrayList<>();
+//            List<VaccinationHistoryPojo> vaccinationHistory=new ArrayList<>();
+//            List<Appointment> appointmentList=appointmentRepository.findAllByUserMrnAndIsCheckedIn(user_mrn, 1 );
+//            for(Appointment appointment: appointmentList){
+//                VaccinationHistoryPojo vp= new VaccinationHistoryPojo(appointment.getVaccinations(), appointment.getClinic(), appointment.getAppointmentDateTime());
+//                vaccinationHistory.add(vp);
+//            }
+//            return vaccinationHistory;
+//
+//        } catch (Exception ex) {
+//            throw new IllegalArgumentException("Error getting vaccination history for user");
+//        }
+//
+//    }
 }

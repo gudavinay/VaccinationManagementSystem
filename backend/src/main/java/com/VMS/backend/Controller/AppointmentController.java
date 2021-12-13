@@ -44,4 +44,12 @@ public class AppointmentController {
         @RequestParam("clinicId") int clinicId) throws ParseException {
         return appointmentService.getAllAppointmentsOnDate(date,clinicId);
     }
+
+    @RequestMapping(value = "/getCheckedInAppointmentsForUser/{user_mrn}", method = RequestMethod.GET, produces = {
+            "application/json" })
+    public List<Appointment> getCheckedInAppointmentsForUser(
+            @PathVariable("user_mrn") int user_mrn
+    ) {
+        return appointmentService.getCheckedInAppointmentsForUser(user_mrn,1);
+    }
 }

@@ -69,4 +69,12 @@ public class AppointmentService {
         }
         return listOfTimes;
     }
+
+    public List<Appointment> getCheckedInAppointmentsForUser(int user_mrn ,int isCheckedIn) {
+        try {
+            return appointmentRepository.findAllByUserMrnAndIsChecked(user_mrn, 1);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Error getting appointments for user");
+        }
+    }
 }

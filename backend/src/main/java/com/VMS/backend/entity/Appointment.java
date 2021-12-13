@@ -30,18 +30,18 @@ public class Appointment {
     @ManyToOne(targetEntity=User.class, cascade= CascadeType.DETACH)
     private User user;
 
-    private int isCheckedIn; // 0- future appointment, 1- CheckedIn, 2- NoShow, 3- Cancelled
+    private int isChecked; // 0- future appointment, 1- CheckedIn, 2- NoShow, 3- Cancelled
 
     public Appointment() {
     }
 
     public Appointment(Date appointmentDateTime, List<Vaccination> vaccinations, Clinic clinic, User user,
-                       int isCheckedIn, Date createdDate, String appointmentDateStr, String appointmentTimeStr) {
+                       int isChecked, Date createdDate, String appointmentDateStr, String appointmentTimeStr) {
         this.appointmentDateTime = appointmentDateTime;
         this.vaccinations = vaccinations;
         this.clinic = clinic;
         this.user = user;
-        this.isCheckedIn = isCheckedIn;
+        this.isChecked = isChecked;
         this.createdDate = createdDate;
         this.appointmentDateStr = appointmentDateStr;
         this.appointmentTimeStr = appointmentTimeStr;
@@ -76,11 +76,11 @@ public class Appointment {
     public void setUser(User user) {
         this.user = user;
     }
-    public int getIsCheckedIn() {
-        return isCheckedIn;
+    public int getIsChecked() {
+        return isChecked;
     }
-    public void setIsCheckedIn(int isCheckedIn) {
-        this.isCheckedIn = isCheckedIn;
+    public void setIsChecked(int isChecked) {
+        this.isChecked = isChecked;
     }
 
     public Date getCreatedDate() {
