@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Alert, Button, Container } from "react-bootstrap";
 import { Form, FormGroup, Label, Input } from "reactstrap";
+import backendServer from "../../webConfig";
+import axios from "axios";
+import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -12,18 +15,55 @@ class Login extends Component {
     };
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    let data = { ...this.state };
-    this.setState({
-      email: "",
-      password: "",
-    });
-    console.log(data);
-    //login
+    console.log(`${backendServer}/login`);
+    var data={
+      email:this.state.email,
+      password:this.state.password
+    }
+    axios.defaults.headers["Access-Control-Allow-Origin"] = true;
+    axios.post(`${backendServer}/login`, data)
+      .then((response) => {
+        console.log("Status Code : ", response.status);
+        if (response.status === 200) {
+          this.setState({
+            isSuccess: true,
+            loginError: "",
+          });
+          this.SetLocalStorage(JSON.stringify(response.data));
+        } else {
+          this.setState({
+            loginError: "Unable to verify user",
+            authFlag: false,
+            error: {},
+          });
+        }
+      })
+      .catch(() => {
+        this.setState({
+          loginError: "Unable to verify user",
+          authFlag: false,
+        });
+      });
   };
 
+
+  // handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   let data = { ...this.state };
+  //   this.setState({
+  //     email: "",
+  //     password: "",
+  //   });
+  //   console.log(data);
+  //   //login
+  // };
+
   render = () => {
+    if(this.state.isSuccess)
+    return <Redirect to= "/appointments"/>
+    else{
     return (
       <>
         <Container style={{ border: "1px solid #ddd" }}>
@@ -65,6 +105,7 @@ class Login extends Component {
         </Container>
       </>
     );
+          }
   };
 }
 

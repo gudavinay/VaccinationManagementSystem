@@ -1,5 +1,6 @@
 package com.VMS.backend.Controller;
 
+import com.VMS.backend.POJO.LoginPOJO;
 import com.VMS.backend.entity.User;
 import com.VMS.backend.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,9 @@ public class PatientController {
         }
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = { "application/json", "application/xml" })
-    public ResponseEntity<?> loginUser(@RequestBody User req) {
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = { "application/json" })
+    public ResponseEntity<?> loginUser(@RequestBody LoginPOJO req) {
         try {
-            System.out.println("came here 111111");
             return patientService.loginUser(req);
         } catch (IllegalArgumentException ex) {
             return null;

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Alert, Button, Container } from "react-bootstrap";
 import { Form, FormGroup, Label, Input, ButtonGroup } from "reactstrap";
+import backendServer from "../../webConfig";
+import axios from "axios"
 
 class SignUp extends Component {
   constructor(props) {
@@ -24,30 +26,59 @@ class SignUp extends Component {
     };
   }
 
-  handleSubmit = (e) => {
+//   handleSubmit = (e) => {
+//     e.preventDefault();
+//     if (this.props.allEmails.contains(this.state.email)) {
+//       this.setState({ emailExists: true });
+//     } else {
+//       let data = { ...this.state };
+//       this.setState({
+//         firstName: "",
+//         middleName: "",
+//         lastName: "",
+//         email: "",
+//         password: "",
+//         gender: 1,
+//         dob: "",
+//         street: "",
+//         number: "",
+//         city: "",
+//         state: "",
+//         zipcode: "",
+//       });
+//       console.log(data);
+//     }
+//     //SignUp
+//   };
+
+
+  handleSubmit = async e => {
     e.preventDefault();
-    if (this.props.allEmails.contains(this.state.email)) {
-      this.setState({ emailExists: true });
-    } else {
-      let data = { ...this.state };
-      this.setState({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        gender: 1,
-        dob: "",
-        street: "",
-        number: "",
-        city: "",
-        state: "",
-        zipcode: "",
-      });
-      console.log(data);
-    }
-    //SignUp
-  };
+    axios.defaults.withCredentials = true;
+    axios.post(`http://localhost:3001/signup`, this.state)``.then((response) => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 200) {
+                this.setState({
+                    isSuccess: true,
+                    loginError: ""
+                });
+                this.SetLocalStorage(JSON.stringify(response.data));
+            } else {
+                this.setState({
+                    loginError: "User is already registered",
+                    authFlag: false,
+                    error: {},
+                });
+            }
+        })
+        .catch(() => {
+            this.setState({
+                loginError: "User is already registered",
+                authFlag: false,
+            });
+        });
+
+};
 
   render = () => {
     // console.log(this.props);
