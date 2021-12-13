@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class LogIn extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -10,4 +10,4 @@ class LogIn extends Component {
   };
 }
 
-export default LogIn;
+export default Login;

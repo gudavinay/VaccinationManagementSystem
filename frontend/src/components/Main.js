@@ -11,7 +11,7 @@ import VaccinationsDue from "./Home/VaccinationsDue/VaccinationsDue";
 import Landing from "./Landing/Landing";
 import Navbar from "./Navbar/Navbar";
 import SignUp from "./SignUp/SignUp";
-import LogIn from "./LogIn/LogIn";
+import Login from "./Login/Login";
 
 class Main extends Component {
   render() {
@@ -19,7 +19,7 @@ class Main extends Component {
       <React.Fragment>
         <Navbar />
         <Route exact path="/" component={Landing} />
-        <Route path="/login" component={LogIn} />
+        <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/addClinic" component={AddClinic} />
