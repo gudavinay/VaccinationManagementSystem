@@ -72,7 +72,7 @@ public class AppointmentService {
 
     public List<Appointment> getCheckedInAppointmentsForUser(int user_mrn) {
         try {
-            return appointmentRepository.findAllByUserMrnAndIsChecked(user_mrn, 1);
+            return appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, 1);
         } catch (Exception ex) {
             throw new IllegalArgumentException("Error getting appointments for user");
         }
