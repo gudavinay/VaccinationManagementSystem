@@ -8,17 +8,19 @@ public class AppointmentPOJO {
     private int clinic;
     private int userId;
     private String userEmail;
+    private String  createdDate;
     
     public AppointmentPOJO() {
     }
 
 
-    public AppointmentPOJO(String appointmentDateTime, List<Integer> vaccinations, int clinic, int userId, String userEmail) {
+    public AppointmentPOJO(String appointmentDateTime, List<Integer> vaccinations, int clinic, int userId, String userEmail, String createdDate) {
         this.appointmentDateTime = appointmentDateTime;
         this.vaccinations = vaccinations;
         this.clinic = clinic;
         this.userId = userId;
         this.userEmail = userEmail;
+        this.createdDate=createdDate;
     }
 
 
@@ -70,7 +72,24 @@ public class AppointmentPOJO {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-    
 
-    
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public String toString() {
+        return "AppointmentPOJO{" +
+                "appointmentDateTime='" + appointmentDateTime + '\'' +
+                ", vaccinations=" + vaccinations +
+                ", clinic=" + clinic +
+                ", userId=" + userId +
+                ", userEmail='" + userEmail + '\'' +
+                ", createdDate='" + createdDate + '\'' +
+                '}';
+    }
 }

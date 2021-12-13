@@ -44,7 +44,7 @@ public class AppointmentService {
                 Optional<Vaccination> v = vaccinationRepository.findById(i);
                 v.ifPresent(vaccinations::add);
             }
-            Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0);
+            Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()));
             Appointment res = appointmentRepository.save(appointment);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (Exception ex) {
