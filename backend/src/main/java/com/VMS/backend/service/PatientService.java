@@ -24,17 +24,30 @@ public class PatientService {
     public ResponseEntity<?> createUser(User req) {
         User isUser =patientRepository.findByEmail(req.getEmail());
         if (isUser == null) {
-            int mrn=this.getRandomNumber(100,99999);
+            //int mrn=this.getRandomNumber(100,99999);
             boolean isAdmin=false;
             if(req.getEmail().endsWith("sjsu.edu")){
                 isAdmin=true;
             }
             User newPatient = new User(req.getFirstName(), req.getLastName(), req.getMiddleName(),req.getEmail(),
-                    req.getDob(), req.getGender(), req.getAddress(), req.isVerified() , mrn, isAdmin);
+                    req.getDob(), req.getGender(), req.getAddress(), req.isVerified() , isAdmin, req.getPassword());
             User res = patientRepository.save(newPatient);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
             throw new IllegalArgumentException("Another patient with the same email already exists.");
+        }
+    }
+
+    public ResponseEntity<?> loginUser(User req) {
+        User isUser =patientRepository.findByEmail(req.getEmail());
+        if(isUser==null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }else{
+            if(req.getPassword()==isUser.getPassword()){
+                return new ResponseEntity<>(isUser, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
+            }
         }
     }
 

@@ -35,6 +35,16 @@ public class User {
     private boolean isVerified;
     private boolean role;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+
     @OneToMany(targetEntity = Vaccination.class, cascade = CascadeType.ALL)
     private List<Vaccination> vaccinations;
 
@@ -42,16 +52,17 @@ public class User {
     private List<Appointment> appointments;
 
     public User(String firstName, String lastName, String middleName, String email, String dob, String gender,
-            Address address, boolean isVerified, int mrn, boolean role) {
+            Address address, boolean isVerified, boolean role, String password) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
-        this.mrn = mrn;
+        //this.mrn = mrn;
         this.gender = gender;
         this.address = address;
         this.isVerified = isVerified;
         this.role = role;
+        this.password=password;
     }
 
     public User() {

@@ -21,4 +21,14 @@ public class PatientController {
             return null;
         }
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = {"application/json", "application/xml"})
+    public ResponseEntity<?> loginUser(@RequestBody User req){
+        try {
+            System.out.println("came here 111111");
+            return patientService.loginUser(req);
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+    }
 }
