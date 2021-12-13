@@ -23,9 +23,6 @@ public class Vaccination {
             inverseJoinColumns={@JoinColumn(name="disease_id")})
     private List<Disease> diseases;
 
-    @ManyToMany(targetEntity=Clinic.class)
-    private List<Clinic> clinics;
-
     private String manufacturer;
     private int numberOfShots;
     private int shotInternalVal;
