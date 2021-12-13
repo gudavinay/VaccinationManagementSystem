@@ -11,7 +11,7 @@ import VaccinationsDue from "./Home/VaccinationsDue/VaccinationsDue";
 import Landing from "./Landing/Landing";
 import Navbar from "./Navbar/Navbar";
 import SignUp from "./SignUp/SignUp";
-import Login from "./Login/Login";
+import Login from "./UserAuth/Login";
 
 class Main extends Component {
   render() {
