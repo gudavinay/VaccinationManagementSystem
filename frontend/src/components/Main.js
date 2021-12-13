@@ -10,7 +10,7 @@ import VaccinationHistory from "./Home/VaccinationHistory/VaccinationHistory";
 import VaccinationsDue from "./Home/VaccinationsDue/VaccinationsDue";
 import Landing from "./Landing/Landing";
 import Navbar from "./Navbar/Navbar";
-import SignUp from "./UserAuth/SignUp";
+import SignUp from "./SignUp/SignUp";
 import Login from "./LogIn/LogIn";
 
 class Main extends Component {

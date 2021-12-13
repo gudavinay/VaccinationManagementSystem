@@ -1,5 +1,6 @@
 package com.VMS.backend.service;
 
+import com.VMS.backend.POJO.LoginPOJO;
 import com.VMS.backend.entity.User;
 import com.VMS.backend.repository.AppointmentRepository;
 import com.VMS.backend.repository.PatientRepository;
@@ -34,17 +35,19 @@ public class PatientService {
         }
     }
 
-    public ResponseEntity<?> loginUser(User req) {
-        User isUser = patientRepository.findByEmail(req.getEmail());
-        if (isUser == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } else {
-            if (req.getPassword() == isUser.getPassword()) {
-                return new ResponseEntity<>(isUser, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
-            }
-        }
+    public ResponseEntity<?> loginUser(LoginPOJO req) {
+        System.out.println("came here 222222");
+        return null;
+//        User isUser = patientRepository.findByEmail(req.getEmail());
+//        if (isUser == null) {
+//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//        } else {
+//            if (req.getPassword() == isUser.getPassword()) {
+//                return new ResponseEntity<>(isUser, HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
+//            }
+//        }
     }
 
     public List<String> getAllEmails() {
