@@ -50,6 +50,6 @@ public class AppointmentController {
     public List<Appointment> getCheckedInAppointmentsForUser(
             @PathVariable("user_mrn") int user_mrn
     ) {
-        return appointmentService.getCheckedInAppointmentsForUser(user_mrn,1);
+        return appointmentService.getCheckedInAppointmentsForUser(user_mrn);
     }
 }
