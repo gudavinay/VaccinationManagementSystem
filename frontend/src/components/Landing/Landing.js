@@ -17,7 +17,7 @@ class Landing extends Component {
         }}
       >
         <Link to="/dashboard">Dummy Link to Dashboard</Link>
-        <Link to="/login">LogIn</Link>
+        <Link to="/login">Login</Link>
         <Link to="/signup">SignUp</Link>
       </div>
     );

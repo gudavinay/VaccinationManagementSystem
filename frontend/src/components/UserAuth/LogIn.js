@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import backendServer from "./../../webConfig";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +37,7 @@ class Login extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     axios.defaults.withCredentials = true;
-    axios.post(`http://localhost:3001/signup`, this.state.userInfo)``
+    axios.post(`${backendServer}/login`, this.state.userInfo)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
@@ -92,7 +93,7 @@ class Login extends Component {
                   <Col>
                     <FormGroup>
                       <Label htmlFor="email">
-                        <strong>email address</strong>
+                        <strong>Email</strong>
                       </Label>
                       <Input
                         data-testid="email-input-box"
@@ -108,7 +109,7 @@ class Login extends Component {
                   <Col>
                     <FormGroup>
                       <Label htmlFor="password">
-                        <strong>password</strong>
+                        <strong>Password</strong>
                       </Label>
                       <Input
                         type="password"
