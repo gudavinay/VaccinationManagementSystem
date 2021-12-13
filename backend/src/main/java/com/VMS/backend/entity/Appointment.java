@@ -12,6 +12,8 @@ public class Appointment {
 
     private Date appointmentDateTime;
 
+    private Date createdDate;
+
     @OneToMany(targetEntity=Vaccination.class, cascade= CascadeType.ALL)
     private List<Vaccination> vaccinations; // make validation for upto 4
 
@@ -27,12 +29,13 @@ public class Appointment {
     }
 
     public Appointment(Date appointmentDateTime, List<Vaccination> vaccinations, Clinic clinic, User user,
-                       int isCheckedIn) {
+                       int isCheckedIn, Date createdDate) {
         this.appointmentDateTime = appointmentDateTime;
         this.vaccinations = vaccinations;
         this.clinic = clinic;
         this.user = user;
         this.isCheckedIn = isCheckedIn;
+        this.createdDate = createdDate;
     }
     public int getAppointmentId() {
         return appointmentId;
@@ -70,9 +73,12 @@ public class Appointment {
     public void setIsCheckedIn(int isCheckedIn) {
         this.isCheckedIn = isCheckedIn;
     }
-   
-    
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 
-    
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 }
