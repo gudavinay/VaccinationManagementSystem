@@ -4,7 +4,7 @@ import { Button, Container, Row, Col } from "react-bootstrap";
 import { firebase } from "./../../Firebase/firebase";
 import axios from "axios";
 import backendServer from "../../webConfig";
-import LogIn from "../LogIn/LogIn";
+import Login from "../Login/Login";
 import SignUp from "../SignUp/SignUp";
 
 class Landing extends Component {
@@ -143,7 +143,7 @@ class Landing extends Component {
             >
               <div style={{ width: "80%", margin: "auto" }}>
                 {this.state.logInFlag ? (
-                  <LogIn />
+                  <Login />
                 ) : (
                   <SignUp allEmails={this.state.allEmails} />
                 )}
