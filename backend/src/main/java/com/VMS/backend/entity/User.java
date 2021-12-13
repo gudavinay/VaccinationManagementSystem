@@ -57,21 +57,22 @@ public class User {
     @OneToMany(targetEntity = Vaccination.class, cascade = CascadeType.ALL)
     private List<Vaccination> vaccinations;
 
-    @OneToMany(targetEntity=Appointment.class, cascade=CascadeType.ALL)
+    @OneToMany(targetEntity = Appointment.class, cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
-    public User(String firstName, String lastName, String middleName, String email, String dob, String gender,
+    public User(int mrn, String firstName, String lastName, String middleName, String email, String dob, String gender,
             Address address, boolean isVerified, boolean isAdmin, String password) {
+        this.mrn = mrn;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.middleName = middleName;
         this.dob = dob;
-        //this.mrn = mrn;
         this.gender = gender;
         this.address = address;
         this.isVerified = isVerified;
         this.isAdmin = isAdmin;
-        this.password=password;
+        this.password = password;
     }
 
     public User() {

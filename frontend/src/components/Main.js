@@ -10,14 +10,14 @@ import VaccinationHistory from "./Home/VaccinationHistory/VaccinationHistory";
 import VaccinationsDue from "./Home/VaccinationsDue/VaccinationsDue";
 import Landing from "./Landing/Landing";
 import Navbar from "./Navbar/Navbar";
-import SignUp from "./SignUp/SignUp";
-import Login from "./UserAuth/Login";
+import SignUp from "./UserAuth/SignUp";
+import Login from "./LogIn/LogIn";
 
 class Main extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar />
+        {localStorage.getItem("user") ? <Navbar /> : null}
         <Route exact path="/" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />

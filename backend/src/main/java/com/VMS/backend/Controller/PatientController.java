@@ -6,15 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class PatientController {
 
     @Autowired
     private PatientService patientService;
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = {"application/json", "application/xml"})
+    @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = { "application/json",
+            "application/xml" })
     public ResponseEntity<?> createPatient(
-            @RequestBody User req){
+            @RequestBody User req) {
         try {
             return patientService.createUser(req);
         } catch (IllegalArgumentException ex) {
@@ -22,13 +25,18 @@ public class PatientController {
         }
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = {"application/json", "application/xml"})
-    public ResponseEntity<?> loginUser(@RequestBody User req){
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = { "application/json", "application/xml" })
+    public ResponseEntity<?> loginUser(@RequestBody User req) {
         try {
             System.out.println("came here 111111");
             return patientService.loginUser(req);
         } catch (IllegalArgumentException ex) {
             return null;
         }
+    }
+
+    @RequestMapping(value = "/allEmails", method = RequestMethod.GET, produces = { "application/json" })
+    public List<String> getAllEmails() {
+        return patientService.getAllEmails();
     }
 }
