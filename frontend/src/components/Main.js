@@ -8,15 +8,18 @@ import Dashboard from "./Home/Dashboard/Dashboard";
 import NewAppointment from "./Home/NewAppointment/NewAppointment";
 import VaccinationHistory from "./Home/VaccinationHistory/VaccinationHistory";
 import VaccinationsDue from "./Home/VaccinationsDue/VaccinationsDue";
+import Landing from "./Landing/Landing";
 import Navbar from "./Navbar/Navbar";
 import SignUp from "./SignUp/SignUp";
+import LogIn from "./LogIn/LogIn";
 
 class Main extends Component {
   render() {
     return (
       <React.Fragment>
         <Navbar />
-        <Route exact path="/" component={SignUp} />
+        <Route exact path="/" component={Landing} />
+        <Route path="/login" component={LogIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/addClinic" component={AddClinic} />

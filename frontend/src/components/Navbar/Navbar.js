@@ -1,47 +1,63 @@
 import React, { Component } from "react";
 import { Nav } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
-import { DatePicker } from '@mui/lab';
+import { DatePicker } from "@mui/lab";
 import { Link } from "react-router-dom";
 import { TextField } from "@mui/material";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import moment from "moment";
-import Clock from 'react-live-clock';
+import Clock from "react-live-clock";
 
 class NavigationBar extends Component {
   constructor(props) {
     let today = new Date(moment());
-    let maxDate = new Date(moment().add(1, 'year'));
+    let maxDate = new Date(moment().add(1, "year"));
     super(props);
     this.state = {
       isAdmin: false,
       currentTime: new Date(today),
-      maxDate: maxDate
+      maxDate: maxDate,
     };
   }
   render() {
     return (
-      <div style={{ marginBottom: "5%" }}>
-        <Navbar className="justify-content-end" expand="lg" bg="dark" variant="dark" fixed="top">
-          <Navbar.Brand ><Link to="/dashboard">Vaccination Management System </Link></Navbar.Brand>
+      <div style={{ marginBottom: "10%" }}>
+        <Navbar
+          className="justify-content-end"
+          expand="lg"
+          bg="dark"
+          variant="dark"
+          fixed="top"
+        >
+          <Navbar.Brand>
+            <Link to="/dashboard">Vaccination Management System </Link>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               {/* {this.state.isAdmin ?  */}
               <AdminSnippet /> : <UserSnippet />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                label="GLOBAL DATE"
-                value={this.state.currentTime}
-                onChange={(e)=>{
-                  this.setState({currentTime:e});
-                }}
-                renderInput={(params) => <TextField {...params} />}
-                minDate={this.state.currentTime}
-                maxDate={this.state.maxDate}
-              />
-              <div style={{color:'whitesmoke'}}>Global Clock: {moment(this.state.currentTime).format("MMM Do YYYY")} <Clock format={'HH:mm:ss'} ticking={true} timezone={'US/Pacific'} /></div>
+                <DatePicker
+                  label="GLOBAL DATE"
+                  value={this.state.currentTime}
+                  onChange={(e) => {
+                    this.setState({ currentTime: e });
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                  minDate={this.state.currentTime}
+                  maxDate={this.state.maxDate}
+                />
+                <div style={{ color: "whitesmoke" }}>
+                  Global Clock:{" "}
+                  {moment(this.state.currentTime).format("MMM Do YYYY")}{" "}
+                  <Clock
+                    format={"HH:mm:ss"}
+                    ticking={true}
+                    timezone={"US/Pacific"}
+                  />
+                </div>
               </LocalizationProvider>
               {this.state.today}
               {/* {this.state.maxDate} */}
@@ -57,50 +73,41 @@ class NavigationBar extends Component {
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
-        </Navbar >
-      </div >
+        </Navbar>
+      </div>
     );
   }
 }
 
 const AdminSnippet = () => {
-  return <React.Fragment>
-    <Nav.Link >
-      <Link to="/addDisease">
-        Add Disease
-      </Link>
-    </Nav.Link>
-    <Nav.Link >
-      <Link to="/addClinic">
-        Add Clinic
-      </Link>
-    </Nav.Link>
-    <Nav.Link >
-      <Link to="/addVaccination">
-        Add Vaccination
-      </Link>
-    </Nav.Link>
-  </React.Fragment>
-
-}
+  return (
+    <React.Fragment>
+      <Nav.Link>
+        <Link to="/addDisease">Add Disease</Link>
+      </Nav.Link>
+      <Nav.Link>
+        <Link to="/addClinic">Add Clinic</Link>
+      </Nav.Link>
+      <Nav.Link>
+        <Link to="/addVaccination">Add Vaccination</Link>
+      </Nav.Link>
+    </React.Fragment>
+  );
+};
 const UserSnippet = () => {
-  return <React.Fragment>
-  <Nav.Link >
-    <Link to="/vaccinationHistory">
-      Vaccination History
-    </Link>
-  </Nav.Link>
-    <Nav.Link >
-      <Link to="/appointments">
-        Appointments
-      </Link>
-    </Nav.Link>
-    <Nav.Link >
-      <Link to="/vaccinationsDue">
-        Vaccinations Due
-      </Link>
-    </Nav.Link>
-  </React.Fragment>
-}
+  return (
+    <React.Fragment>
+      <Nav.Link>
+        <Link to="/vaccinationHistory">Vaccination History</Link>
+      </Nav.Link>
+      <Nav.Link>
+        <Link to="/appointments">Appointments</Link>
+      </Nav.Link>
+      <Nav.Link>
+        <Link to="/vaccinationsDue">Vaccinations Due</Link>
+      </Nav.Link>
+    </React.Fragment>
+  );
+};
 
 export default NavigationBar;

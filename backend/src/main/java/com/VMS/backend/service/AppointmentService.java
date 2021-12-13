@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,33 +34,29 @@ public class AppointmentService {
     @Autowired
     private PatientRepository patientRepository;
 
-    public ResponseEntity<?> createAppointment(String date, User userId, List<Vaccination> vaccine, Clinic clinic) throws ParseException, IllegalAccessException {
-        try{
-            SimpleDateFormat formatter = new SimpleDateFormat();
-            Appointment appointment = new Appointment(formatter.parse(date), vaccine,clinic,userId,0);
-            Appointment res = appointmentRepository.save(appointment);
-            return new ResponseEntity<>(res, HttpStatus.OK);
-        }catch (Exception ex){
-            throw new IllegalAccessException("Error in creating appointment");
-        }
-    }
-
     public ResponseEntity<?> createAppointment(AppointmentPOJO req) throws IllegalAccessException {
-        try{
+        try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            List<Vaccination> vaccinations=new ArrayList<>();
+            List<Vaccination> vaccinations = new ArrayList<>();
             User u = patientRepository.findByEmail(req.getUserEmail());
             Optional<Clinic> c = clinicRepository.findById(req.getClinic());
-            for(int i:req.getVaccinations()){
-                Optional<Vaccination> v= vaccinationRepository.findById(i);
-                if(v.isPresent())
-                    vaccinations.add(v.get());
+            for (int i : req.getVaccinations()) {
+                Optional<Vaccination> v = vaccinationRepository.findById(i);
+                v.ifPresent(vaccinations::add);
             }
             Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0);
             Appointment res = appointmentRepository.save(appointment);
             return new ResponseEntity<>(res, HttpStatus.OK);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new IllegalAccessException("Error in creating appointment");
+        }
+    }
+
+    public List<Appointment> getAppointmentsForUser(int user_mrn) {
+        try {
+            return appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Error getting appointments for user");
         }
     }
 }

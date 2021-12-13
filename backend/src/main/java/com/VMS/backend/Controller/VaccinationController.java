@@ -1,6 +1,5 @@
 package com.VMS.backend.Controller;
 
-
 import com.VMS.backend.POJO.VaccinationPOJO;
 import com.VMS.backend.entity.Vaccination;
 import com.VMS.backend.service.VaccinationService;
@@ -19,31 +18,31 @@ public class VaccinationController {
     @Autowired
     private VaccinationService vaccinationService;
 
-    @RequestMapping(value = "/addVaccination", method = RequestMethod.POST, produces ={"application/json"})
-    public ResponseEntity<?> addVaccination(@RequestBody VaccinationPOJO req){
+    @RequestMapping(value = "/addVaccination", method = RequestMethod.POST, produces = { "application/json" })
+    public ResponseEntity<?> addVaccination(@RequestBody VaccinationPOJO req) {
         try {
             return vaccinationService.addVaccination(req);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
         }
     }
 
-    @RequestMapping(value = "/getAllVaccinations", method = RequestMethod.GET, produces = {"application/json"})
-    public List<Vaccination> getAllVaccinations(){
+    @RequestMapping(value = "/getAllVaccinations", method = RequestMethod.GET, produces = { "application/json" })
+    public List<Vaccination> getAllVaccinations() {
         return vaccinationService.getAllVaccinations();
     }
 
-    @RequestMapping(value = "/vaccination/{vaccinationId}", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/vaccination/{vaccinationId}", method = RequestMethod.GET, produces = {
+            "application/json" })
     public ResponseEntity<?> getVaccinationById(
-            @PathVariable("vaccinationId") int vaccinationId
-    ) throws NotFoundException {
+            @PathVariable("vaccinationId") int vaccinationId) throws NotFoundException {
         return vaccinationService.getVaccinationById(vaccinationId);
     }
 
-    @RequestMapping(value = "/vaccination/{vaccinationName}", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/vaccination/{vaccinationName}", method = RequestMethod.GET, produces = {
+            "application/json" })
     public ResponseEntity<?> getVaccinationByName(
-            @PathVariable("vaccinationName") String vaccinationName
-    ) throws NotFoundException {
+            @PathVariable("vaccinationName") String vaccinationName) throws NotFoundException {
         return vaccinationService.getVaccinationByName(vaccinationName);
     }
 }
