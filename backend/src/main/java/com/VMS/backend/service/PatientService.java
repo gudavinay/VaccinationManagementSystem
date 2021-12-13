@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,9 +43,9 @@ public class PatientService {
     }
 
     //need to rework
-    public List<Vaccination> getVaccinationHistory (int user_mrn) {
+    public List<Vaccination> getVaccinationHistory (int user_mrn, Date current) {
         try {
-            List<Appointment> appointmentList=appointmentRepository.findAllByUserMrnAndAppointmentDateTimeBefore(user_mrn);
+            List<Appointment> appointmentList=appointmentRepository.findAllByUserMrn(user_mrn);
 
         } catch (Exception ex) {
             throw new IllegalArgumentException("Error getting vaccination history for user");
