@@ -16,9 +16,6 @@ public class Disease {
     private int diseaseId;
     private String diseaseDesc;
 
-    @ManyToOne(targetEntity=Disease.class, cascade=CascadeType.ALL)
-    private Vaccination vaccination;
-    
     public Disease(String diseaseName, String diseaseDesc) {
         this.diseaseName = diseaseName;
         this.diseaseDesc = diseaseDesc;
