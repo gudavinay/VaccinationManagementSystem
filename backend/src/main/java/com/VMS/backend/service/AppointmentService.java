@@ -50,9 +50,10 @@ public class AppointmentService {
             if(appointment.isPresent()){
                 res=appointment.get();
                 res.setClinic(c.get());
+                res.setVaccinations(vaccinations);
                 res.setAppointmentDateTime(formatter.parse(req.getAppointmentDateTime()));
-                res.setAppointmentDateStr(req.getAppointmentDateTime());
-                res.setAppointmentDateStr(req.getAppointmentDateTime());
+                res.setAppointmentDateStr(req.getAppointmentDateStr());
+                res.setAppointmentTimeStr(req.getAppointmentTimeStr());
             }else{
                 res = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()),req.getAppointmentDateStr(),req.getAppointmentTimeStr());
             }
