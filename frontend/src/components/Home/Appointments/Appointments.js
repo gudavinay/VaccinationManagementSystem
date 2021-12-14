@@ -21,6 +21,23 @@ class Appointments extends Component {
     };
   }
 
+  handleCancelAppointment = (appointment) => {
+    console.log(appointment);
+    var data={
+      appointmentID:appointment.appointmentId,
+    };
+    axios.post(`${backendServer}/cancelAppointment`, data).then((response) => {
+      if (response.status === 200) {
+        alert(response.data);
+        this.getAppointmentsForUser();
+      }
+    });
+  };
+
+  handleUpdateAppointment=(appointment) => {
+
+  }
+
   handleCheckin = (appointment) => {
     console.log(appointment);
     let userData = getUserProfile();
@@ -77,15 +94,33 @@ class Appointments extends Component {
                   {item.appointmentTimeStr}
                 </div>
                 <div>
+                  <Col>
+                  <Button
+                      variant="primary"
+                      onClick={(e) => this.handleCancelAppointment(item)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      style={{margin:"20px"}}
+                      variant="primary"
+                      onClick={(e) => this.handleUpdateAppointment(item)}
+                    >
+                      Update
+                    </Button>
+                  
                   {/* {(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') } */}
                   {!item.isChecked ? (
                     <Button
                       variant="primary"
+                      style={{marginLeft:"20px"}}
                       onClick={(e) => this.handleCheckin(item)}
                       disabled={(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') > 86400}
                     >
                       Check In
                     </Button>
+
+                    
                   ) : (
                     <Button
                       variant="primary"
@@ -94,6 +129,7 @@ class Appointments extends Component {
                       Checked In
                     </Button>
                   )}
+                  </Col>
                 </div>
               </Col>
               <Col>

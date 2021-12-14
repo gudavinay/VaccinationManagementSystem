@@ -36,7 +36,7 @@ public class AppointmentService {
 
     public ResponseEntity<?> createAppointment(AppointmentPOJO req) throws IllegalAccessException {
         try {
-            Appointment appointment=null;
+            Appointment res=null;
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
             List<Vaccination> vaccinations = new ArrayList<>();
             User u = patientRepository.findByEmail(req.getUserEmail());
@@ -46,17 +46,18 @@ public class AppointmentService {
                 v.ifPresent(vaccinations::add);
             }
             getAppointmentVaccinationDue(vaccinations,req.getUserId());
-            appointment=appointmentRepository.getById(req.getAppointmentID());
-            if(appointment!=null){
-                appointment.setClinic(c.get());
-                appointment.setAppointmentDateTime(formatter.parse(req.getAppointmentDateTime()));
-                appointment.setAppointmentDateStr(req.getAppointmentDateTime());
-                appointment.setAppointmentDateStr(req.getAppointmentDateTime());
+            Optional<Appointment> appointment=appointmentRepository.findById(req.getAppointmentID());
+            if(appointment.isPresent()){
+                res=appointment.get();
+                res.setClinic(c.get());
+                res.setAppointmentDateTime(formatter.parse(req.getAppointmentDateTime()));
+                res.setAppointmentDateStr(req.getAppointmentDateTime());
+                res.setAppointmentDateStr(req.getAppointmentDateTime());
             }else{
-                appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()),req.getAppointmentDateStr(),req.getAppointmentTimeStr());
+                res = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()),req.getAppointmentDateStr(),req.getAppointmentTimeStr());
             }
-            Appointment res = appointmentRepository.save(appointment);
-            return new ResponseEntity<>(res, HttpStatus.OK);
+            Appointment saveAppointment = appointmentRepository.save(res);
+            return new ResponseEntity<>(saveAppointment, HttpStatus.OK);
         } catch (Exception ex) {
             throw new IllegalAccessException("Error in creating appointment");
         }
