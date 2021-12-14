@@ -25,6 +25,11 @@ public class UserVaccinationService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
+    public ResponseEntity<?> getVaccineNewDate(int mrn){
+         List<UserVaccinations> res=userVaccinationRepository.findByUserId(mrn);
+         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
     public ResponseEntity<?> addUserVaccinationCheckIn(UserVaccinationPOJO req ) {
         List<Vaccination> vaccinationList = req.getVaccinations();
         List<UserVaccinations> userVaccinations=new ArrayList<>();
