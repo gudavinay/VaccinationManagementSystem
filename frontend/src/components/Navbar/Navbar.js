@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Nav } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import { DatePicker } from "@mui/lab";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -19,19 +19,21 @@ class NavigationBar extends Component {
       isAdmin: false,
       currentTime: getMimicTime(),
       maxDate: maxDate,
+      signOut: false,
     };
   }
   signOut = () => {
     firebase.auth().signOut();
-    this.setState({ signOut: true });
     localStorage.clear();
+    this.setState({ signOut: true });
   };
   render() {
+    if (this.state.signOut) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div style={{ marginBottom: "10%" }}>
-        {this.props.history && this.state.signOut
-          ? this.props.history.push("/")
-          : null}
         <Navbar
           className="justify-content-end"
           expand="lg"
