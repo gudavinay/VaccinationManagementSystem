@@ -74,15 +74,14 @@ class AddClinic extends Component {
   };
 
   render() {
+    if (localStorage.getItem("userData") === null) {
+      return <Redirect to="/" />;
+    }
     if (this.state.isSuccess) {
       return <Redirect to="/dashboard" />;
     } else
       return (
         <React.Fragment>
-          {this.props.history && localStorage.getItem("userData") === null
-            ? this.props.history.push("/")
-            : null}
-          <Navbar />
           <div className="container-fluid form-cont">
             <div className="flex-container">
               <div className="row" style={{ padding: "120px" }}>

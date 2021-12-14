@@ -51,15 +51,14 @@ class AddDisease extends Component {
   };
 
   render() {
+    if (localStorage.getItem("userData") === null) {
+      return <Redirect to="/" />;
+    }
     if (this.state.isSuccess) {
       return <Redirect to="/dashboard" />;
     }
     return (
       <React.Fragment>
-        {this.props.history && localStorage.getItem("userData") === null
-          ? this.props.history.push("/")
-          : null}
-        <Navbar />
         <Container>
           <h3>Create Disease</h3>
           <Form onSubmit={this.handleSubmit}>

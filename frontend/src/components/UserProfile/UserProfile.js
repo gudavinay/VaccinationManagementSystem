@@ -4,6 +4,7 @@ import backendServer from "../../webConfig";
 import Navbar from "./../Navbar/Navbar";
 import { Col, Container, Row, Button, Alert } from "react-bootstrap";
 import { Form, FormGroup, Label, Input, ButtonGroup } from "reactstrap";
+import { Link, Redirect } from "react-router-dom";
 
 class UserProfile extends Component {
   constructor(props) {
@@ -101,13 +102,11 @@ class UserProfile extends Component {
   };
 
   render = () => {
+    if (localStorage.getItem("userData") === null) {
+      return <Redirect to="/" />;
+    }
     return (
       <div>
-        {this.props.history && localStorage.getItem("userData") === null
-          ? this.props.history.push("/")
-          : null}
-        <Navbar />
-        {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
         <Container style={{ padding: "0 100px" }}>
           <Form onSubmit={(e) => this.handleSubmit(e)} className="form-stacked">
             <Row>

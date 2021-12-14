@@ -13,16 +13,14 @@ class Dashboard extends Component {
   }
 
   render() {
+    if (localStorage.getItem("userData") === null) {
+      return <Redirect to="/" />;
+    }
     if (localStorage.getItem("newUser")) {
       return <Redirect to="/passwordReset" />;
     }
     return (
       <React.Fragment>
-        {this.props.history && localStorage.getItem("userData") === null
-          ? this.props.history.push("/")
-          : null}
-        <Navbar />
-        Hello this is dashboard
         <Container>
           <Row>
             <Col>

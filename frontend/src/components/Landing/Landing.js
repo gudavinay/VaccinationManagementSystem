@@ -68,10 +68,12 @@ class Landing extends Component {
           };
           console.log(responseUser);
           await localStorage.setItem("userData", JSON.stringify(responseUser));
+          this.getAllUsers();
           this.setState({
             isSuccess: true,
             loginError: "",
           });
+          window.location.reload();
         }
       });
   };
@@ -116,13 +118,14 @@ class Landing extends Component {
             lastName: response.data.lastName,
             isAdmin: response.data.admin,
           };
-          // localStorage.setItem("user", JSON.stringify(responseUser));
           setLocalStorage(JSON.stringify(responseUser));
           localStorage.setItem("newUser", true);
+          this.getAllUsers();
           await this.setState({
             isSuccess: true,
             loginError: "",
           });
+          window.location.reload();
         }
       });
     }
@@ -135,6 +138,9 @@ class Landing extends Component {
   };
 
   render = () => {
+    if (localStorage.getItem("userData")) {
+      return <Redirect to="/dashboard" />;
+    }
     console.log(this.state);
     console.log(localStorage.getItem("userData"));
     if (localStorage.getItem("userData")) {
@@ -142,9 +148,6 @@ class Landing extends Component {
     }
     return (
       <>
-        {this.props.history && this.state.isSuccess
-          ? this.props.history.push("/dashboard")
-          : null}
         <Container style={{ height: "100vh" }}>
           <Row
             style={{
