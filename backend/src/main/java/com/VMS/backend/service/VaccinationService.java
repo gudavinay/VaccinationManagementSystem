@@ -1,6 +1,7 @@
 package com.VMS.backend.service;
 
 
+import com.VMS.backend.POJO.VaccinationDuePojo;
 import com.VMS.backend.POJO.VaccinationPOJO;
 import com.VMS.backend.entity.Appointment;
 import com.VMS.backend.entity.Disease;
@@ -10,9 +11,11 @@ import com.VMS.backend.repository.AppointmentRepository;
 import com.VMS.backend.repository.DiseaseRepository;
 import com.VMS.backend.repository.UserVaccinationRepository;
 import com.VMS.backend.repository.VaccinationRepository;
+import com.VMS.backend.util.Utils;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -95,35 +98,75 @@ public class VaccinationService {
 
     }
 
-    public ResponseEntity<?> getVaccinationsDueForUser( int user_mrn, Date currentDate) {
-
+    public ResponseEntity<?> getVaccinationsDueForUser( int user_mrn, Date currentDate) throws ParseException {
         System.out.println("Input Request for getVaccinationsDueForUser:  userMrn: " +user_mrn+ " currentDate: " +currentDate);
-
+        List<VaccinationDuePojo> vaccinationDueList=null;
+        Date maxDate=Utils.DateAfterAnYear(currentDate);
         List <Appointment> appointments=appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+        List<Vaccination> allVaccinations=null;
+
         if(CollectionUtils.isEmpty(appointments)){
-            //if no appointments or new user- all vaccines are due
-            List<Vaccination> vaccinations=vaccinationRepository.findAll();
+            //if no appointments or new user- all vaccines are due , NumberofShotdue-1
+           allVaccinations=vaccinationRepository.findAll();
+            if(!CollectionUtils.isEmpty(allVaccinations)){
+                for(Vaccination v: allVaccinations){
+                    VaccinationDuePojo  vaccinationDuePojo= new VaccinationDuePojo(1,currentDate ,v.getVaccinationName(), v.getVaccinationId());
+                    vaccinationDueList.add(vaccinationDuePojo);
+                }
+            }else{
+               return  ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body("No Vaccinations are due");
+            }
+
         }else{
-            //getChecked In appointments
-            List<Appointment> checkedInAppointments =appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeAsc(user_mrn,1);
-            for(Appointment a :checkedInAppointments ){
-                System.out.println(a.getAppointmentDateTime());
-                if(a.getAppointmentDateTime().before(currentDate)){
+            //get remaining vaccines for second /further shots from user_vaccinations
+            List<UserVaccinations> remainingVaccinations=userVaccinationRepository.findByUserId(user_mrn);
+            if(!CollectionUtils.isEmpty(remainingVaccinations)){
+                for(UserVaccinations uv : remainingVaccinations){
+                    int noOfShotsLeft=uv.getDosesLeft();
+                    String nextAppointmentDate=uv.getNextAppointmentTime();
+                    Date nextAppointmentDateFormated= Utils.convertSimpleDateformat(nextAppointmentDate);
+                    if(nextAppointmentDateFormated.before(maxDate)){
+                        VaccinationDuePojo vaccinationDuePojo=null;
+                        Optional<Vaccination> vaccination=vaccinationRepository.findById(uv.getVaccination_id());
+                        if(vaccination.isPresent()){
+                            int noOfTotalShots=vaccination.get().getNumberOfShots();
+                            int shotNumberDue=0;
+                            if(noOfShotsLeft > 0){
+                                shotNumberDue= noOfTotalShots-noOfShotsLeft+1; //to calculate shot number
+                                vaccinationDuePojo= new VaccinationDuePojo(shotNumberDue,nextAppointmentDateFormated,vaccination.get().getVaccinationName(), vaccination.get().getVaccinationId());
+                                vaccinationDueList.add(vaccinationDuePojo);
+
+                            }else if(noOfShotsLeft ==0){
+                                int duration = vaccination.get().getDuration();
+                                if(duration > 0){
+                                    shotNumberDue=0; //0- it's next shot after duration expires
+                                    vaccinationDuePojo= new VaccinationDuePojo(shotNumberDue,nextAppointmentDateFormated,vaccination.get().getVaccinationName(), vaccination.get().getVaccinationId());
+                                    vaccinationDueList.add(vaccinationDuePojo);
+                                }
+                            }
+
+                        }
+                    }
 
                 }
             }
+            //
 
-
-
-
+            //now add other vaccines which are not taken at all & not in remaining section
+            for(Vaccination vacc: allVaccinations){ //all vaccines
+                for(VaccinationDuePojo pojo: vaccinationDueList) //
+                if(vacc.getVaccinationId()!=pojo.getVaccinationId()){
+                    VaccinationDuePojo  vaccinationDuePojo= new VaccinationDuePojo(1,currentDate ,vacc.getVaccinationName(), vacc.getVaccinationId());
+                    vaccinationDueList.add(vaccinationDuePojo);
+                }
+            }
         }
 
+        //addition of appointment to vaccinationDues is pending
 
-        return null;
+        return  new ResponseEntity<>(vaccinationDueList, HttpStatus.OK);
     }
 
-    public Date convertSimpleDateformat(String d) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.parse(d);
-    }
+
+
 }

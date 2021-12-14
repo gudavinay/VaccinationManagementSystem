@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -52,6 +53,10 @@ public class VaccinationController {
     public ResponseEntity<?> getVaccinationsDueForUser(
             @RequestParam("user_mrn") int user_mrn,
             @RequestParam("currentDate") Date currentDate) {
-        return vaccinationService.getVaccinationsDueForUser(user_mrn,currentDate);
+        try {
+            return vaccinationService.getVaccinationsDueForUser(user_mrn,currentDate);
+        } catch (ParseException e) {
+            return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, e.getMessage())));
+        }
     }
 }
