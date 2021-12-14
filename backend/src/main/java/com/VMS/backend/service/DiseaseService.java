@@ -18,14 +18,15 @@ public class DiseaseService {
     @Autowired
     private DiseaseRepository diseaseRepository;
 
-    public ResponseEntity<?> addDisease(DiseasePOJO disease) throws IllegalAccessException {
+    public ResponseEntity<?> addDisease(DiseasePOJO disease)  {
         Disease isDiseaseExists = diseaseRepository.findByDiseaseNameEquals(disease.getDiseaseName());
         if(isDiseaseExists == null){
             Disease newDisease = new Disease(disease.getDiseaseName(), disease.getDiseaseDesc());
             Disease res = diseaseRepository.save(newDisease);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
-            throw new IllegalAccessException("Another Disease with the same name exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Another Disease with the same name exists");
+            //throw new IllegalAccessException("Another Disease with the same name exists");
         }
     }
 
