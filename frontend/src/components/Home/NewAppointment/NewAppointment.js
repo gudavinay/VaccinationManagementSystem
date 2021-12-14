@@ -23,6 +23,7 @@ class NewAppointment extends Component {
     let mimicTime = moment(getMimicTime());
     this.state = {
       minDate: mimicTime.add(1, "days").format("YYYY-MM-DD"),
+      updatedMinDate:"",
       maxDate: mimicTime.add(365, "days").format("YYYY-MM-DD"),
       expanded: "panel1",
       clinicData: [],
@@ -54,6 +55,7 @@ class NewAppointment extends Component {
           vaccinationData: result.data,
           vaccinationError: false,
         });
+        this.getVaccineDueDates();
       })
       .catch((err) => {
         this.setState({ vaccinationData: [], vaccinationError: true });
@@ -184,6 +186,28 @@ class NewAppointment extends Component {
       });
   };
 
+  getVaccineDueDates(){
+    const user_mrn = getUserProfile().mrn;
+    axios
+      .get(`${backendServer}/getVaccineDueDates/?user_mrn=${user_mrn}`)
+      .then((response) => {
+        if (response.status === 200) {
+          let vaccinationDataFromState = this.state.vaccinationData;
+          for(let vaccine of response.data){
+            for(let v of vaccinationDataFromState){
+              if(v.vaccinationId === vaccine.vaccination_id){
+                v["nextAppointmentDate"] = vaccine.nextAppointmentTime;
+              }
+            }
+          }
+          this.setState({vaccinationData:vaccinationDataFromState});
+        }
+      })
+      .catch((error) => {
+        console.log("error:", error);
+      });
+  }
+
   componentDidMount() {
     this.getAllClinics();
     this.getAllVaccinations();
@@ -267,6 +291,19 @@ class NewAppointment extends Component {
                             this.setState({
                               selectedVaccinations: e.target.value,
                             });
+                            let minDate = this.state.minDate;
+                            for(let vaccine of e.target.value){
+                              for(let v of this.state.vaccinationData){
+                                if(vaccine === v.vaccinationName){
+                                  if(v.nextAppointmentDate){
+                                    let next = (moment(v.nextAppointmentDate).format("YYYY-MM-DD"));
+                                    let curr = (moment(this.state.minDate).format("YYYY-MM-DD"));
+                                    minDate = next > curr? next:curr;
+                                  }
+                                }
+                              }
+                            }
+                            this.setState({updatedMinDate: minDate === this.state.minDate?"":minDate});
                           }}
                         >
                           {this.state.vaccinationData.map((element, index) => (
@@ -311,7 +348,7 @@ class NewAppointment extends Component {
                             });
                             this.getAllAppointmentsOnDate(e.target.value);
                           }}
-                          min={this.state.minDate}
+                          min={this.state.updatedMinDate?this.state.updatedMinDate:this.state.minDate}
                           max={this.state.maxDate}
                           placeholder="mm-dd-yyyy"
                         />

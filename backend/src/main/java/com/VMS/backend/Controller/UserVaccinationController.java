@@ -1,6 +1,5 @@
 package com.VMS.backend.Controller;
 
-import com.VMS.backend.POJO.ClinicPOJO;
 import com.VMS.backend.POJO.UserVaccinationPOJO;
 import com.VMS.backend.service.UserVaccinationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,9 @@ public class UserVaccinationController {
         return userVaccinationService.addUserVaccinationCheckIn(req);
     }
 
-    @RequestMapping(value = "/getVaccineNewDate", method = RequestMethod.GET, produces = { "application/json",
+    @RequestMapping(value = "/getVaccineDueDates", method = RequestMethod.GET, produces = { "application/json",
             "application/xml" })
-    public ResponseEntity<?> getVaccineNewDate( @RequestParam("user_mrn") int mrn ){
-        return userVaccinationService.getVaccineNewDate(mrn);
+    public ResponseEntity<?> getVaccineDueDates( @RequestParam("user_mrn") int mrn ){
+        return userVaccinationService.getVaccineDueDates(mrn);
     }
 }

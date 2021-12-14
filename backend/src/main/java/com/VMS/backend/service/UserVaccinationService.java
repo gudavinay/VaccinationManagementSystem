@@ -1,9 +1,7 @@
 package com.VMS.backend.service;
 
-import com.VMS.backend.POJO.ClinicPOJO;
 import com.VMS.backend.POJO.UserVaccinationPOJO;
 import com.VMS.backend.entity.Appointment;
-import com.VMS.backend.entity.Clinic;
 import com.VMS.backend.entity.UserVaccinations;
 import com.VMS.backend.entity.Vaccination;
 import com.VMS.backend.repository.AppointmentRepository;
@@ -25,7 +23,7 @@ public class UserVaccinationService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public ResponseEntity<?> getVaccineNewDate(int mrn){
+    public ResponseEntity<?> getVaccineDueDates(int mrn){
          List<UserVaccinations> res=userVaccinationRepository.findByUserId(mrn);
          return new ResponseEntity<>(res, HttpStatus.OK);
     }
@@ -69,7 +67,7 @@ public class UserVaccinationService {
         }
 
     public String addDays(Date date, int noOfDays){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(date); // Using today's date
         c.add(Calendar.DATE, 5); // Adding 5 days
