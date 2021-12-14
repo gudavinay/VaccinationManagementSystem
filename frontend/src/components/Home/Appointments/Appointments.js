@@ -5,11 +5,12 @@ import Typography from "@mui/material/Typography";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { Container } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Card } from "react-bootstrap";
 import axios from "axios";
 import backendServer from "../../../webConfig";
 import { getUserProfile, getMimicTime } from "../../Services/ControllerUtils";
 import Navbar from "./../../Navbar/Navbar";
+import moment from "moment";
 
 class Appointments extends Component {
   constructor(props) {
@@ -44,6 +45,9 @@ class Appointments extends Component {
         .get(`${backendServer}/getAppointmentsForUser/${userData.mrn}`)
         .then((response) => {
           this.setState({ allAppointments: response.data });
+          for (let appointment of response.data) {
+            console.log(new Date(moment(appointment.appointmentDateTime)) > getMimicTime());
+          }
         });
     }
   }
@@ -55,112 +59,100 @@ class Appointments extends Component {
 
   render() {
     let futureAppointments = this.state.allAppointments.map((item) =>
-      new Date(item.appointmentDateTime) > new Date() ? (
-        <Row
-          key={item.appointmentId}
-          style={{
-            border: "1px solid #bbb",
-            borderRadius: "15px",
-            padding: "10px 25px",
-            margin: "10px",
-          }}
-        >
-          <Col md={8}>
-            <div>Clinic: {item.clinic.name}</div>
-            <div>
-              Address: {item.clinic.address.street}, {item.clinic.address.city}
-            </div>
-            <div>
-              Appointment Date:{" "}
-              {new Date(item.appointmentDateTime).toDateString()}
-            </div>
-            <div>
-              Appointment Time:{" "}
-              {new Date(item.appointmentDateTime).toTimeString()}
-            </div>
-            <div>
-              {!item.isChecked ? (
-                <Button
-                  variant="primary"
-                  onClick={(e) => this.handleCheckin(item)}
-                >
-                  Check In
-                </Button>
-              ) : (
-                <Button
-                  variant="primary"
-                  disabled
-                >
-                  Checked In
-                </Button>
-              )}
-            </div>
-          </Col>
-          <Col>
-            List of Vaccinations:
-            <ul>
-              {item.vaccinations.map((elem) => (
-                <li>{elem.vaccinationName}</li>
-              ))}
-            </ul>
-          </Col>
-        </Row>
+      ((new Date(moment(item.appointmentDateTime))) > (new Date(getMimicTime()))) ? (
+        <Card key={item.appointmentId} >
+          <Card.Body>
+            <Row>
+              <Col md={8}>
+                <div>Clinic: {item.clinic.name}</div>
+                <div>
+                  Address: {item.clinic.address.street}, {item.clinic.address.city}
+                </div>
+                <div>
+                  Appointment Date:{" "}
+                  {new Date(item.appointmentDateTime).toDateString()}
+                </div>
+                <div>
+                  Appointment Time:{" "}
+                  {item.appointmentTimeStr}
+                </div>
+                <div>
+                  {/* {(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') } */}
+                  {!item.isChecked ? (
+                    <Button
+                      variant="primary"
+                      onClick={(e) => this.handleCheckin(item)}
+                      disabled={(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') > 86400}
+                    >
+                      Check In
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      disabled
+                    >
+                      Checked In
+                    </Button>
+                  )}
+                </div>
+              </Col>
+              <Col>
+                List of Vaccinations:
+                <ul>
+                  {item.vaccinations.map((elem) => (
+                    <li>{elem.vaccinationName}</li>
+                  ))}
+                </ul>
+              </Col></Row>
+          </Card.Body>
+        </Card>
       ) : null
     );
     let cancelledAppointments = this.state.allAppointments.map((item) =>
       new Date(item.appointmentDateTime) < new Date() &&
-        item.isCheckedIn === 3 ? (
-        <Row
-          key={item.appointmentId}
-          style={{
-            border: "1px solid #bbb",
-            borderRadius: "15px",
-            padding: "10px 25px",
-            margin: "10px",
-          }}
-        >
-          <Col md={8}>
-            <div>Clinic: {item.clinic.name}</div>
-            <div>
-              Address: {item.clinic.address.street}, {item.clinic.address.city}
-            </div>
-            <div>
-              Appointment Date:{" "}
-              {new Date(item.appointmentDateTime).toDateString()}
-            </div>
-            <div>
-              Appointment Time:{" "}
-              {new Date(item.appointmentDateTime).toTimeString()}
-            </div>
-            <div>
-              <Button disabled variant="danger">
-                Cancelled
-              </Button>
-            </div>
-          </Col>
-          <Col>
-            List of Vaccinations:
-            <ul>
-              {item.vaccinations.map((elem) => (
-                <li>{elem.vaccinationName}</li>
-              ))}
-            </ul>
-          </Col>
-        </Row>
+        item.isChecked === 3 ? (
+        <Card key={item.appointmentId} >
+          <Card.Body>
+            <Row>
+            <Col md={8}>
+              <div>Clinic: {item.clinic.name}</div>
+              <div>
+                Address: {item.clinic.address.street}, {item.clinic.address.city}
+              </div>
+              <div>
+                Appointment Date:{" "}
+                {new Date(item.appointmentDateTime).toDateString()}
+              </div>
+              <div>
+                Appointment Time:{" "}
+                {item.appointmentTimeStr}
+              </div>
+              <div>
+                <Button disabled variant="danger">
+                  Cancelled
+                </Button>
+              </div>
+            </Col>
+            <Col>
+              List of Vaccinations:
+              <ul>
+                {item.vaccinations.map((elem) => (
+                  <li>{elem.vaccinationName}</li>
+                ))}
+              </ul>
+            </Col>
+            </Row>
+          </Card.Body>
+
+        </Card>
       ) : null
     );
     let pastAppointments = this.state.allAppointments.map((item) =>
-      new Date(item.appointmentDateTime) < new Date() &&
-        (item.isCheckedIn === 1 || item.isCheckedIn === 2) ? (
-        <Row
-          key={item.appointmentId}
-          style={{
-            border: "1px solid #bbb",
-            borderRadius: "15px",
-            padding: "10px 25px",
-            margin: "10px",
-          }}
-        >
+      ((new Date(moment(item.appointmentDateTime))) < (new Date(getMimicTime()))) &&
+        (item.isChecked === 1 || item.isChecked === 2) ? (
+        <Card key={item.appointmentId} >
+          <Card.Body>
+          <Row>
           <Col md={8}>
             <div>Clinic: {item.clinic.name}</div>
             <div>
@@ -172,10 +164,10 @@ class Appointments extends Component {
             </div>
             <div>
               Appointment Time:{" "}
-              {new Date(item.appointmentDateTime).toTimeString()}
+              {item.appointmentTimeStr}
             </div>
             <div>
-              {item.isCheckedIn === 1 ? (
+              {item.isChecked === 1 ? (
                 <Button disabled variant="success">
                   Completed
                 </Button>
@@ -194,7 +186,9 @@ class Appointments extends Component {
               ))}
             </ul>
           </Col>
-        </Row>
+          </Row>
+          </Card.Body>
+        </Card>
       ) : null
     );
     return (
@@ -204,7 +198,6 @@ class Appointments extends Component {
           : null}
         <Navbar />
         {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
-        I'm in Appointments
         <Container>
           <Link to="/newAppointment">
             <Button variant="outline-primary">New Appointment</Button>
@@ -255,6 +248,7 @@ class Appointments extends Component {
             <AccordionDetails>{pastAppointments}</AccordionDetails>
           </Accordion>
         </Container>
+        <pre>{JSON.stringify(this.state, "", 2)}</pre>
       </React.Fragment>
     );
   }
