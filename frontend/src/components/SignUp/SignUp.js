@@ -111,7 +111,9 @@ class SignUp extends Component {
           await this.setState({
             success: true,
             loginError: "",
+            newUser: false,
           });
+          window.location.reload();
         }
       });
     }
@@ -356,7 +358,6 @@ class SignUp extends Component {
               <span
                 style={{ color: "blue", cursor: "pointer" }}
                 onClick={async () => {
-                  this.setState({ newUser: false });
                   this.SubmitToDB();
                 }}
               >

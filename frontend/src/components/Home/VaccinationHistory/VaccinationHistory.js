@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { Container } from "@mui/material";
 // import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   Col,
   Row,
@@ -55,6 +56,9 @@ class VaccinationHistory extends Component {
   };
 
   render() {
+    if (localStorage.getItem("userData") === null) {
+      return <Redirect to="/" />;
+    }
     let vacciHistory = "";
     if (this.state && this.state.checkedInAppointments) {
       vacciHistory = this.state.checkedInAppointments.map((item) => (
@@ -109,10 +113,6 @@ class VaccinationHistory extends Component {
 
     return (
       <React.Fragment>
-        {this.props.history && localStorage.getItem("userData") === null
-          ? this.props.history.push("/")
-          : null}
-        <Navbar />
         <Container>
           <Accordion
             square

@@ -11,11 +11,13 @@ import VaccinationsDue from "./Home/VaccinationsDue/VaccinationsDue";
 import Landing from "./Landing/Landing";
 import PasswordReset from "./UserProfile/PasswordReset";
 import UserProfile from "./UserProfile/UserProfile";
+import Navbar from "./Navbar/Navbar";
 
 class Main extends Component {
   render() {
     return (
       <React.Fragment>
+        {localStorage.getItem("userData") ? <Navbar /> : ""}
         <Route exact path="/" component={Landing} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/addClinic" component={AddClinic} />

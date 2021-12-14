@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Nav, Row } from "react-bootstrap";
+import { Col, Container, Nav, Row, NavDropdown } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import { DatePicker } from "@mui/lab";
 import { Link, Redirect } from "react-router-dom";
@@ -10,6 +10,7 @@ import moment from "moment";
 import Clock from "react-live-clock";
 import { getMimicTime } from "../Services/ControllerUtils";
 import { firebase } from "./../../Firebase/firebase";
+import logo from "./../Resources/logo.svg";
 
 class NavigationBar extends Component {
   constructor(props) {
@@ -34,69 +35,165 @@ class NavigationBar extends Component {
     }
 
     return (
-      <div style={{ marginBottom: "10%" }}>
-        <Navbar
-          className="justify-content-end"
-          expand="lg"
-          bg="dark"
-          variant="dark"
-          fixed="top"
+      <div>
+        <Container
+          style={{
+            boxShadow: "1px 1px 15px #808080, -5px -5px 10px #ffffff",
+            borderRadius: "15px",
+            marginTop: "5px",
+          }}
         >
-          <Navbar.Brand>
-            <Link to="/dashboard">Vaccination Management System </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              {localStorage.getItem("userData") &&
-                JSON.parse(localStorage.getItem("userData")).isAdmin ? (
-                <AdminSnippet />
-              ) : (
-                <UserSnippet />
-              )}
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="GLOBAL DATE"
-                  value={this.state.currentTime}
-                  onChange={(e) => {
-                    localStorage.setItem("time", e);
-                    window.location.reload();
-                    this.setState({ currentTime: e });
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                  minDate={this.state.currentTime}
-                  maxDate={this.state.maxDate}
-                />
-                <div style={{ color: "whitesmoke", width: "35%" }}>
-                  <Col>
-                    <Row>
-                      <span>Global Clock: {moment(this.state.currentTime).format("MMM Do YYYY")}{" "}
-                        <Clock format={"HH:mm:ss"} ticking={true} timezone={"US/Pacific"} />
+          <Row>
+            <Col md={2}>
+              <div>
+                <Link to="/dashboard">
+                  <div style={{ cursor: "pointer", display: "flex" }}>
+                    <img src={logo} style={{ width: "100%", height: "60px" }} />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <span style={{ fontSize: "36px", paddingTop: "10px" }}>
+                        VMS
                       </span>
-                    </Row>
-                    <Row>
-                      <span>Local Clock: {moment(this.state.localTime).format("MMM Do YYYY")}{" "}
-                        <Clock format={"HH:mm:ss"} ticking={true} timezone={"US/Pacific"} />
-                      </span>
-                    </Row>
-                  </Col>
-
-                </div>
-              </LocalizationProvider>
-              {this.state.today}
-              {/* {this.state.maxDate} */}
-              {/* } */}
-              <Nav.Link
-                className="justify-content-end"
-                onClick={() => {
-                  this.signOut();
-                }}
-              >
-                Logout
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </Col>
+            <Col>
+              <Row>
+                <Col style={{ display: "flex" }} md={9}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <NavDropdown
+                      id="nav-dropdown-dark-example"
+                      title="Resources"
+                      menuVariant="dark"
+                      // style={{ paddingTop: "10px" }}
+                    >
+                      {localStorage.getItem("userData") &&
+                      JSON.parse(localStorage.getItem("userData")).isAdmin ? (
+                        <AdminSnippet />
+                      ) : (
+                        <UserSnippet />
+                      )}
+                    </NavDropdown>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                    }}
+                  >
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        label="GLOBAL DATE"
+                        value={this.state.currentTime}
+                        onChange={(e) => {
+                          localStorage.setItem("time", e);
+                          window.location.reload();
+                          this.setState({ currentTime: e });
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                        minDate={this.state.currentTime}
+                        maxDate={this.state.maxDate}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          marginLeft: "10px",
+                          width: "275px",
+                        }}
+                      >
+                        <span>
+                          Global Clock:{" "}
+                          {moment(this.state.currentTime).format("MMM Do YYYY")}{" "}
+                          <Clock
+                            format={"HH:mm:ss"}
+                            ticking={true}
+                            timezone={"US/Pacific"}
+                          />
+                        </span>
+                        <span>
+                          Local Clock:{" "}
+                          {moment(this.state.localTime).format("MMM Do YYYY")}{" "}
+                          <Clock
+                            format={"HH:mm:ss"}
+                            ticking={true}
+                            timezone={"US/Pacific"}
+                          />
+                        </span>
+                      </div>
+                    </LocalizationProvider>
+                    {/* {this.state.today} */}
+                  </div>
+                </Col>
+                <Col style={{ display: "flex" }} md={3}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {localStorage.getItem("userData") &&
+                    JSON.parse(localStorage.getItem("userData")).isAdmin ? (
+                      <span style={{ color: "red" }}>ADMIN</span>
+                    ) : (
+                      <span style={{ color: "green" }}>PATIENT</span>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <NavDropdown
+                      // style={{ paddingTop: "10px" }}
+                      id="nav-dropdown-dark-example"
+                      title={
+                        localStorage.getItem("userData")
+                          ? JSON.parse(localStorage.getItem("userData"))
+                              .firstName
+                          : ""
+                      }
+                      menuVariant="dark"
+                    >
+                      <NavDropdown.Item href="#action/3.1">
+                        <Link to="/userProfile">User Profile</Link>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="#action/3.2">
+                        <Link
+                          to="/"
+                          onClick={() => {
+                            this.signOut();
+                          }}
+                        >
+                          Log Out
+                        </Link>
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }
@@ -105,30 +202,30 @@ class NavigationBar extends Component {
 const AdminSnippet = () => {
   return (
     <React.Fragment>
-      <Nav.Link>
+      <NavDropdown.Item href="#action/3.1">
         <Link to="/addDisease">Add Disease</Link>
-      </Nav.Link>
-      <Nav.Link>
+      </NavDropdown.Item>
+      <NavDropdown.Item href="#action/3.2">
         <Link to="/addClinic">Add Clinic</Link>
-      </Nav.Link>
-      <Nav.Link>
+      </NavDropdown.Item>
+      <NavDropdown.Item href="#action/3.3">
         <Link to="/addVaccination">Add Vaccination</Link>
-      </Nav.Link>
+      </NavDropdown.Item>
     </React.Fragment>
   );
 };
 const UserSnippet = () => {
   return (
     <React.Fragment>
-      <Nav.Link>
+      <NavDropdown.Item href="#action/3.1">
         <Link to="/vaccinationHistory">Vaccination History</Link>
-      </Nav.Link>
-      <Nav.Link>
+      </NavDropdown.Item>
+      <NavDropdown.Item href="#action/3.2">
         <Link to="/appointments">Appointments</Link>
-      </Nav.Link>
-      <Nav.Link>
+      </NavDropdown.Item>
+      <NavDropdown.Item href="#action/3.3">
         <Link to="/vaccinationsDue">Vaccinations Due</Link>
-      </Nav.Link>
+      </NavDropdown.Item>
     </React.Fragment>
   );
 };

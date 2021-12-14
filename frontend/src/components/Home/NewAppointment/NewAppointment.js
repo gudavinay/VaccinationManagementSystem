@@ -23,7 +23,7 @@ class NewAppointment extends Component {
     let mimicTime = moment(getMimicTime());
     let data = {
       minDate: mimicTime.add(1, "days").format("YYYY-MM-DD"),
-      updatedMinDate:"",
+      updatedMinDate: "",
       maxDate: mimicTime.add(365, "days").format("YYYY-MM-DD"),
       expanded: "panel1",
       clinicData: [],
@@ -34,17 +34,21 @@ class NewAppointment extends Component {
       selectedDate: "",
       selectedTime: "",
       existingBookings: [],
-      disabledVaccinations:[]
+      disabledVaccinations: [],
     };
 
-    if(this.props.data && this.props.data.appointmentId){
+    if (this.props.data && this.props.data.appointmentId) {
       let d = this.props.data;
       data.selectedClinic = d.clinic.name;
       let vaccData = [];
-      for(let vac of d.vaccinations) vaccData.push(vac.vaccinationName); 
-      data.selectedVaccinations  = vaccData;
+      for (let vac of d.vaccinations) vaccData.push(vac.vaccinationName);
+      data.selectedVaccinations = vaccData;
       data.selectedClinicFullInfo = d.clinic;
-      data.timeSlotsList = createTimeSlots(d.clinic.startBussinessHour,d.clinic.endBussinessHour,false)
+      data.timeSlotsList = createTimeSlots(
+        d.clinic.startBussinessHour,
+        d.clinic.endBussinessHour,
+        false
+      );
       data.selectedDate = moment(d.appointmentDateStr).format("MM-DD-YYYY");
       data.selectedTime = d.appointmentTimeStr;
       data.appointmentId = d.appointmentId;
@@ -135,26 +139,31 @@ class NewAppointment extends Component {
       });
   }
 
-  getPendingVaccinations(){
+  getPendingVaccinations() {
     const user_mrn = getUserProfile().mrn;
     axios
-      .get(`${backendServer}/getCheckedInAppointmentsForUser/?user_mrn=${user_mrn}&isChecked=0`)
+      .get(
+        `${backendServer}/getCheckedInAppointmentsForUser/?user_mrn=${user_mrn}&isChecked=0`
+      )
       .then((response) => {
         if (response.status === 200) {
           let disabledVaccinations = this.state.disabledVaccinations;
-          for(let appointment of response.data){
-            for(let vaccine of appointment.vaccinations){
+          for (let appointment of response.data) {
+            for (let vaccine of appointment.vaccinations) {
               disabledVaccinations.push(vaccine.vaccinationName);
             }
           }
-          if(this.props.data.appointmentId){
-            for(let vacc of this.state.selectedVaccinations){
-              if(disabledVaccinations.indexOf(vacc)!==-1){
-                disabledVaccinations.splice(disabledVaccinations.indexOf(vacc),1);
+          if (this.props.data.appointmentId) {
+            for (let vacc of this.state.selectedVaccinations) {
+              if (disabledVaccinations.indexOf(vacc) !== -1) {
+                disabledVaccinations.splice(
+                  disabledVaccinations.indexOf(vacc),
+                  1
+                );
               }
             }
           }
-          this.setState({disabledVaccinations: disabledVaccinations});
+          this.setState({ disabledVaccinations: disabledVaccinations });
         }
       })
       .catch((error) => {
@@ -185,7 +194,7 @@ class NewAppointment extends Component {
       appointmentTimeStr: this.state.selectedTime,
     };
 
-    if(this.props.data && this.props.data.appointmentId){
+    if (this.props.data && this.props.data.appointmentId) {
       data.appointmentID = this.state.appointmentId;
     }
     console.log(data);
@@ -212,21 +221,21 @@ class NewAppointment extends Component {
       });
   };
 
-  getVaccineDueDates(){
+  getVaccineDueDates() {
     const user_mrn = getUserProfile().mrn;
     axios
       .get(`${backendServer}/getVaccineDueDates/?user_mrn=${user_mrn}`)
       .then((response) => {
         if (response.status === 200) {
           let vaccinationDataFromState = this.state.vaccinationData;
-          for(let vaccine of response.data){
-            for(let v of vaccinationDataFromState){
-              if(v.vaccinationId === vaccine.vaccination_id){
+          for (let vaccine of response.data) {
+            for (let v of vaccinationDataFromState) {
+              if (v.vaccinationId === vaccine.vaccination_id) {
                 v["nextAppointmentDate"] = vaccine.nextAppointmentTime;
               }
             }
           }
-          this.setState({vaccinationData:vaccinationDataFromState});
+          this.setState({ vaccinationData: vaccinationDataFromState });
         }
       })
       .catch((error) => {
@@ -238,22 +247,21 @@ class NewAppointment extends Component {
     this.getAllClinics();
     this.getAllVaccinations();
     this.getPendingVaccinations();
-    if(this.props.data && this.props.data.appointmentId){
-      document.getElementById("dateselector").value=this.state.selectedDate;
+    if (this.props.data && this.props.data.appointmentId) {
+      document.getElementById("dateselector").value = this.state.selectedDate;
     }
   }
 
   render() {
+    if (localStorage.getItem("userData") === null) {
+      return <Redirect to="/" />;
+    }
     let noSlotsAvailable = false; //this.state.physiciansAvailable === this.state.appointments.length; TODO
     if (this.state.isSuccess) {
       return <Redirect to="/dashboard" />;
     } else
       return (
         <React.Fragment>
-          {this.props.history && localStorage.getItem("userData") === null
-            ? this.props.history.push("/")
-            : null}
-          <Navbar />
           {this.state.clinicError && (
             <span style={{ color: "red" }}>Error fetching clinic data</span>
           )}
@@ -321,25 +329,36 @@ class NewAppointment extends Component {
                               selectedVaccinations: e.target.value,
                             });
                             let minDate = this.state.minDate;
-                            for(let vaccine of e.target.value){
-                              for(let v of this.state.vaccinationData){
-                                if(vaccine === v.vaccinationName){
-                                  if(v.nextAppointmentDate){
-                                    let next = (moment(v.nextAppointmentDate).format("YYYY-MM-DD"));
-                                    let curr = (moment(this.state.minDate).format("YYYY-MM-DD"));
-                                    minDate = next > curr? next:curr;
+                            for (let vaccine of e.target.value) {
+                              for (let v of this.state.vaccinationData) {
+                                if (vaccine === v.vaccinationName) {
+                                  if (v.nextAppointmentDate) {
+                                    let next = moment(
+                                      v.nextAppointmentDate
+                                    ).format("YYYY-MM-DD");
+                                    let curr = moment(
+                                      this.state.minDate
+                                    ).format("YYYY-MM-DD");
+                                    minDate = next > curr ? next : curr;
                                   }
                                 }
                               }
                             }
-                            this.setState({updatedMinDate: minDate === this.state.minDate?"":minDate});
+                            this.setState({
+                              updatedMinDate:
+                                minDate === this.state.minDate ? "" : minDate,
+                            });
                           }}
                         >
                           {this.state.vaccinationData.map((element, index) => (
                             <MenuItem
                               key={index}
                               value={element.vaccinationName}
-                              disabled={this.state.disabledVaccinations.indexOf(element.vaccinationName)!==-1}
+                              disabled={
+                                this.state.disabledVaccinations.indexOf(
+                                  element.vaccinationName
+                                ) !== -1
+                              }
                             >
                               <Checkbox
                                 checked={
@@ -378,7 +397,11 @@ class NewAppointment extends Component {
                             });
                             this.getAllAppointmentsOnDate(e.target.value);
                           }}
-                          min={this.state.updatedMinDate?this.state.updatedMinDate:this.state.minDate}
+                          min={
+                            this.state.updatedMinDate
+                              ? this.state.updatedMinDate
+                              : this.state.minDate
+                          }
                           max={this.state.maxDate}
                           placeholder="mm-dd-yyyy"
                         />
