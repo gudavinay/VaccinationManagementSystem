@@ -33,6 +33,7 @@ class NewAppointment extends Component {
       selectedDate: "",
       selectedTime: "",
       existingBookings: [],
+      disabledVaccinations:[]
     };
   }
 
@@ -117,6 +118,26 @@ class NewAppointment extends Component {
       });
   }
 
+  getPendingVaccinations(){
+    const user_mrn = getUserProfile().mrn;
+    axios
+      .get(`${backendServer}/getCheckedInAppointmentsForUser/?user_mrn=${user_mrn}&isChecked=0`)
+      .then((response) => {
+        if (response.status === 200) {
+          let disabledVaccinations = this.state.disabledVaccinations;
+          for(let appointment of response.data){
+            for(let vaccine of appointment.vaccinations){
+              disabledVaccinations.push(vaccine.vaccinationName);
+            }
+          }
+          this.setState({disabledVaccinations: disabledVaccinations});
+        }
+      })
+      .catch((error) => {
+        console.log("error:", error);
+      });
+  }
+
   handleSubmit = async (e) => {
     e.preventDefault();
     let listOfIds = [];
@@ -166,6 +187,7 @@ class NewAppointment extends Component {
   componentDidMount() {
     this.getAllClinics();
     this.getAllVaccinations();
+    this.getPendingVaccinations();
   }
 
   render() {
@@ -251,6 +273,7 @@ class NewAppointment extends Component {
                             <MenuItem
                               key={index}
                               value={element.vaccinationName}
+                              disabled={this.state.disabledVaccinations.indexOf(element.vaccinationName)!==-1}
                             >
                               <Checkbox
                                 checked={

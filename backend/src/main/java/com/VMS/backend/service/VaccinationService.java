@@ -2,9 +2,11 @@ package com.VMS.backend.service;
 
 
 import com.VMS.backend.POJO.VaccinationPOJO;
+import com.VMS.backend.entity.Appointment;
 import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.UserVaccinations;
 import com.VMS.backend.entity.Vaccination;
+import com.VMS.backend.repository.AppointmentRepository;
 import com.VMS.backend.repository.DiseaseRepository;
 import com.VMS.backend.repository.UserVaccinationRepository;
 import com.VMS.backend.repository.VaccinationRepository;
@@ -26,6 +28,9 @@ public class VaccinationService {
 
     @Autowired
     private DiseaseRepository diseaseRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     @Autowired
     private UserVaccinationRepository userVaccinationRepository;

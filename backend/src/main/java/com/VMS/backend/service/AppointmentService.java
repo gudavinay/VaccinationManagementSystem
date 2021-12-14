@@ -91,9 +91,9 @@ public class AppointmentService {
         return listOfTimes;
     }
 
-    public List<Appointment> getCheckedInAppointmentsForUser(int user_mrn) {
+    public List<Appointment> getCheckedInAppointmentsForUser(int user_mrn, int isChecked) {
         try {
-            return appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, 1);
+            return appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, isChecked);
         } catch (Exception ex) {
             throw new IllegalArgumentException("Error getting appointments for user");
         }

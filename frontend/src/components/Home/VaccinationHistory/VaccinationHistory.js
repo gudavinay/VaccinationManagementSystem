@@ -15,6 +15,7 @@ import backendServer from "../../../webConfig";
 // import Select from "@material-ui/core/Select";
 // import { Checkbox, ListItemText, MenuItem } from "@material-ui/core";
 import Navbar from "./../../Navbar/Navbar";
+import { getUserProfile } from "../../Services/ControllerUtils";
 
 class VaccinationHistory extends Component {
   constructor(props) {
@@ -24,10 +25,10 @@ class VaccinationHistory extends Component {
 
   componentDidMount = async () => {
     //const userMrn = localStorage.getItem("user_id");
-    const user_mrn = "101";
+    const user_mrn = getUserProfile().mrn;
     //axios.defaults.withCredentials = true;
     axios
-      .get(`${backendServer}/getCheckedInAppointmentsForUser/${user_mrn}`)
+      .get(`${backendServer}/getCheckedInAppointmentsForUser/?user_mrn=${user_mrn}&isChecked=1`)
       .then((response) => {
         console.log(
           "response data from getCheckedInAppointmentsForUser",

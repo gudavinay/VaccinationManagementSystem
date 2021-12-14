@@ -45,11 +45,12 @@ public class AppointmentController {
         return appointmentService.getAllAppointmentsOnDate(date,clinicId);
     }
 
-    @RequestMapping(value = "/getCheckedInAppointmentsForUser/{user_mrn}", method = RequestMethod.GET, produces = {
+    @RequestMapping(value = "/getCheckedInAppointmentsForUser", method = RequestMethod.GET, produces = {
             "application/json" })
     public List<Appointment> getCheckedInAppointmentsForUser(
-            @PathVariable("user_mrn") int user_mrn
+        @RequestParam("user_mrn") int user_mrn,
+        @RequestParam("isChecked") int isChecked
     ) {
-        return appointmentService.getCheckedInAppointmentsForUser(user_mrn);
+        return appointmentService.getCheckedInAppointmentsForUser(user_mrn,isChecked);
     }
 }
