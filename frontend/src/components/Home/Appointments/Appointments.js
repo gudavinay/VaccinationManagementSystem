@@ -32,12 +32,12 @@ class Appointments extends Component {
     axios.post(`${backendServer}/checkInAppointment`, data).then((response) => {
       if (response.status === 200) {
         alert(response.data);
+        this.getAppointmentsForUser();
       }
     });
   };
 
-  componentDidMount = () => {
-    // let date = new Date().today;
+  getAppointmentsForUser() {
     let userData = getUserProfile();
     if (userData != null) {
       axios
@@ -46,6 +46,11 @@ class Appointments extends Component {
           this.setState({ allAppointments: response.data });
         });
     }
+  }
+
+  componentDidMount = () => {
+    // let date = new Date().today;
+    this.getAppointmentsForUser();
   };
 
   render() {
@@ -74,20 +79,20 @@ class Appointments extends Component {
               {new Date(item.appointmentDateTime).toTimeString()}
             </div>
             <div>
-              {!item.isChecked?(
-              <Button
-                variant="primary"
-                onClick={(e) => this.handleCheckin(item)}
-              >
-                Check In
-              </Button>
-              ):(
+              {!item.isChecked ? (
                 <Button
-                variant="primary"
-                disabled
-              >
-               Checked In
-              </Button>
+                  variant="primary"
+                  onClick={(e) => this.handleCheckin(item)}
+                >
+                  Check In
+                </Button>
+              ) : (
+                <Button
+                  variant="primary"
+                  disabled
+                >
+                  Checked In
+                </Button>
               )}
             </div>
           </Col>
@@ -104,7 +109,7 @@ class Appointments extends Component {
     );
     let cancelledAppointments = this.state.allAppointments.map((item) =>
       new Date(item.appointmentDateTime) < new Date() &&
-      item.isCheckedIn === 3 ? (
+        item.isCheckedIn === 3 ? (
         <Row
           key={item.appointmentId}
           style={{
@@ -146,7 +151,7 @@ class Appointments extends Component {
     );
     let pastAppointments = this.state.allAppointments.map((item) =>
       new Date(item.appointmentDateTime) < new Date() &&
-      (item.isCheckedIn === 1 || item.isCheckedIn === 2) ? (
+        (item.isCheckedIn === 1 || item.isCheckedIn === 2) ? (
         <Row
           key={item.appointmentId}
           style={{
