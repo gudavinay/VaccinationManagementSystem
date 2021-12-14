@@ -171,7 +171,7 @@ class AddVaccination extends Component {
                             onChange={(e) => {
                               this.setState({ duration: e.target.value });
                             }}
-                            required
+                            disabled={this.state.checked}
                           ></Input>
                         </FormGroup>
                       </Col>
@@ -245,6 +245,14 @@ class AddVaccination extends Component {
                     </FormGroup>
                     <FormGroup>
                       <center>
+                      <div style={{color:"red"}}><input type="checkbox" id="expires"
+                          onChange={(e)=>{
+                            this.setState({checked:e.target.checked});
+                            if(e.target.checked){
+                              this.setState({duration:0});
+                              document.getElementById("duration").value=0;
+                            }
+                            }}/> No Expiration</div>
                         <Button
                           type="submit"
                           disabled={

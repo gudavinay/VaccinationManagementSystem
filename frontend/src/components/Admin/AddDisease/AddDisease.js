@@ -61,6 +61,7 @@ class AddDisease extends Component {
           : null}
         <Navbar />
         <Container>
+          <h3>Create Disease</h3>
           <Form onSubmit={this.handleSubmit}>
             <Row>
               <FormGroup>
