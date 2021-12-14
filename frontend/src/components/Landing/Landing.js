@@ -119,6 +119,7 @@ class Landing extends Component {
           };
           // localStorage.setItem("user", JSON.stringify(responseUser));
           setLocalStorage(JSON.stringify(responseUser));
+          localStorage.setItem("newUser", true);
           await this.setState({
             isSuccess: true,
             loginError: "",

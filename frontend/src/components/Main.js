@@ -9,6 +9,8 @@ import NewAppointment from "./Home/NewAppointment/NewAppointment";
 import VaccinationHistory from "./Home/VaccinationHistory/VaccinationHistory";
 import VaccinationsDue from "./Home/VaccinationsDue/VaccinationsDue";
 import Landing from "./Landing/Landing";
+import PasswordReset from "./UserProfile/PasswordReset";
+import UserProfile from "./UserProfile/UserProfile";
 
 class Main extends Component {
   render() {
@@ -23,6 +25,8 @@ class Main extends Component {
         <Route path="/vaccinationHistory" component={VaccinationHistory} />
         <Route path="/vaccinationsDue" component={VaccinationsDue} />
         <Route path="/newAppointment" component={NewAppointment} />
+        <Route path="/userProfile" component={UserProfile} />
+        <Route path="/passwordReset" component={PasswordReset} />
       </React.Fragment>
     );
   }

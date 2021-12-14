@@ -30,7 +30,9 @@ class VaccinationHistory extends Component {
     const user_mrn = getUserProfile().mrn;
     //axios.defaults.withCredentials = true;
     axios
-      .get(`${backendServer}/getCheckedInAppointmentsForUser/?user_mrn=${user_mrn}&isChecked=1`)
+      .get(
+        `${backendServer}/getCheckedInAppointmentsForUser/?user_mrn=${user_mrn}&isChecked=1`
+      )
       .then((response) => {
         console.log(
           "response data from getCheckedInAppointmentsForUser",

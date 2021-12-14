@@ -18,7 +18,7 @@ class SignUp extends Component {
       gender: 1,
       dob: "",
       street: "",
-      number: "",
+      aptNo: "",
       city: "",
       state: "",
       zipcode: "",
@@ -285,9 +285,9 @@ class SignUp extends Component {
                     id="number"
                     name="number"
                     placeholder="Apt Number (Optional)"
-                    value={this.state.number}
+                    value={this.state.aptNo}
                     onChange={(e) => {
-                      this.setState({ number: e.target.value });
+                      this.setState({ aptNo: e.target.value });
                     }}
                   ></Input>
                   <Input

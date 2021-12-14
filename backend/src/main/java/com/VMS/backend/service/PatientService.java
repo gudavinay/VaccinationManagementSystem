@@ -67,6 +67,36 @@ public class PatientService {
         }
     }
 
+    public ResponseEntity<?> updateUser(int mrn, SignUpPOJO updatedUser){
+        User user = patientRepository.findByMrn(mrn);
+        if(user != null){
+            user.setFirstName(updatedUser.getFirstName());
+            user.setMiddleName(updatedUser.getMiddleName());
+            user.setLastName(updatedUser.getLastName());
+            user.setDob(updatedUser.getDob());
+            user.setGender(updatedUser.getGender());
+            user.setAddress(new Address(updatedUser.getAddress().getStreet(),updatedUser.getAddress().getAptNo(),
+                    updatedUser.getAddress().getCity(), updatedUser.getAddress().getState(),
+                    updatedUser.getAddress().getZipcode()));
+            user.setPassword(updatedUser.getPassword());
+            patientRepository.save(user);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<?> updatePassword(int mrn, String password){
+        User user = patientRepository.findByMrn(mrn);
+        if(user != null){
+            user.setPassword(password);
+            patientRepository.save(user);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
     public int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }

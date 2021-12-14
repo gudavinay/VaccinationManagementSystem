@@ -9,4 +9,7 @@ public interface PatientRepository extends JpaRepository<User,Integer> {
     User findByEmail(String email);
 
     List<User> findUsersByEmailNotNull();
+
+    User findByMrn(int mrn);
+
 }
