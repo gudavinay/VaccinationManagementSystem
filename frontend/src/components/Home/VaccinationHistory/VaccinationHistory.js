@@ -20,7 +20,9 @@ import { getUserProfile } from "../../Services/ControllerUtils";
 class VaccinationHistory extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      expanded:"panel1"
+    };
   }
 
   componentDidMount = async () => {
