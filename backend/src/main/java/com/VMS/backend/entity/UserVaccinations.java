@@ -10,15 +10,19 @@ public class UserVaccinations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int user_Id;
+    private int userId;
     private int dosesLeft;
-    private int vaccination_id;
+    private int vaccinationId;
     private String nextAppointmentTime;
 
-    public UserVaccinations(int user_Id, int dosesLeft, int vaccination_id, String nextAppointmentTime) {
-        this.user_Id = user_Id;
+    public UserVaccinations(){
+
+    }
+
+    public UserVaccinations(int userId, int dosesLeft, int vaccinationId, String nextAppointmentTime) {
+        this.userId = userId;
         this.dosesLeft = dosesLeft;
-        this.vaccination_id = vaccination_id;
+        this.vaccinationId = vaccinationId;
         this.nextAppointmentTime = nextAppointmentTime;
     }
 
@@ -31,11 +35,11 @@ public class UserVaccinations {
     }
 
     public int getUser_Id() {
-        return user_Id;
+        return userId;
     }
 
-    public void setUser_Id(int user_Id) {
-        this.user_Id = user_Id;
+    public void setUser_Id(int userId) {
+        this.userId = userId;
     }
 
     public int getDosesLeft() {
@@ -47,11 +51,11 @@ public class UserVaccinations {
     }
 
     public int getVaccination_id() {
-        return vaccination_id;
+        return vaccinationId;
     }
 
-    public void setVaccination_id(int vaccination_id) {
-        this.vaccination_id = vaccination_id;
+    public void setVaccination_id(int vaccinationId) {
+        this.vaccinationId = vaccinationId;
     }
 
     public String getNextAppointmentTime() {

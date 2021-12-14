@@ -74,12 +74,21 @@ class Appointments extends Component {
               {new Date(item.appointmentDateTime).toTimeString()}
             </div>
             <div>
+              {!item.isChecked?(
               <Button
                 variant="primary"
                 onClick={(e) => this.handleCheckin(item)}
               >
                 Check In
               </Button>
+              ):(
+                <Button
+                variant="primary"
+                disabled
+              >
+               Checked In
+              </Button>
+              )}
             </div>
           </Col>
           <Col>

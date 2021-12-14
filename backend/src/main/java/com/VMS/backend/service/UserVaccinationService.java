@@ -28,32 +28,40 @@ public class UserVaccinationService {
     public ResponseEntity<?> addUserVaccinationCheckIn(UserVaccinationPOJO req ) {
         List<Vaccination> vaccinationList = req.getVaccinations();
         List<UserVaccinations> userVaccinations=new ArrayList<>();
-        try {
-            for (Vaccination vacc : vaccinationList) {
-                if (vacc.getNumberOfShots() - 1 < 0) {
-                    throw new IllegalArgumentException("No shots left");
+        List<UserVaccinations> currentVaccine= userVaccinationRepository.findByUserId(req.getUser_Id());
+        if(currentVaccine.size()>0){
+            for(Vaccination vaccination: vaccinationList){
+                for(UserVaccinations current: currentVaccine){
+                     if(current.getVaccination_id()==vaccination.getVaccinationId()){
+                         current.setDosesLeft(current.getDosesLeft()-1);
+                         Date date = req.getCheckInDate();
+                         String newDate = addDays(date, vaccination.getShotInternalVal() + 1);
+                         current.setNextAppointmentTime(newDate);
+                         UserVaccinations res=userVaccinationRepository.save(current);
+                         userVaccinations.add(res);
+                     }
                 }
-                Date date = req.getCheckInDate();
-                String newDate = addDays(date, vacc.getShotInternalVal()+1);
-                System.out.println(newDate);
-                UserVaccinations checkin = new UserVaccinations(req.getUser_Id(), vacc.getNumberOfShots() - 1, vacc.getVaccinationId(), newDate);
-                UserVaccinations res = userVaccinationRepository.save(checkin);
-                userVaccinations.add(res);
+            }
+        }else {
+                for (Vaccination vacc : vaccinationList) {
+                    if (vacc.getNumberOfShots() - 1 < 0) {
+                        throw new IllegalArgumentException("No shots left");
+                    }
+                    Date date = req.getCheckInDate();
+                    String newDate = addDays(date, vacc.getShotInternalVal() + 1);
+                    UserVaccinations checkin = new UserVaccinations(req.getUser_Id(), vacc.getNumberOfShots() - 1, vacc.getVaccinationId(), newDate);
+                    UserVaccinations res = userVaccinationRepository.save(checkin);
+                    userVaccinations.add(res);
+                }
+            }
+            Optional<Appointment> appointment = appointmentRepository.findById(req.getAppointmentId());
+            if (appointment.isPresent()) {
+                Appointment temp = appointment.get();
+                temp.setIsChecked(1);
+                appointmentRepository.save(temp);
             }
             return new ResponseEntity<>(userVaccinations, HttpStatus.OK);
-        } catch (Exception ex) {
-            return null;
         }
-    }
-
-//        Clinic isClinicExists = patientRepository.findByName(req.getName());
-//        if(isClinicExists == null){
-//            Clinic newClinic = new Clinic(req.getName(),req.getAddress(),req.getNoOfPhysician(), req.getStartBussinessHour() , req.getEndBussinessHour());
-//            Clinic res = clinicRepository.save(newClinic);
-//            return new ResponseEntity<>(res, HttpStatus.OK);
-//        } else {
-//            throw new IllegalAccessException("Another Clinic with the same name exists");
-//        }
 
     public String addDays(Date date, int noOfDays){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
