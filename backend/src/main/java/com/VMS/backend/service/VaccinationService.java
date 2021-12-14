@@ -52,8 +52,10 @@ public class VaccinationService {
     public List<Vaccination> getAllVaccinations(int userMrn) {
         List<UserVaccinations> userVaccinations=userVaccinationRepository.findByUserId(userMrn);
         List<Vaccination> vaccinations=vaccinationRepository.findAll();
-        List<Vaccination> res=vaccinations;
-
+        List<Vaccination> res=new ArrayList<>();
+        for(Vaccination vaccination:vaccinations){
+            res.add(vaccination);
+        }
         for(Vaccination vaccination:vaccinations){
             for(UserVaccinations vacc:userVaccinations){
                 if(vacc.getVaccination_id()==vaccination.getVaccinationId() && vacc.getDosesLeft()<=0){
