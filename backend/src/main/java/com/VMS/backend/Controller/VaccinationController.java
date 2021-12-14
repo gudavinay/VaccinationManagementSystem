@@ -28,7 +28,8 @@ public class VaccinationController {
     }
 
     @RequestMapping(value = "/getAllVaccinations/{mrn}", method = RequestMethod.GET, produces = { "application/json" })
-    public List<Vaccination> getAllVaccinations(int mrn) {
+    public List<Vaccination> getAllVaccinations(
+        @PathVariable("mrn") int mrn) {
         return vaccinationService.getAllVaccinations(mrn);
     }
 
