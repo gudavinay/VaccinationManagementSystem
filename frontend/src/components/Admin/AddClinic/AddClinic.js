@@ -1,16 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  Row,
-} from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, Col, Row } from "reactstrap";
 import backendServer from "../../../webConfig";
 import { Redirect } from "react-router";
+import Navbar from "./../../Navbar/Navbar";
+
 class AddClinic extends Component {
   constructor(props) {
     super(props);
@@ -25,9 +19,9 @@ class AddClinic extends Component {
         zipcode: "",
         state: "",
         startBussinessHour: 0,
-        endBussinessHour: 0
+        endBussinessHour: 0,
       },
-      error: ""
+      error: "",
     };
   }
 
@@ -81,10 +75,14 @@ class AddClinic extends Component {
 
   render() {
     if (this.state.isSuccess) {
-      return <Redirect to="/" />
+      return <Redirect to="/" />;
     } else
       return (
         <React.Fragment>
+          {this.props.history && localStorage.getItem("userData") === null
+            ? this.props.history.push("/")
+            : null}
+          <Navbar />
           <div className="container-fluid form-cont">
             <div className="flex-container">
               <div className="row" style={{ padding: "120px" }}>
@@ -129,7 +127,8 @@ class AddClinic extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col><Label for="firstName">Start Bussiness Hour</Label>
+                      <Col>
+                        <Label for="firstName">Start Bussiness Hour</Label>
                         <Input
                           type="number"
                           id="startBussinessHour"
@@ -137,8 +136,10 @@ class AddClinic extends Component {
                           placeholder="Clinic Name"
                           onChange={this.handleChange}
                           required
-                        ></Input></Col>
-                      <Col><Label for="firstName">End Bussiness Hour</Label>
+                        ></Input>
+                      </Col>
+                      <Col>
+                        <Label for="firstName">End Bussiness Hour</Label>
                         <Input
                           type="number"
                           id="endBussinessHour"
@@ -146,7 +147,8 @@ class AddClinic extends Component {
                           placeholder="Clinic Name"
                           onChange={this.handleChange}
                           required
-                        ></Input></Col>
+                        ></Input>
+                      </Col>
                     </Row>
                     <FormGroup>
                       <Label htmlFor="address">Address</Label>

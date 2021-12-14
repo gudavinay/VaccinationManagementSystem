@@ -9,6 +9,8 @@ import { Col, Row, Button } from "react-bootstrap";
 import axios from "axios";
 import backendServer from "../../../webConfig";
 import { getUserProfile, getMimicTime } from "../../Services/ControllerUtils";
+import Navbar from "./../../Navbar/Navbar";
+
 class Appointments extends Component {
   constructor(props) {
     super(props);
@@ -18,30 +20,32 @@ class Appointments extends Component {
     };
   }
 
-  handleCheckin=(appointment)=>{
+  handleCheckin = (appointment) => {
     console.log(appointment);
-    let userData= getUserProfile();
-    var data={
-      user_Id:userData.mrn,
-      vaccinations:appointment.vaccinations,
-      appointmentId:appointment.appointmentId, 
-      checkInDate:getMimicTime()
-    }
-    axios.post(`${backendServer}/checkInAppointment`, data).then((response)=>{
-        if(response.status==200){
-          alert(response.data);
-        }
-    })
-  }
+    let userData = getUserProfile();
+    var data = {
+      user_Id: userData.mrn,
+      vaccinations: appointment.vaccinations,
+      appointmentId: appointment.appointmentId,
+      checkInDate: getMimicTime(),
+    };
+    axios.post(`${backendServer}/checkInAppointment`, data).then((response) => {
+      if (response.status === 200) {
+        alert(response.data);
+      }
+    });
+  };
 
   componentDidMount = () => {
-    let date = new Date().today;
-    let userData= getUserProfile();
-    axios
-      .get(`${backendServer}/getAppointmentsForUser/${userData.mrn}`)
-      .then((response) => {
-        this.setState({ allAppointments: response.data });
-      });
+    // let date = new Date().today;
+    let userData = getUserProfile();
+    if (userData != null) {
+      axios
+        .get(`${backendServer}/getAppointmentsForUser/${userData.mrn}`)
+        .then((response) => {
+          this.setState({ allAppointments: response.data });
+        });
+    }
   };
 
   render() {
@@ -70,7 +74,12 @@ class Appointments extends Component {
               {new Date(item.appointmentDateTime).toTimeString()}
             </div>
             <div>
-              <Button variant="primary" onClick={(e)=>this.handleCheckin(item)}>Check In</Button>
+              <Button
+                variant="primary"
+                onClick={(e) => this.handleCheckin(item)}
+              >
+                Check In
+              </Button>
             </div>
           </Col>
           <Col>
@@ -86,7 +95,7 @@ class Appointments extends Component {
     );
     let cancelledAppointments = this.state.allAppointments.map((item) =>
       new Date(item.appointmentDateTime) < new Date() &&
-      item.isCheckedIn == 3 ? (
+      item.isCheckedIn === 3 ? (
         <Row
           key={item.appointmentId}
           style={{
@@ -128,7 +137,7 @@ class Appointments extends Component {
     );
     let pastAppointments = this.state.allAppointments.map((item) =>
       new Date(item.appointmentDateTime) < new Date() &&
-      (item.isCheckedIn == 1 || item.isCheckedIn == 2) ? (
+      (item.isCheckedIn === 1 || item.isCheckedIn === 2) ? (
         <Row
           key={item.appointmentId}
           style={{
@@ -152,7 +161,7 @@ class Appointments extends Component {
               {new Date(item.appointmentDateTime).toTimeString()}
             </div>
             <div>
-              {item.isCheckedIn == 1 ? (
+              {item.isCheckedIn === 1 ? (
                 <Button disabled variant="success">
                   Completed
                 </Button>
@@ -176,6 +185,10 @@ class Appointments extends Component {
     );
     return (
       <React.Fragment>
+        {this.props.history && localStorage.getItem("userData") === null
+          ? this.props.history.push("/")
+          : null}
+        <Navbar />
         {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
         I'm in Appointments
         <Container>

@@ -10,6 +10,7 @@ public class SignUpPOJO {
     private String firstName;
     private String lastName;
     private String middleName;
+    private String password;
     private String dob;
     private String gender;
     private Address address;
@@ -19,11 +20,12 @@ public class SignUpPOJO {
     public SignUpPOJO() {
     }
 
-    public SignUpPOJO(String email, String firstName, String lastName, String middleName, String dob, String gender, Address address, boolean verified, boolean admin) {
+    public SignUpPOJO(String email, String firstName, String lastName, String middleName, String password, String dob, String gender, Address address, boolean verified, boolean admin) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
+        this.password = password;
         this.dob = dob;
         this.gender = gender;
         this.address = address;
@@ -37,6 +39,14 @@ public class SignUpPOJO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {

@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Alert, Button, Container } from "react-bootstrap";
 import { Form, FormGroup, Label, Input, ButtonGroup } from "reactstrap";
 import backendServer from "../../webConfig";
-import axios from "axios"
+import axios from "axios";
+import { firebase } from "./../../Firebase/firebase";
+import { setLocalStorage } from "../Services/ControllerUtils";
 
 class SignUp extends Component {
   constructor(props) {
@@ -26,67 +28,107 @@ class SignUp extends Component {
     };
   }
 
-//   handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (this.props.allEmails.contains(this.state.email)) {
-//       this.setState({ emailExists: true });
-//     } else {
-//       let data = { ...this.state };
-//       this.setState({
-//         firstName: "",
-//         middleName: "",
-//         lastName: "",
-//         email: "",
-//         password: "",
-//         gender: 1,
-//         dob: "",
-//         street: "",
-//         number: "",
-//         city: "",
-//         state: "",
-//         zipcode: "",
-//       });
-//       console.log(data);
-//     }
-//     //SignUp
-//   };
+  //   handleSubmit = (e) => {
+  //     e.preventDefault();
+  //     if (this.props.allEmails.contains(this.state.email)) {
+  //       this.setState({ emailExists: true });
+  //     } else {
+  //       let data = { ...this.state };
+  //       this.setState({
+  //         firstName: "",
+  //         middleName: "",
+  //         lastName: "",
+  //         email: "",
+  //         password: "",
+  //         gender: 1,
+  //         dob: "",
+  //         street: "",
+  //         number: "",
+  //         city: "",
+  //         state: "",
+  //         zipcode: "",
+  //       });
+  //       console.log(data);
+  //     }
+  //     //SignUp
+  //   };
 
-
-  handleSubmit = async e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    axios.defaults.withCredentials = true;
-    axios.post(`http://localhost:3001/signup`, this.state)``.then((response) => {
-            console.log("Status Code : ", response.status);
-            if (response.status === 200) {
-                this.setState({
-                    isSuccess: true,
-                    loginError: ""
-                });
-                this.SetLocalStorage(JSON.stringify(response.data));
-            } else {
-                this.setState({
-                    loginError: "User is already registered",
-                    authFlag: false,
-                    error: {},
-                });
-            }
-        })
-        .catch(() => {
-            this.setState({
-                loginError: "User is already registered",
-                authFlag: false,
-            });
-        });
+    this.setState({ emailExists: false });
+    if (!this.props.allEmails.includes(this.state.email)) {
+      let res = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password);
+      this.setState({ newUser: true, user: res });
+      if (this.state.user && !this.state.user.emailVerified)
+        firebase.auth().currentUser.sendEmailVerification();
+    } else {
+      this.setState({ emailExists: true });
+    }
+  };
 
-};
+  SubmitToDB = async () => {
+    await firebase.auth().currentUser.reload();
+    while (!firebase.auth().currentUser.emailVerified)
+      console.log(firebase.auth().currentUser);
+    if (!this.state.newUser && firebase.auth().currentUser.emailVerified) {
+      let gender = "Male";
+      if (this.state.gender !== 1)
+        gender = this.state.gender === 2 ? "Female" : "Other";
+      let user = {
+        email: this.state.email,
+        password: this.state.password,
+        firstName: this.state.firstName,
+        middleName: this.state.middleName,
+        lastName: this.state.lastName,
+        dob: this.state.dob,
+        gender: gender,
+        verified: true,
+        admin:
+          this.state.email.substring(this.state.email.indexOf("@")) ===
+          "@sjsu.edu"
+            ? true
+            : false,
+        address: {
+          street: this.state.street,
+          aptNo: this.state.aptNo,
+          city: this.state.city,
+          state: this.state.state,
+          zipcode: this.state.zipcode,
+        },
+      };
+      axios.post(`${backendServer}/signup`, user).then(async (response) => {
+        console.log("Status Code : ", response.status);
+        if (response.status === 200) {
+          console.log(response.data);
+          let responseUser = {
+            mrn: response.data.mrn,
+            email: response.data.email,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+          };
+          // localStorage.setItem("user", JSON.stringify(responseUser));
+          setLocalStorage(JSON.stringify(responseUser));
+          await this.setState({
+            isSuccess: true,
+            loginError: "",
+          });
+        }
+      });
+    }
+  };
 
   render = () => {
-    // console.log(this.props);
+    console.log(this.state);
     return (
       <>
+        {this.props.history && this.state.isSuccess
+          ? this.props.history.push("/dashboard")
+          : null}
         <Container style={{ border: "1px solid #ddd" }}>
-          <pre>{JSON.stringify(this.state, "", 2)}</pre>
-          <pre>{JSON.stringify(this.props, "", 2)}</pre>
+          {/* <pre>{JSON.stringify(this.state, "", 2)}</pre>
+          <pre>{JSON.stringify(this.props, "", 2)}</pre> */}
           <div>SignUp</div>
           <div>Please sign in to continue</div>
           <Form onSubmit={(e) => this.handleSubmit(e)} className="form-stacked">
@@ -307,6 +349,24 @@ class SignUp extends Component {
           ) : (
             ""
           )}
+          {this.state.emailExists ? (
+            <Alert variant="warning">Email already exists. Try again</Alert>
+          ) : null}
+          {this.state.newUser ? (
+            <div>
+              Verify your email and{" "}
+              <span
+                style={{ color: "blue", cursor: "pointer" }}
+                onClick={async () => {
+                  this.setState({ newUser: false });
+                  this.SubmitToDB();
+                }}
+              >
+                click here
+              </span>{" "}
+              to continue
+            </div>
+          ) : null}
         </Container>
       </>
     );

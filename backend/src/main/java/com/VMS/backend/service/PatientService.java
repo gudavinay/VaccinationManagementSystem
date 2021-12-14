@@ -30,7 +30,7 @@ public class PatientService {
             User newUser = new User(mrn,req.getEmail(), req.getFirstName(), req.getLastName(), req.getMiddleName(),
                     req.getDob(), req.getGender(), new Address(req.getAddress().getStreet(),
                     req.getAddress().getAptNo(), req.getAddress().getCity(), req.getAddress().getState(),
-                    req.getAddress().getZipcode()), req.isVerified(), req.isAdmin(), "");
+                    req.getAddress().getZipcode()), req.isVerified(), req.isAdmin(), req.getPassword());
             User res = patientRepository.save(newUser);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
@@ -56,6 +56,15 @@ public class PatientService {
             emails.add(user.getEmail());
         }
         return emails;
+    }
+
+    public ResponseEntity<?> getUser(String email){
+        User user = patientRepository.findByEmail(email);
+        if (user!=null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     public int getRandomNumber(int min, int max) {

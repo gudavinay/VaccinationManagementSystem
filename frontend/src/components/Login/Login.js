@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { Alert, Button, Container } from "react-bootstrap";
-import { Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Form,
+  FormGroup,
+  // Label,
+  Input,
+} from "reactstrap";
 import backendServer from "../../webConfig";
 import axios from "axios";
-import {Redirect} from 'react-router-dom';
-import {setLocalStorage} from '../Services/ControllerUtils';
+import { Redirect } from "react-router-dom";
+import { setLocalStorage } from "../Services/ControllerUtils";
 
 class Login extends Component {
   constructor(props) {
@@ -19,12 +24,13 @@ class Login extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     console.log(`${backendServer}/login`);
-    var data={
-      email:this.state.email,
-      password:this.state.password
-    }
+    var data = {
+      email: this.state.email,
+      password: this.state.password,
+    };
     axios.defaults.headers["Access-Control-Allow-Origin"] = true;
-    axios.post(`${backendServer}/login`, data)
+    axios
+      .post(`${backendServer}/login`, data)
       .then((response) => {
         console.log("Status Code : ", response);
         if (response.status === 200) {
@@ -33,7 +39,8 @@ class Login extends Component {
             isSuccess: true,
             loginError: "",
           });
-          response.data.password="";
+          response.data.password = "";
+          setLocalStorage(JSON.stringify(response.data));
         } else {
           this.setState({
             loginError: "Unable to verify user",
@@ -50,7 +57,6 @@ class Login extends Component {
       });
   };
 
-
   // handleSubmit = (e) => {
   //   e.preventDefault();
   //   let data = { ...this.state };
@@ -63,51 +69,53 @@ class Login extends Component {
   // };
 
   render = () => {
-    if(this.state.isSuccess)
-    return <Redirect to= "/dashboard"/>
-    else{
-    return (
-      <>
-        <Container style={{ border: "1px solid #ddd" }}>
-          <pre>{JSON.stringify(this.state, "", 2)}</pre>
-          <div>Login</div>
-          <div>Please sign in to continue</div>
-          <Form onSubmit={(e) => this.handleSubmit(e)} className="form-stacked">
-            <FormGroup>
-              <Input
-                type="email"
-                placeholder="Email"
-                value={this.state.email}
-                onChange={(e) => this.setState({ email: e.target.value })}
-                required
-              ></Input>
-            </FormGroup>
-            <FormGroup>
-              <Input
-                type="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={(e) => this.setState({ password: e.target.value })}
-                required
-              ></Input>
-            </FormGroup>
-            <FormGroup>
-              <Button type="submit" variant="outline-dark">
-                Log In
-              </Button>
-            </FormGroup>
-          </Form>
-          {this.state.signInFailed ? (
-            <Alert variant="warning">
-              Email or Password incorrect. Please try again
-            </Alert>
-          ) : (
-            ""
-          )}
-        </Container>
-      </>
-    );
-          }
+    if (this.state.isSuccess) return <Redirect to="/appointments" />;
+    else {
+      return (
+        <>
+          <Container style={{ border: "1px solid #ddd" }}>
+            {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
+            <div>Login</div>
+            <div>Please sign in to continue</div>
+            <Form
+              onSubmit={(e) => this.handleSubmit(e)}
+              className="form-stacked"
+            >
+              <FormGroup>
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={this.state.email}
+                  onChange={(e) => this.setState({ email: e.target.value })}
+                  required
+                ></Input>
+              </FormGroup>
+              <FormGroup>
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={(e) => this.setState({ password: e.target.value })}
+                  required
+                ></Input>
+              </FormGroup>
+              <FormGroup>
+                <Button type="submit" variant="outline-dark">
+                  Log In
+                </Button>
+              </FormGroup>
+            </Form>
+            {this.state.signInFailed ? (
+              <Alert variant="warning">
+                Email or Password incorrect. Please try again
+              </Alert>
+            ) : (
+              ""
+            )}
+          </Container>
+        </>
+      );
+    }
   };
 }
 

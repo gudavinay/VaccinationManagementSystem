@@ -9,6 +9,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import moment from "moment";
 import Clock from "react-live-clock";
 import { getMimicTime } from "../Services/ControllerUtils";
+import { firebase } from "./../../Firebase/firebase";
 
 class NavigationBar extends Component {
   constructor(props) {
@@ -20,9 +21,17 @@ class NavigationBar extends Component {
       maxDate: maxDate,
     };
   }
+  signOut = () => {
+    firebase.auth().signOut();
+    this.setState({ signOut: true });
+    localStorage.clear();
+  };
   render() {
     return (
       <div style={{ marginBottom: "10%" }}>
+        {this.props.history && this.state.signOut
+          ? this.props.history.push("/")
+          : null}
         <Navbar
           className="justify-content-end"
           expand="lg"
@@ -43,7 +52,7 @@ class NavigationBar extends Component {
                   label="GLOBAL DATE"
                   value={this.state.currentTime}
                   onChange={(e) => {
-                    localStorage.setItem("time",e);
+                    localStorage.setItem("time", e);
                     window.location.reload();
                     this.setState({ currentTime: e });
                   }}
@@ -67,8 +76,7 @@ class NavigationBar extends Component {
               <Nav.Link
                 className="justify-content-end"
                 onClick={() => {
-                  localStorage.clear();
-                  this.props.history.push("/");
+                  this.signOut();
                 }}
               >
                 Log out

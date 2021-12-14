@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import // Link,
+// Redirect,
+"react-router-dom";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { firebase } from "./../../Firebase/firebase";
 import axios from "axios";
 import backendServer from "../../webConfig";
 import Login from "../Login/Login";
 import SignUp from "../SignUp/SignUp";
+import { setLocalStorage } from "../Services/ControllerUtils";
 
 class Landing extends Component {
   constructor(props) {
@@ -14,7 +17,7 @@ class Landing extends Component {
       signIn: false,
       user: null,
       allEmails: [],
-      logInFlag: false,
+      logInFlag: true,
       newUser: false,
     };
   }
@@ -41,7 +44,7 @@ class Landing extends Component {
           this.setState({ newUser: true });
           firebase.auth().currentUser.sendEmailVerification();
         } else {
-          this.proceedWithSignUp();
+          this.getUser();
         }
         console.log(res.user.emailVerified);
       })
@@ -50,10 +53,32 @@ class Landing extends Component {
       });
   };
 
+  getUser = () => {
+    axios
+      .get(
+        `${backendServer}/getUser/${this.state.user.additionalUserInfo.profile.email}`
+      )
+      .then(async (response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          let responseUser = {
+            mrn: response.data.mrn,
+            email: response.data.email,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+          };
+          console.log(responseUser);
+          // localStorage.setItem("user", JSON.stringify(responseUser));
+          await localStorage.setItem("userData", JSON.stringify(responseUser));
+          this.setState({
+            isSuccess: true,
+            loginError: "",
+          });
+        }
+      });
+  };
+
   proceedWithSignUp = () => {
-    console.log(this.state.newUser);
-    console.log(this.state.signIn);
-    console.log(this.state.user.user.emailVerified);
     if (
       !this.state.newUser &&
       this.state.signIn &&
@@ -62,6 +87,7 @@ class Landing extends Component {
       let emailId = this.state.user.additionalUserInfo.profile.email;
       let user = {
         email: emailId,
+        password: "",
         firstName: this.state.user.additionalUserInfo.profile.given_name,
         middleName: "",
         lastName: this.state.user.additionalUserInfo.profile.family_name,
@@ -81,21 +107,22 @@ class Landing extends Component {
         },
       };
       console.log(user);
-      axios.post(`${backendServer}/signup`, user).then((response) => {
+      axios.post(`${backendServer}/signup`, user).then(async (response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
           console.log(response.data);
-          this.setState({
-            isSuccess: true,
-            loginError: "",
-          });
           let responseUser = {
             mrn: response.data.mrn,
             email: response.data.email,
             firstName: response.data.firstName,
             lastName: response.data.lastName,
           };
-          localStorage.setItem("user", JSON.stringify(responseUser));
+          // localStorage.setItem("user", JSON.stringify(responseUser));
+          setLocalStorage(JSON.stringify(responseUser));
+          await this.setState({
+            isSuccess: true,
+            loginError: "",
+          });
         }
       });
     }
@@ -104,12 +131,16 @@ class Landing extends Component {
   signOut = () => {
     firebase.auth().signOut();
     this.setState({ signIn: false, user: null });
+    localStorage.clear();
   };
 
   render = () => {
     console.log(this.state);
     return (
       <>
+        {this.props.history && this.state.isSuccess
+          ? this.props.history.push("/dashboard")
+          : null}
         <Container style={{ height: "100vh" }}>
           <Row
             style={{

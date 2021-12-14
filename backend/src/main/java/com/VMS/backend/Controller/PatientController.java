@@ -36,6 +36,11 @@ public class PatientController {
         }
     }
 
+    @RequestMapping(value = "/getUser/{email}", method = RequestMethod.GET, produces = {"application/json"})
+    public ResponseEntity<?> getUser(@PathVariable("email") String email){
+        return patientService.getUser(email);
+    }
+
     @RequestMapping(value = "/allEmails", method = RequestMethod.GET, produces = { "application/json" })
     public List<String> getAllEmails() {
         return patientService.getAllEmails();
