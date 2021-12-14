@@ -11,7 +11,7 @@ import {
     Col,
     Row
 } from "reactstrap";
-import { createTimeSlots, getUserProfile } from "../../Services/ControllerUtils";
+import { createTimeSlots, getMimicTime, getUserProfile } from "../../Services/ControllerUtils";
 import axios from "axios";
 import moment from "moment";
 import {Redirect} from 'react-router-dom';
@@ -20,9 +20,10 @@ import{ init } from 'emailjs-com';
 class NewAppointment extends Component {
     constructor(props) {
         super(props);
+        let mimicTime = moment(getMimicTime());
         this.state = {
-            minDate: moment().format("YYYY-MM-DD"),
-            maxDate: moment().add(365, "days").format("YYYY-MM-DD"),
+            minDate: mimicTime.add(1, "days").format("YYYY-MM-DD"),
+            maxDate: mimicTime.add(365, "days").format("YYYY-MM-DD"),
             expanded: "panel1",
             clinicData: [],
             vaccinationData: [],
@@ -163,7 +164,7 @@ class NewAppointment extends Component {
                                             this.setState({
                                                 selectedClinic: e.target.value,
                                                 selectedClinicFullInfo: item,
-                                                timeSlotsList: createTimeSlots(this.state.selectedDate, item.startBussinessHour, item.endBussinessHour, false)
+                                                timeSlotsList: createTimeSlots(item.startBussinessHour, item.endBussinessHour, false)
                                             });
                                         }}>
                                             {this.state.clinicData.map((element, index) =>
@@ -203,11 +204,12 @@ class NewAppointment extends Component {
                                 </Row> <br />
                                 {this.state.selectedClinic && <Row>
                                     <Col>
-                                        <Label>Select Date of appointment</Label>
+                                        <Label>Select Date of appointment</Label><br/>
                                         <input className="form-control" type="date" onChange={(e) => {
-                                            this.setState({ selectedDate: e.target.value, timeSlotsList: createTimeSlots(e.target.value, this.state.selectedClinicFullInfo.startBussinessHour, this.state.selectedClinicFullInfo.endBussinessHour, false) });
+                                            this.setState({ selectedDate: e.target.value, timeSlotsList: createTimeSlots(this.state.selectedClinicFullInfo.startBussinessHour, this.state.selectedClinicFullInfo.endBussinessHour, false) });
                                             this.getAllAppointmentsOnDate(e.target.value);
                                         }} min={this.state.minDate} max={this.state.maxDate} placeholder="mm-dd-yyyy" />
+                                        <span style={{fontSize:"10px",color:"red"}}>Note:Book atleast 1 day proir to the start of appointment</span>
                                     </Col>
                                     <Col>
                                         {this.state.selectedDate && <Row>
