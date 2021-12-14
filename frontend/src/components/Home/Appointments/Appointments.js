@@ -18,13 +18,16 @@ class Appointments extends Component {
     this.state = {
       expanded: "panel1",
       allAppointments: [],
+      futureAppointments:[],
+      pastAppointments:[],
+      cancelledAppointments:[]
     };
   }
 
   handleCancelAppointment = (appointment) => {
     console.log(appointment);
-    var data={
-      appointmentID:appointment.appointmentId,
+    var data = {
+      appointmentID: appointment.appointmentId,
     };
     axios.post(`${backendServer}/cancelAppointment`, data).then((response) => {
       if (response.status === 200) {
@@ -34,7 +37,7 @@ class Appointments extends Component {
     });
   };
 
-  handleUpdateAppointment=(appointment) => {
+  handleUpdateAppointment = (appointment) => {
 
   }
 
@@ -61,10 +64,25 @@ class Appointments extends Component {
       axios
         .get(`${backendServer}/getAppointmentsForUser/${userData.mrn}`)
         .then((response) => {
-          this.setState({ allAppointments: response.data });
-          for (let appointment of response.data) {
-            console.log(new Date(moment(appointment.appointmentDateTime)) > getMimicTime());
+          let cancelled = [];
+          let future = [];
+          let past = [];
+          if (response.status === 200) {
+            this.setState({ allAppointments: response.data });
+            for (let appointment of response.data) {
+              if (appointment.isChecked === 3) {
+                cancelled.push(appointment);
+              } else if (new Date(moment(appointment.appointmentDateTime)) > getMimicTime()) {
+                future.push(appointment);
+              } else {
+                past.push(appointment);
+              }
+            }
+            this.setState({ cancelledAppointments: cancelled, pastAppointments: past, futureAppointments: future });
+          } else {
+            this.setState({ cancelledAppointments: cancelled, pastAppointments: past, futureAppointments: future });
           }
+
         });
     }
   }
@@ -75,8 +93,7 @@ class Appointments extends Component {
   };
 
   render() {
-    let futureAppointments = this.state.allAppointments.map((item) =>
-      ((new Date(moment(item.appointmentDateTime))) > (new Date(getMimicTime()))) ? (
+    let futureAppointments = this.state.futureAppointments.map((item) =>
         <Card key={item.appointmentId} >
           <Card.Body>
             <Row>
@@ -95,40 +112,40 @@ class Appointments extends Component {
                 </div>
                 <div>
                   <Col>
-                  <Button
+                    <Button
                       variant="primary"
                       onClick={(e) => this.handleCancelAppointment(item)}
                     >
                       Cancel
                     </Button>
                     <Button
-                      style={{margin:"20px"}}
+                      style={{ margin: "20px" }}
                       variant="primary"
                       onClick={(e) => this.handleUpdateAppointment(item)}
                     >
                       Update
                     </Button>
-                  
-                  {/* {(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') } */}
-                  {!item.isChecked ? (
-                    <Button
-                      variant="primary"
-                      style={{marginLeft:"20px"}}
-                      onClick={(e) => this.handleCheckin(item)}
-                      disabled={(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') > 86400}
-                    >
-                      Check In
-                    </Button>
 
-                    
-                  ) : (
-                    <Button
-                      variant="primary"
-                      disabled
-                    >
-                      Checked In
-                    </Button>
-                  )}
+                    {/* {(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') } */}
+                    {!item.isChecked ? (
+                      <Button
+                        variant="primary"
+                        style={{ marginLeft: "20px" }}
+                        onClick={(e) => this.handleCheckin(item)}
+                        disabled={(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') > 86400}
+                      >
+                        Check In
+                      </Button>
+
+
+                    ) : (
+                      <Button
+                        variant="primary"
+                        disabled
+                      >
+                        Checked In
+                      </Button>
+                    )}
                   </Col>
                 </div>
               </Col>
@@ -142,90 +159,77 @@ class Appointments extends Component {
               </Col></Row>
           </Card.Body>
         </Card>
-      ) : null
-    );
-    let cancelledAppointments = this.state.allAppointments.map((item) =>
-      new Date(item.appointmentDateTime) < new Date() &&
-        item.isChecked === 3 ? (
+        );
+    let cancelledAppointments = this.state.cancelledAppointments.map((item) =>
         <Card key={item.appointmentId} >
           <Card.Body>
             <Row>
-            <Col md={8}>
-              <div>Clinic: {item.clinic.name}</div>
-              <div>
-                Address: {item.clinic.address.street}, {item.clinic.address.city}
-              </div>
-              <div>
-                Appointment Date:{" "}
-                {new Date(item.appointmentDateTime).toDateString()}
-              </div>
-              <div>
-                Appointment Time:{" "}
-                {item.appointmentTimeStr}
-              </div>
-              <div>
-                <Button disabled variant="danger">
-                  Cancelled
-                </Button>
-              </div>
-            </Col>
-            <Col>
-              List of Vaccinations:
-              <ul>
-                {item.vaccinations.map((elem) => (
-                  <li>{elem.vaccinationName}</li>
-                ))}
-              </ul>
-            </Col>
+              <Col md={8}>
+                <div>Clinic: {item.clinic.name}</div>
+                <div>
+                  Address: {item.clinic.address.street}, {item.clinic.address.city}
+                </div>
+                <div>
+                  Appointment Date:{" "}
+                  {new Date(item.appointmentDateTime).toDateString()}
+                </div>
+                <div>
+                  Appointment Time:{" "}
+                  {item.appointmentTimeStr}
+                </div>
+              </Col>
+              <Col>
+                List of Vaccinations:
+                <ul>
+                  {item.vaccinations.map((elem) => (
+                    <li>{elem.vaccinationName}</li>
+                  ))}
+                </ul>
+              </Col>
             </Row>
           </Card.Body>
-
         </Card>
-      ) : null
     );
-    let pastAppointments = this.state.allAppointments.map((item) =>
-      ((new Date(moment(item.appointmentDateTime))) < (new Date(getMimicTime()))) &&
-        (item.isChecked === 1 || item.isChecked === 2) ? (
+    let pastAppointments = this.state.pastAppointments.map((item) =>
         <Card key={item.appointmentId} >
           <Card.Body>
-          <Row>
-          <Col md={8}>
-            <div>Clinic: {item.clinic.name}</div>
-            <div>
-              Address: {item.clinic.address.street}, {item.clinic.address.city}
-            </div>
-            <div>
-              Appointment Date:{" "}
-              {new Date(item.appointmentDateTime).toDateString()}
-            </div>
-            <div>
-              Appointment Time:{" "}
-              {item.appointmentTimeStr}
-            </div>
-            <div>
-              {item.isChecked === 1 ? (
-                <Button disabled variant="success">
-                  Completed
-                </Button>
-              ) : (
-                <Button disabled variant="warning">
-                  No Show
-                </Button>
-              )}
-            </div>
-          </Col>
-          <Col>
-            List of Vaccinations:
-            <ul>
-              {item.vaccinations.map((elem) => (
-                <li>{elem.vaccinationName}</li>
-              ))}
-            </ul>
-          </Col>
-          </Row>
+            <Row>
+              <Col md={8}>
+                <div>Clinic: {item.clinic.name}</div>
+                <div>
+                  Address: {item.clinic.address.street}, {item.clinic.address.city}
+                </div>
+                <div>
+                  Appointment Date:{" "}
+                  {new Date(item.appointmentDateTime).toDateString()}
+                </div>
+                <div>
+                  Appointment Time:{" "}
+                  {item.appointmentTimeStr}
+                </div>
+                <div>
+                  {item.isChecked === 1 ? (
+                    <Button disabled variant="success">
+                      Completed
+                    </Button>
+                  ) : (
+                    <Button disabled variant="warning">
+                      No Show
+                    </Button>
+                  )}
+                </div>
+              </Col>
+              <Col>
+                List of Vaccinations:
+                <ul>
+                  {item.vaccinations.map((elem) => (
+                    <li>{elem.vaccinationName}</li>
+                  ))}
+                </ul>
+              </Col>
+            </Row>
           </Card.Body>
         </Card>
-      ) : null
     );
     return (
       <React.Fragment>
