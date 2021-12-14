@@ -4,6 +4,7 @@ import { Form, FormGroup, Label, Input } from "reactstrap";
 import backendServer from "../../webConfig";
 import axios from "axios";
 import {Redirect} from 'react-router-dom';
+import {setLocalStorage} from '../Services/ControllerUtils';
 
 class Login extends Component {
   constructor(props) {
@@ -25,13 +26,14 @@ class Login extends Component {
     axios.defaults.headers["Access-Control-Allow-Origin"] = true;
     axios.post(`${backendServer}/login`, data)
       .then((response) => {
-        console.log("Status Code : ", response.status);
+        console.log("Status Code : ", response);
         if (response.status === 200) {
           this.setState({
             isSuccess: true,
             loginError: "",
           });
-          this.SetLocalStorage(JSON.stringify(response.data));
+          response.data.password="";
+          setLocalStorage(JSON.stringify(response.data));
         } else {
           this.setState({
             loginError: "Unable to verify user",

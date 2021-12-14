@@ -11,7 +11,7 @@ import {
     Col,
     Row
 } from "reactstrap";
-import { createTimeSlots } from "../../Services/ControllerUtils";
+import { createTimeSlots, getUserProfile } from "../../Services/ControllerUtils";
 import axios from "axios";
 import moment from "moment";
 import {Redirect} from 'react-router-dom';
@@ -31,7 +31,7 @@ class NewAppointment extends Component {
             selectedVaccinations: [],
             selectedDate: "",
             selectedTime: "",
-            existingBookings: []
+            existingBookings: [],
         };
     }
 
@@ -95,20 +95,22 @@ class NewAppointment extends Component {
         })
     }
 
+
+
     handleSubmit = async (e) => {
         e.preventDefault();
         let listOfIds = [];
         for (let vaccination of this.state.selectedVaccinations) {
             listOfIds.push(this.state.vaccinationData.find(element => element.vaccinationName === vaccination).vaccinationId);
         }
-
+        var userData=getUserProfile();
         let data = {
             appointmentDateTime: this.state.selectedDate + " " + this.state.selectedTime,
             createdDate: "" + moment().format('yyyy-MM-DD hh:mm A'),
             vaccinations: listOfIds,
             clinic: this.state.selectedClinicFullInfo.id,
-            user_id: 85887,
-            userEmail: "test@test.com",
+            user_id: userData.mrn,
+            userEmail: userData.email,
             appointmentDateStr: this.state.selectedDate,
             appointmentTimeStr: this.state.selectedTime
         };

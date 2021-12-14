@@ -21,6 +21,18 @@ export function createTimeSlots(date, opening, closing, includeExtra) {
     return tempList;
 }
 
+export function setLocalStorage(data) {
+    if (typeof Storage !== "undefined") {
+      localStorage.clear();
+      localStorage.setItem("userData", data);
+    }
+  }
+
+  export function getUserProfile() {
+    const data = JSON.parse(localStorage.getItem("userData"));
+    if (data != null) return data;
+  }
+
 export function getTimeFromInt(number){
     return new moment(moment(number, timeFormat)).format(timeFormat);
 }

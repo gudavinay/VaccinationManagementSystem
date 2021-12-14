@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Col, Row, Button } from "react-bootstrap";
 import axios from "axios";
 import backendServer from "../../../webConfig";
+import { getUserProfile } from "../../Services/ControllerUtils";
 class Appointments extends Component {
   constructor(props) {
     super(props);
@@ -19,8 +20,9 @@ class Appointments extends Component {
 
   componentDidMount = () => {
     let date = new Date().today;
+    let userData= getUserProfile();
     axios
-      .get(`${backendServer}/getAppointmentsForUser/85887`)
+      .get(`${backendServer}/getAppointmentsForUser/${userData.mrn}`)
       .then((response) => {
         this.setState({ allAppointments: response.data });
       });
