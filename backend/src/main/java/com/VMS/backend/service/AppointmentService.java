@@ -36,7 +36,8 @@ public class AppointmentService {
 
     public ResponseEntity<?> createAppointment(AppointmentPOJO req) throws IllegalAccessException {
         try {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+            Appointment appointment=null;
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
             List<Vaccination> vaccinations = new ArrayList<>();
             User u = patientRepository.findByEmail(req.getUserEmail());
             Optional<Clinic> c = clinicRepository.findById(req.getClinic());
@@ -44,13 +45,31 @@ public class AppointmentService {
                 Optional<Vaccination> v = vaccinationRepository.findById(i);
                 v.ifPresent(vaccinations::add);
             }
-             getAppointmentVaccinationDue(vaccinations,req.getUserId());
-             Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()),req.getAppointmentDateStr(),req.getAppointmentTimeStr());
-             Appointment res = appointmentRepository.save(appointment);
-             return new ResponseEntity<>(res, HttpStatus.OK);
+            getAppointmentVaccinationDue(vaccinations,req.getUserId());
+            appointment=appointmentRepository.getById(req.getAppointmentID());
+            if(appointment!=null){
+                appointment.setClinic(c.get());
+                appointment.setAppointmentDateTime(formatter.parse(req.getAppointmentDateTime()));
+                appointment.setAppointmentDateStr(req.getAppointmentDateTime());
+                appointment.setAppointmentDateStr(req.getAppointmentDateTime());
+            }else{
+                appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()),req.getAppointmentDateStr(),req.getAppointmentTimeStr());
+            }
+            Appointment res = appointmentRepository.save(appointment);
+            return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (Exception ex) {
             throw new IllegalAccessException("Error in creating appointment");
         }
+    }
+
+    public ResponseEntity<?> cancelAppointment(AppointmentPOJO req) {
+        Appointment appointment=appointmentRepository.getById(req.getAppointmentID());
+        if(appointment!=null){
+            appointment.setIsChecked(3);
+            Appointment p=appointmentRepository.save(appointment);
+            return new ResponseEntity<>(p, HttpStatus.OK);
+        }
+        return null;
     }
 
     public boolean getAppointmentVaccinationDue(List<Vaccination> vaccinations,int user_mrn) {

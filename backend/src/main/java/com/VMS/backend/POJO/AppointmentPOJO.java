@@ -9,9 +9,14 @@ public class AppointmentPOJO {
     private int userId;
     private String userEmail;
     private String  createdDate;
-
     private String appointmentDateStr;
     private String appointmentTimeStr;
+
+    public int getAppointmentID() {
+        return appointmentID;
+    }
+
+    private int appointmentID;
     
     public AppointmentPOJO() {
     }

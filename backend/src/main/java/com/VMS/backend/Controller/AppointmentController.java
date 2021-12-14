@@ -53,4 +53,10 @@ public class AppointmentController {
     ) {
         return appointmentService.getCheckedInAppointmentsForUser(user_mrn,isChecked);
     }
+
+    @RequestMapping(value = "/cancelAppointment", method = RequestMethod.POST, produces = {
+            "application/json" })
+    public ResponseEntity<?> cancelAppointment(@RequestBody AppointmentPOJO req) {
+        return appointmentService.cancelAppointment(req);
+    }
 }
