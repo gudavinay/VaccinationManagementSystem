@@ -21,6 +21,10 @@ export function createTimeSlots(date, opening, closing, includeExtra) {
     return tempList;
 }
 
+export function getMimicTime(){
+  return localStorage.getItem("time") ? localStorage.getItem("time") : new Date(new Date(moment()));
+}
+
 export function setLocalStorage(data) {
     if (typeof Storage !== "undefined") {
       localStorage.clear();

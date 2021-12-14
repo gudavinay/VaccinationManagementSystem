@@ -8,15 +8,15 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import moment from "moment";
 import Clock from "react-live-clock";
+import { getMimicTime } from "../Services/ControllerUtils";
 
 class NavigationBar extends Component {
   constructor(props) {
-    let today = new Date(moment());
     let maxDate = new Date(moment().add(1, "year"));
     super(props);
     this.state = {
       isAdmin: false,
-      currentTime: new Date(today),
+      currentTime: getMimicTime(),
       maxDate: maxDate,
     };
   }
@@ -43,6 +43,8 @@ class NavigationBar extends Component {
                   label="GLOBAL DATE"
                   value={this.state.currentTime}
                   onChange={(e) => {
+                    localStorage.setItem("time",e);
+                    window.location.reload();
                     this.setState({ currentTime: e });
                   }}
                   renderInput={(params) => <TextField {...params} />}

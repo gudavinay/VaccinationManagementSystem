@@ -17,7 +17,7 @@ class Main extends Component {
   render() {
     return (
       <React.Fragment>
-        {localStorage.getItem("user") ? <Navbar /> : null}
+        {localStorage.getItem("userData") ? <Navbar /> : null}
         <Route exact path="/" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
