@@ -70,8 +70,6 @@ class SignUp extends Component {
 
   SubmitToDB = async () => {
     await firebase.auth().currentUser.reload();
-    while (!firebase.auth().currentUser.emailVerified)
-      console.log(firebase.auth().currentUser);
     if (!this.state.newUser && firebase.auth().currentUser.emailVerified) {
       let gender = "Male";
       if (this.state.gender !== 1)
