@@ -171,7 +171,7 @@ class NewAppointment extends Component {
   render() {
     let noSlotsAvailable = false; //this.state.physiciansAvailable === this.state.appointments.length; TODO
     if (this.state.isSuccess) {
-      return <Redirect to="/" />;
+      return <Redirect to="/dashboard" />;
     } else
       return (
         <React.Fragment>

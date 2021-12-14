@@ -89,7 +89,7 @@ class AddVaccination extends Component {
 
   render() {
     if (this.state.isSuccess) {
-      return <Redirect to="/" />;
+      return <Redirect to="/dashboard" />;
     } else
       return (
         <React.Fragment>

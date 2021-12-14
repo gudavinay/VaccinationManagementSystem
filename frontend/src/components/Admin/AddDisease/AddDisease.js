@@ -52,7 +52,7 @@ class AddDisease extends Component {
 
   render() {
     if (this.state.isSuccess) {
-      return <Redirect to="" />;
+      return <Redirect to="/dashboard" />;
     }
     return (
       <React.Fragment>

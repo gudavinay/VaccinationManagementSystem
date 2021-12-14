@@ -47,7 +47,7 @@ public class AppointmentService {
              getAppointmentVaccinationDue(vaccinations,req.getUserId());
              Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()),req.getAppointmentDateStr(),req.getAppointmentTimeStr());
              Appointment res = appointmentRepository.save(appointment);
-            return new ResponseEntity<>(res, HttpStatus.OK);
+             return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (Exception ex) {
             throw new IllegalAccessException("Error in creating appointment");
         }
