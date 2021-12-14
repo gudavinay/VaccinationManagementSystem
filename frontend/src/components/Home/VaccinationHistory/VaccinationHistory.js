@@ -21,7 +21,7 @@ class VaccinationHistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded:"panel1"
+      expanded: "panel1",
     };
   }
 
@@ -48,7 +48,7 @@ class VaccinationHistory extends Component {
       .catch((error) => {
         console.log("error:", error);
         this.setState({
-          checkedInAppointments: {},
+          checkedInAppointments: [],
           vaccinationHistoryError: true,
         });
       });

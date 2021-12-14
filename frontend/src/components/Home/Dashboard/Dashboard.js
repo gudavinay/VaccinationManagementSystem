@@ -4,6 +4,7 @@ import VaccinationHistory from "../VaccinationHistory/VaccinationHistory";
 import Appointments from "../Appointments/Appointments";
 import VaccinationsDue from "../VaccinationsDue/VaccinationsDue";
 import Navbar from "./../../Navbar/Navbar";
+import { Redirect } from "react-router";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -12,6 +13,9 @@ class Dashboard extends Component {
   }
 
   render() {
+    if (localStorage.getItem("newUser")) {
+      return <Redirect to="/passwordReset" />;
+    }
     return (
       <React.Fragment>
         {this.props.history && localStorage.getItem("userData") === null

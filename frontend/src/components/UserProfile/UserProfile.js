@@ -92,6 +92,7 @@ class UserProfile extends Component {
             email: response.data.email,
             firstName: response.data.firstName,
             lastName: response.data.lastName,
+            isAdmin: response.data.admin,
           };
           localStorage.setItem("userData", JSON.stringify(responseUser));
           this.setState({ success: true });

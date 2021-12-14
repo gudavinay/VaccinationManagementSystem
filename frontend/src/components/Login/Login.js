@@ -9,7 +9,6 @@ import {
 import backendServer from "../../webConfig";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { setLocalStorage } from "../Services/ControllerUtils";
 
 class Login extends Component {
   constructor(props) {
@@ -34,13 +33,18 @@ class Login extends Component {
       .then((response) => {
         console.log("Status Code : ", response);
         if (response.status === 200) {
-          setLocalStorage(JSON.stringify(response.data));
+          let responseUser = {
+            mrn: response.data.mrn,
+            email: response.data.email,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            isAdmin: response.data.admin,
+          };
+          localStorage.setItem("userData", JSON.stringify(responseUser));
           this.setState({
             isSuccess: true,
             loginError: "",
           });
-          response.data.password = "";
-          setLocalStorage(JSON.stringify(response.data));
         } else {
           this.setState({
             loginError: "Unable to verify user",
@@ -69,7 +73,7 @@ class Login extends Component {
   // };
 
   render = () => {
-    if (this.state.isSuccess) return <Redirect to="/appointments" />;
+    if (this.state.isSuccess) return <Redirect to="/dashboard" />;
     else {
       return (
         <>

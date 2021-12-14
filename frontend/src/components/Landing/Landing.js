@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import // Link,
-// Redirect,
-"react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { firebase } from "./../../Firebase/firebase";
 import axios from "axios";
@@ -66,9 +64,9 @@ class Landing extends Component {
             email: response.data.email,
             firstName: response.data.firstName,
             lastName: response.data.lastName,
+            isAdmin: response.data.admin,
           };
           console.log(responseUser);
-          // localStorage.setItem("user", JSON.stringify(responseUser));
           await localStorage.setItem("userData", JSON.stringify(responseUser));
           this.setState({
             isSuccess: true,
@@ -137,6 +135,10 @@ class Landing extends Component {
 
   render = () => {
     console.log(this.state);
+    console.log(localStorage.getItem("userData"));
+    if (localStorage.getItem("userData")) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <>
         {this.props.history && this.state.isSuccess

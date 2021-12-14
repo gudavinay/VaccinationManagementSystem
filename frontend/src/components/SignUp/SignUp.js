@@ -4,7 +4,7 @@ import { Form, FormGroup, Label, Input, ButtonGroup } from "reactstrap";
 import backendServer from "../../webConfig";
 import axios from "axios";
 import { firebase } from "./../../Firebase/firebase";
-import { setLocalStorage } from "../Services/ControllerUtils";
+import { Redirect } from "react-router-dom";
 
 class SignUp extends Component {
   constructor(props) {
@@ -107,11 +107,11 @@ class SignUp extends Component {
             email: response.data.email,
             firstName: response.data.firstName,
             lastName: response.data.lastName,
+            isAdmin: response.data.admin,
           };
-          // localStorage.setItem("user", JSON.stringify(responseUser));
-          setLocalStorage(JSON.stringify(responseUser));
+          localStorage.setItem("userData", JSON.stringify(responseUser));
           await this.setState({
-            isSuccess: true,
+            success: true,
             loginError: "",
           });
         }
@@ -121,11 +121,11 @@ class SignUp extends Component {
 
   render = () => {
     console.log(this.state);
+    if (this.state.success) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <>
-        {this.props.history && this.state.isSuccess
-          ? this.props.history.push("/dashboard")
-          : null}
         <Container style={{ border: "1px solid #ddd" }}>
           {/* <pre>{JSON.stringify(this.state, "", 2)}</pre>
           <pre>{JSON.stringify(this.props, "", 2)}</pre> */}

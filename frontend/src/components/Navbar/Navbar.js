@@ -47,8 +47,12 @@ class NavigationBar extends Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              {/* {this.state.isAdmin ?  */}
-              <AdminSnippet /> : <UserSnippet />
+              {localStorage.getItem("userData") &&
+              JSON.parse(localStorage.getItem("userData")).isAdmin ? (
+                <AdminSnippet />
+              ) : (
+                <UserSnippet />
+              )}
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="GLOBAL DATE"
