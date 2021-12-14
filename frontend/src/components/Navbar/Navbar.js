@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Nav } from "react-bootstrap";
+import { Col, Nav, Row } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import { DatePicker } from "@mui/lab";
 import { Link, Redirect } from "react-router-dom";
@@ -17,6 +17,7 @@ class NavigationBar extends Component {
     super(props);
     this.state = {
       isAdmin: false,
+      localTime: new Date(new Date(moment())),
       currentTime: getMimicTime(),
       maxDate: maxDate,
       signOut: false,
@@ -48,7 +49,7 @@ class NavigationBar extends Component {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               {localStorage.getItem("userData") &&
-              JSON.parse(localStorage.getItem("userData")).isAdmin ? (
+                JSON.parse(localStorage.getItem("userData")).isAdmin ? (
                 <AdminSnippet />
               ) : (
                 <UserSnippet />
@@ -66,14 +67,20 @@ class NavigationBar extends Component {
                   minDate={this.state.currentTime}
                   maxDate={this.state.maxDate}
                 />
-                <div style={{ color: "whitesmoke" }}>
-                  Global Clock:{" "}
-                  {moment(this.state.currentTime).format("MMM Do YYYY")}{" "}
-                  <Clock
-                    format={"HH:mm:ss"}
-                    ticking={true}
-                    timezone={"US/Pacific"}
-                  />
+                <div style={{ color: "whitesmoke", width: "35%" }}>
+                  <Col>
+                    <Row>
+                      <span>Global Clock: {moment(this.state.currentTime).format("MMM Do YYYY")}{" "}
+                        <Clock format={"HH:mm:ss"} ticking={true} timezone={"US/Pacific"} />
+                      </span>
+                    </Row>
+                    <Row>
+                      <span>Local Clock: {moment(this.state.localTime).format("MMM Do YYYY")}{" "}
+                        <Clock format={"HH:mm:ss"} ticking={true} timezone={"US/Pacific"} />
+                      </span>
+                    </Row>
+                  </Col>
+
                 </div>
               </LocalizationProvider>
               {this.state.today}
@@ -85,7 +92,7 @@ class NavigationBar extends Component {
                   this.signOut();
                 }}
               >
-                Log out
+                Logout
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
