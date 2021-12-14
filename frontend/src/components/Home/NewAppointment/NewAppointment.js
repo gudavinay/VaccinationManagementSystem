@@ -110,7 +110,7 @@ class NewAppointment extends Component {
             createdDate: "" + moment().format('yyyy-MM-DD hh:mm A'),
             vaccinations: listOfIds,
             clinic: this.state.selectedClinicFullInfo.id,
-            user_id: userData.mrn,
+            userId: userData.mrn,
             userEmail: userData.email,
             appointmentDateStr: this.state.selectedDate,
             appointmentTimeStr: this.state.selectedTime

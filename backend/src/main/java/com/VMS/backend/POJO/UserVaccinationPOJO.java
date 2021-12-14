@@ -3,20 +3,31 @@ package com.VMS.backend.POJO;
 import com.VMS.backend.entity.Vaccination;
 import java.util.*;
 
-public class UserVaccination {
+public class UserVaccinationPOJO {
 
     private int user_Id;
     private int appointmentId;
     private List<Vaccination> vaccinations;
 
-    public UserVaccination(){
+    public Date getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(Date checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    private Date checkInDate;
+
+    public UserVaccinationPOJO(){
 
     }
 
-    public UserVaccination(int user_Id, List<Vaccination> vaccinations, int appointmentId) {
+    public UserVaccinationPOJO(int user_Id, List<Vaccination> vaccinations, int appointmentId, Date dateTime) {
         this.user_Id = user_Id;
         this.appointmentId = appointmentId;
         this.vaccinations = vaccinations;
+        this.checkInDate=dateTime;
     }
 
     public int getUser_Id() {

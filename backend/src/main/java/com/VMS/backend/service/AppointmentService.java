@@ -44,11 +44,32 @@ public class AppointmentService {
                 Optional<Vaccination> v = vaccinationRepository.findById(i);
                 v.ifPresent(vaccinations::add);
             }
-            Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()),req.getAppointmentDateStr(),req.getAppointmentTimeStr());
-            Appointment res = appointmentRepository.save(appointment);
+             getAppointmentVaccinationDue(vaccinations,req.getUserId());
+             Appointment appointment = new Appointment(formatter.parse(req.getAppointmentDateTime()), vaccinations, c.get(), u, 0, formatter.parse(req.getCreatedDate()),req.getAppointmentDateStr(),req.getAppointmentTimeStr());
+             Appointment res = appointmentRepository.save(appointment);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (Exception ex) {
             throw new IllegalAccessException("Error in creating appointment");
+        }
+    }
+
+    public boolean getAppointmentVaccinationDue(List<Vaccination> vaccinations,int user_mrn) {
+        try {
+            List<Appointment> appointments=appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+
+            for(Appointment appointment:appointments){
+                for(Vaccination vaccination: appointment.getVaccinations()){
+                    for(Vaccination v:vaccinations){
+                        if(v.getVaccinationId()==vaccination.getVaccinationId()){
+
+                        }
+                    }
+                }
+            }
+            return true;
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Error getting appointments for user");
+
         }
     }
 

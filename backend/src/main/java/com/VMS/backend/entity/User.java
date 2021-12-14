@@ -32,8 +32,6 @@ public class User {
     private boolean admin;
     private String password;
 
-    @OneToMany(targetEntity = Vaccination.class, cascade = CascadeType.ALL)
-    private List<Vaccination> vaccinations;
 
     @OneToMany(targetEntity = Appointment.class, cascade = CascadeType.ALL)
     private List<Appointment> appointments;
@@ -141,14 +139,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Vaccination> getVaccinations() {
-        return vaccinations;
-    }
-
-    public void setVaccinations(List<Vaccination> vaccinations) {
-        this.vaccinations = vaccinations;
     }
 
     public List<Appointment> getAppointments() {

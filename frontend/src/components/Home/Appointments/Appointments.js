@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Col, Row, Button } from "react-bootstrap";
 import axios from "axios";
 import backendServer from "../../../webConfig";
-import { getUserProfile } from "../../Services/ControllerUtils";
+import { getUserProfile, getMimicTime } from "../../Services/ControllerUtils";
 class Appointments extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +16,22 @@ class Appointments extends Component {
       expanded: "panel1",
       allAppointments: [],
     };
+  }
+
+  handleCheckin=(appointment)=>{
+    console.log(appointment);
+    let userData= getUserProfile();
+    var data={
+      user_Id:userData.mrn,
+      vaccinations:appointment.vaccinations,
+      appointmentId:appointment.appointmentId, 
+      checkInDate:getMimicTime()
+    }
+    axios.post(`${backendServer}/checkInAppointment`, data).then((response)=>{
+        if(response.status==200){
+          alert(response.data);
+        }
+    })
   }
 
   componentDidMount = () => {
@@ -54,7 +70,7 @@ class Appointments extends Component {
               {new Date(item.appointmentDateTime).toTimeString()}
             </div>
             <div>
-              <Button variant="primary">Check In</Button>
+              <Button variant="primary" onClick={(e)=>this.handleCheckin(item)}>Check In</Button>
             </div>
           </Col>
           <Col>

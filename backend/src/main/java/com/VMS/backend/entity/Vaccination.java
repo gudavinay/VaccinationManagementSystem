@@ -85,10 +85,4 @@ public class Vaccination {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-
-
-
-
-
-    
 }

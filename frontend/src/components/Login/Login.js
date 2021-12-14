@@ -28,12 +28,12 @@ class Login extends Component {
       .then((response) => {
         console.log("Status Code : ", response);
         if (response.status === 200) {
+          setLocalStorage(JSON.stringify(response.data));
           this.setState({
             isSuccess: true,
             loginError: "",
           });
           response.data.password="";
-          setLocalStorage(JSON.stringify(response.data));
         } else {
           this.setState({
             loginError: "Unable to verify user",
@@ -64,7 +64,7 @@ class Login extends Component {
 
   render = () => {
     if(this.state.isSuccess)
-    return <Redirect to= "/appointments"/>
+    return <Redirect to= "/dashboard"/>
     else{
     return (
       <>
