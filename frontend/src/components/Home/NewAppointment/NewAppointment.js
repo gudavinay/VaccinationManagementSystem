@@ -21,7 +21,7 @@ class NewAppointment extends Component {
   constructor(props) {
     super(props);
     let mimicTime = moment(getMimicTime());
-    this.state = {
+    let data = {
       minDate: mimicTime.add(1, "days").format("YYYY-MM-DD"),
       updatedMinDate:"",
       maxDate: mimicTime.add(365, "days").format("YYYY-MM-DD"),
@@ -36,6 +36,21 @@ class NewAppointment extends Component {
       existingBookings: [],
       disabledVaccinations:[]
     };
+
+    if(this.props.data && this.props.data.appointmentId){
+      let d = this.props.data;
+      data.selectedClinic = d.clinic.name;
+      let vaccData = [];
+      for(let vac of d.vaccinations) vaccData.push(vac.vaccinationName); 
+      data.selectedVaccinations  = vaccData;
+      data.selectedClinicFullInfo = d.clinic;
+      data.timeSlotsList = createTimeSlots(d.clinic.startBussinessHour,d.clinic.endBussinessHour,false)
+      data.selectedDate = moment(d.appointmentDateStr).format("MM-DD-YYYY");
+      data.selectedTime = d.appointmentTimeStr;
+      data.appointmentId = d.appointmentId;
+    }
+
+    this.state = data;
   }
 
   getAllClinics() {
@@ -132,6 +147,13 @@ class NewAppointment extends Component {
               disabledVaccinations.push(vaccine.vaccinationName);
             }
           }
+          if(this.props.data.appointmentId){
+            for(let vacc of this.state.selectedVaccinations){
+              if(disabledVaccinations.indexOf(vacc)!==-1){
+                disabledVaccinations.splice(disabledVaccinations.indexOf(vacc),1);
+              }
+            }
+          }
           this.setState({disabledVaccinations: disabledVaccinations});
         }
       })
@@ -162,6 +184,10 @@ class NewAppointment extends Component {
       appointmentDateStr: this.state.selectedDate,
       appointmentTimeStr: this.state.selectedTime,
     };
+
+    if(this.props.data && this.props.data.appointmentId){
+      data.appointmentID = this.state.appointmentId;
+    }
     console.log(data);
     axios
       .post(`${backendServer}/createAppointment`, data)
@@ -212,6 +238,9 @@ class NewAppointment extends Component {
     this.getAllClinics();
     this.getAllVaccinations();
     this.getPendingVaccinations();
+    if(this.props.data && this.props.data.appointmentId){
+      document.getElementById("dateselector").value=this.state.selectedDate;
+    }
   }
 
   render() {
@@ -335,6 +364,7 @@ class NewAppointment extends Component {
                         <input
                           className="form-control"
                           type="date"
+                          id="dateselector"
                           onChange={(e) => {
                             this.setState({
                               selectedDate: e.target.value,
@@ -418,6 +448,7 @@ class NewAppointment extends Component {
             <br />
             <br />
             <pre>{JSON.stringify(this.state, " ", 5)}</pre>
+            <pre>{JSON.stringify(this.props, " ", 5)}</pre>
           </Container>
         </React.Fragment>
       );

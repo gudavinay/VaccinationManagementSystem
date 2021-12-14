@@ -11,6 +11,7 @@ import backendServer from "../../../webConfig";
 import { getUserProfile, getMimicTime } from "../../Services/ControllerUtils";
 import Navbar from "./../../Navbar/Navbar";
 import moment from "moment";
+import NewAppointment from '../NewAppointment/NewAppointment'
 
 class Appointments extends Component {
   constructor(props) {
@@ -20,7 +21,8 @@ class Appointments extends Component {
       allAppointments: [],
       futureAppointments:[],
       pastAppointments:[],
-      cancelledAppointments:[]
+      cancelledAppointments:[],
+      navigateToUpdateAppointment: false
     };
   }
 
@@ -36,10 +38,6 @@ class Appointments extends Component {
       }
     });
   };
-
-  handleUpdateAppointment = (appointment) => {
-
-  }
 
   handleCheckin = (appointment) => {
     console.log(appointment);
@@ -93,6 +91,8 @@ class Appointments extends Component {
   };
 
   render() {
+    if(this.state.navigateToUpdateAppointment)
+      return <NewAppointment data={this.state.navigateToUpdateAppointment} />
     let futureAppointments = this.state.futureAppointments.map((item) =>
         <Card key={item.appointmentId} >
           <Card.Body>
@@ -121,7 +121,7 @@ class Appointments extends Component {
                     <Button
                       style={{ margin: "20px" }}
                       variant="primary"
-                      onClick={(e) => this.handleUpdateAppointment(item)}
+                      onClick={(e) =>  this.setState({navigateToUpdateAppointment:item})}
                     >
                       Update
                     </Button>
