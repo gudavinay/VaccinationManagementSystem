@@ -47,7 +47,7 @@ class NewAppointment extends Component {
   }
 
   getAllVaccinations() {
-    Axios.get(`${backendServer}/getAllVaccinations`)
+    Axios.get(`${backendServer}/getAllVaccinations/${getUserProfile().mrn}`)
       .then((result) => {
         this.setState({
           vaccinationData: result.data,
