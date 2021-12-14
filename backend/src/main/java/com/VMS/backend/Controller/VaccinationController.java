@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -45,5 +46,12 @@ public class VaccinationController {
     public ResponseEntity<?> getVaccinationByName(
             @PathVariable("vaccinationName") String vaccinationName) throws NotFoundException {
         return vaccinationService.getVaccinationByName(vaccinationName);
+    }
+
+    @RequestMapping(value = "/getVaccinationsDueForUser", method = RequestMethod.GET, produces = { "application/json" })
+    public ResponseEntity<?> getVaccinationsDueForUser(
+            @RequestParam("user_mrn") int user_mrn,
+            @RequestParam("currentDate") Date currentDate) {
+        return vaccinationService.getVaccinationsDueForUser(user_mrn,currentDate);
     }
 }

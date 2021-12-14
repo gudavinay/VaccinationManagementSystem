@@ -36,9 +36,16 @@ public class UserVaccinationService {
             for(Vaccination vaccination: vaccinationList){
                 for(UserVaccinations current: currentVaccine){
                      if(current.getVaccination_id()==vaccination.getVaccinationId()){
-                         current.setDosesLeft(current.getDosesLeft()-1);
                          Date date = req.getCheckInDate();
-                         String newDate = addDays(date, vaccination.getShotInternalVal() + 1);
+                         current.setDosesLeft(current.getDosesLeft()-1);
+                         String newDate="";
+                         if(current.getDosesLeft()-1==0 ){
+                             newDate=addDays(date, vaccination.getDuration());
+                         }else{
+                              newDate = addDays(date, vaccination.getShotInternalVal() + 1);
+                         }
+
+
                          current.setNextAppointmentTime(newDate);
                          UserVaccinations res=userVaccinationRepository.save(current);
                          userVaccinations.add(res);
@@ -51,7 +58,13 @@ public class UserVaccinationService {
                         throw new IllegalArgumentException("No shots left");
                     }
                     Date date = req.getCheckInDate();
-                    String newDate = addDays(date, vacc.getShotInternalVal() + 1);
+                    String newDate="";
+                    if(vacc.getNumberOfShots()-1==0){
+                        newDate=addDays(date, vacc.getDuration());
+                    }else{
+                        newDate = addDays(date, vacc.getShotInternalVal() + 1);
+                    }
+
                     UserVaccinations checkin = new UserVaccinations(req.getUser_Id(), vacc.getNumberOfShots() - 1, vacc.getVaccinationId(), newDate);
                     UserVaccinations res = userVaccinationRepository.save(checkin);
                     userVaccinations.add(res);
@@ -75,4 +88,5 @@ public class UserVaccinationService {
         System.out.println(output);
         return output;
     }
+
 }

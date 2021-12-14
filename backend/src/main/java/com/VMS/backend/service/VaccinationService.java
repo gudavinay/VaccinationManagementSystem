@@ -15,8 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,5 +93,37 @@ public class VaccinationService {
             throw new NotFoundException("Sorry, the requested vaccination with Id "+vaccinationId+" does not exist");
         }
 
+    }
+
+    public ResponseEntity<?> getVaccinationsDueForUser( int user_mrn, Date currentDate) {
+
+        System.out.println("Input Request for getVaccinationsDueForUser:  userMrn: " +user_mrn+ " currentDate: " +currentDate);
+
+        List <Appointment> appointments=appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+        if(CollectionUtils.isEmpty(appointments)){
+            //if no appointments or new user- all vaccines are due
+            List<Vaccination> vaccinations=vaccinationRepository.findAll();
+        }else{
+            //getChecked In appointments
+            List<Appointment> checkedInAppointments =appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeAsc(user_mrn,1);
+            for(Appointment a :checkedInAppointments ){
+                System.out.println(a.getAppointmentDateTime());
+                if(a.getAppointmentDateTime().before(currentDate)){
+
+                }
+            }
+
+
+
+
+        }
+
+
+        return null;
+    }
+
+    public Date convertSimpleDateformat(String d) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.parse(d);
     }
 }
