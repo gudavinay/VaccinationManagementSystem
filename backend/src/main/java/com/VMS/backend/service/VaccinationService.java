@@ -3,8 +3,10 @@ package com.VMS.backend.service;
 
 import com.VMS.backend.POJO.VaccinationPOJO;
 import com.VMS.backend.entity.Disease;
+import com.VMS.backend.entity.UserVaccinations;
 import com.VMS.backend.entity.Vaccination;
 import com.VMS.backend.repository.DiseaseRepository;
+import com.VMS.backend.repository.UserVaccinationRepository;
 import com.VMS.backend.repository.VaccinationRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class VaccinationService {
     @Autowired
     private DiseaseRepository diseaseRepository;
 
+    @Autowired
+    private UserVaccinationRepository userVaccinationRepository;
+
     public ResponseEntity<?> addVaccination(VaccinationPOJO req ) throws IllegalAccessException {
       System.out.println("Incoming vaccinationRequest: " +req.toString());
         Vaccination isVaccinationExists = vaccinationRepository.findByVaccinationName(req.getVaccinationName());
@@ -44,8 +49,19 @@ public class VaccinationService {
         }
     }
 
-    public List<Vaccination> getAllVaccinations() {
-        return vaccinationRepository.findAll();
+    public List<Vaccination> getAllVaccinations(int userMrn) {
+        List<UserVaccinations> userVaccinations=userVaccinationRepository.findByUserId(userMrn);
+        List<Vaccination> vaccinations=vaccinationRepository.findAll();
+        List<Vaccination> res=vaccinations;
+
+        for(Vaccination vaccination:vaccinations){
+            for(UserVaccinations vacc:userVaccinations){
+                if(vacc.getVaccination_id()==vaccination.getVaccinationId() && vacc.getDosesLeft()<=0){
+                    res.remove(vaccination);
+                }
+            }
+        }
+        return res;
     }
 
     public ResponseEntity<?> getVaccinationByName(String vaccinationName) throws NotFoundException {

@@ -27,9 +27,9 @@ public class VaccinationController {
         }
     }
 
-    @RequestMapping(value = "/getAllVaccinations", method = RequestMethod.GET, produces = { "application/json" })
-    public List<Vaccination> getAllVaccinations() {
-        return vaccinationService.getAllVaccinations();
+    @RequestMapping(value = "/getAllVaccinations/{mrn}", method = RequestMethod.GET, produces = { "application/json" })
+    public List<Vaccination> getAllVaccinations(int mrn) {
+        return vaccinationService.getAllVaccinations(mrn);
     }
 
     @RequestMapping(value = "/vaccination/{vaccinationId}", method = RequestMethod.GET, produces = {
