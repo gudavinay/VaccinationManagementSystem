@@ -79,6 +79,19 @@ class VaccinationHistory extends Component {
 			});
 	}
 	render() {
+		let len = this.state.vaccinationData.length;
+		let shotCount = new Array(len + 1);
+		for (let i = 0; i < shotCount.length; i++) {
+			shotCount[i] = 0;
+		}
+
+		// let vaccines = this.state.vaccinationData;
+		// vaccines.forEach(
+		// 	(element) => (shotCount[element.vaccinationId] = element.numberOfShots)
+		// );
+
+		console.log("shotCount: " + shotCount);
+
 		if (localStorage.getItem("userData") === null) {
 			return <Redirect to="/" />;
 		}
@@ -119,7 +132,13 @@ class VaccinationHistory extends Component {
 											Vaccination name: {elem.vaccinationName}
 										</li>
 										<li className="list-group-item">
-											Number of shots taken:{elem.numberOfShots}
+											Number of shots taken:{" "}
+											{elem.duration == 0
+												? parseInt(elem.numberOfShots)
+												: parseInt(
+														elem.numberOfShots -
+															++shotCount[parseInt(elem.vaccinationId)]
+												  )}
 										</li>
 									</div>
 								))}
