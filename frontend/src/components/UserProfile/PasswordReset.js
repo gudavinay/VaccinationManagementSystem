@@ -9,7 +9,7 @@ class PasswordReset extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      password: null,
+      password: "",
       confirm: null,
       alert: true,
     };
@@ -29,6 +29,7 @@ class PasswordReset extends Component {
             console.log(response.data);
             localStorage.removeItem("newUser");
             this.setState({ alert: false, success: true });
+            window.location.reload();
           }
         });
     }
@@ -63,6 +64,12 @@ class PasswordReset extends Component {
                 onChange={(e) => this.setState({ password: e.target.value })}
                 required
               ></Input>
+              {this.state.password.length > 0 &&
+              this.state.password.length < 8 ? (
+                <div style={{ fontSize: "12px" }}>
+                  Password must be atleast 8 characters
+                </div>
+              ) : null}
             </FormGroup>
             <FormGroup>
               <Label for="Confirm">Confirm Password</Label>

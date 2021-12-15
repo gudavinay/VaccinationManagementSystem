@@ -46,6 +46,7 @@ class Login extends Component {
             isSuccess: true,
             loginError: "",
           });
+          window.location.reload();
         } else {
           this.setState({
             loginError: response.data,
@@ -101,6 +102,7 @@ class Login extends Component {
                   placeholder="Email"
                   value={this.state.email}
                   onChange={(e) => this.setState({ email: e.target.value })}
+                  minLength={8}
                   required
                 ></Input>
               </FormGroup>
@@ -110,6 +112,7 @@ class Login extends Component {
                   placeholder="Password"
                   value={this.state.password}
                   onChange={(e) => this.setState({ password: e.target.value })}
+                  minLength={8}
                   required
                 ></Input>
               </FormGroup>

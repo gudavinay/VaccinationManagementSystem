@@ -70,7 +70,8 @@ class SignUp extends Component {
 
   SubmitToDB = async () => {
     await firebase.auth().currentUser.reload();
-    if (!this.state.newUser && firebase.auth().currentUser.emailVerified) {
+    console.log(firebase.auth().currentUser);
+    if (this.state.newUser && firebase.auth().currentUser.emailVerified) {
       let gender = "Male";
       if (this.state.gender !== 1)
         gender = this.state.gender === 2 ? "Female" : "Other";
@@ -192,12 +193,18 @@ class SignUp extends Component {
                     name="password"
                     placeholder="Password"
                     value={this.state.password}
-                    min="8"
+                    minlength="8"
                     onChange={(e) =>
                       this.setState({ password: e.target.value })
                     }
                     required
                   ></Input>
+                  {this.state.password.length > 0 &&
+                  this.state.password.length < 8 ? (
+                    <div style={{ fontSize: "12px" }}>
+                      Password must be atleast 8 characters
+                    </div>
+                  ) : null}
                 </FormGroup>
               </Col>
               <Col>

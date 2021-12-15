@@ -17,7 +17,12 @@ class Main extends Component {
   render() {
     return (
       <React.Fragment>
-        {localStorage.getItem("userData") ? <Navbar /> : ""}
+        {localStorage.getItem("userData") &&
+        localStorage.getItem("newUser") === null ? (
+          <Navbar />
+        ) : (
+          ""
+        )}
         <Route exact path="/" component={Landing} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/addClinic" component={AddClinic} />
