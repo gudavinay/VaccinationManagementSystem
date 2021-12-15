@@ -52,7 +52,7 @@ class VaccinationHistory extends Component {
 	}
 
 	getVaccinationHistory() {
-		const user_mrn = "";
+		let user_mrn = "";
 		if(getUserProfile())
 		   user_mrn=getUserProfile().mrn
 		axios
