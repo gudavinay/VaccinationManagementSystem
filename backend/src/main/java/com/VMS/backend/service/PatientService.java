@@ -47,7 +47,7 @@ public class PatientService {
         if (req.getPassword().equals(isUser.getPassword())) {
             return new ResponseEntity<>(isUser, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).contentType(MediaType.APPLICATION_JSON).body("Wrong Username or Password");
         }
     }
 
