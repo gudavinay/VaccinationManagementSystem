@@ -136,7 +136,7 @@ class AddClinic extends Component {
                           type="number"
                           id="startBussinessHour"
                           name="startBussinessHour"
-                          placeholder="Start Bussiness Hour"
+                          placeholder="Start Hour (0 to 16)"
                           min="0"
                           max="16"
                           onChange={this.handleChange}
@@ -151,11 +151,12 @@ class AddClinic extends Component {
                           name="endBussinessHour"
                           min="0"
                           max="24"
-                          placeholder="End Bussiness Hour"
+                          placeholder="End Hour (8 to 24)"
                           onChange={this.handleChange}
                           required
                         ></Input>
                       </Col>
+                      <span style={{color:"red", fontSize:'10px'}}>Integers interpreted as hour of the day</span>
                     </Row>
                     <FormGroup>
                       <Label htmlFor="address">Address</Label>
