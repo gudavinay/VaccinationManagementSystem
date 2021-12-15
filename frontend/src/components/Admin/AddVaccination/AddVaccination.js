@@ -82,8 +82,9 @@ class AddVaccination extends Component {
       })
       .catch(() => {
         this.setState({
-          error: "Error in adding vaccine to the database",
+          error: error.response.data,
         });
+        swal("Error", this.state.error, "error");
       });
   };
 
@@ -134,6 +135,7 @@ class AddVaccination extends Component {
                             type="text"
                             id="manufacturer"
                             name="manufacturer"
+                            min="3"
                             placeholder="Manufacturer"
                             onChange={(e) => {
                               this.setState({ manufacturer: e.target.value });
@@ -151,6 +153,7 @@ class AddVaccination extends Component {
                             type="number"
                             id="noOfShot"
                             name="noOfShot"
+                            min="1"
                             placeholder="No of Shot"
                             onChange={(e) => {
                               this.setState({ noOfShot: e.target.value });

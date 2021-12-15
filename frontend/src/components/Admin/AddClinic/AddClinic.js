@@ -74,8 +74,9 @@ class AddClinic extends Component {
       })
       .catch(() => {
         this.setState({
-          error: "Error adding clinic to the Database",
+          error: error.response.data
         });
+        swal("Error", this.state.error, "error");
       });
     }
   };
