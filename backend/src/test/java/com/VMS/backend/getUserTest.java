@@ -19,4 +19,13 @@ public class getUserTest {
         ResponseEntity<?> response = restTemplate.getForEntity(uri, String.class);
         Assert.assertEquals(200, response.getStatusCodeValue());
     }
+
+    @Test
+    public void ordertest2() throws Exception{
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:8181/getUser/vinayguda05@gmail.com";
+        URI uri = new URI(baseUrl);
+        ResponseEntity<?> response = restTemplate.getForEntity(uri, String.class);
+        Assert.assertEquals(200, response.getStatusCodeValue());
+    }
 }
