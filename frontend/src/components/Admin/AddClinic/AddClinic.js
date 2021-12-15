@@ -38,9 +38,9 @@ class AddClinic extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     // axios.defaults.headers["Access-Control-Allow-Origin"] = true;
-    if(this.state.startBussinessHour>this.state.endBussinessHour){
+    if(Number(this.state.clinicInfo.startBussinessHour)>Number(this.state.clinicInfo.endBussinessHour)){
       swal("Error", "Start time can not be greater than end time", "error");
-    }else if(this.state.endBussinessHour-this.state.startBussinessHour<8){
+    }else if(Number(this.state.clinicInfo.endBussinessHour)-Number(this.state.clinicInfo.startBussinessHour)<8){
       swal("Error", "Minimum Bussiness hour should be 8 hours", "error");
     }else{
     let data = {
@@ -73,10 +73,12 @@ class AddClinic extends Component {
         }
       })
       .catch((error) => {
-        this.setState({
-          error: error.response.data
-        });
-        swal("Error", this.state.error, "error");
+        if(error.response && error.response.data){
+          this.setState({
+            error: error.response.data
+          });
+          swal("Error", this.state.error, "error");
+        }
       });
     }
   };
@@ -143,6 +145,7 @@ class AddClinic extends Component {
                           name="startBussinessHour"
                           placeholder="Start Bussiness Hour"
                           min="0"
+                          max="16"
                           onChange={this.handleChange}
                           required
                         ></Input>
@@ -154,6 +157,7 @@ class AddClinic extends Component {
                           id="endBussinessHour"
                           name="endBussinessHour"
                           min="0"
+                          max="24"
                           placeholder="End Bussiness Hour"
                           onChange={this.handleChange}
                           required
