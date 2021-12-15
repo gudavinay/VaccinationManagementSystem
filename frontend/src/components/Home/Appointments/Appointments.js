@@ -245,20 +245,23 @@ class Appointments extends Component {
                                             <TableCell >{this.getVaccinationsForTable(row.vaccinations)}</TableCell>
                                             <TableCell >
                                             {!row.isChecked ? (
+                                              <>
                                               <Button variant="outline-success" onClick={(e) => this.handleCheckin(row)} disabled={moment(row.appointmentDateTime).diff(new Date(getMimicTime()), "seconds") > 86400} >
                                                 Check In
                                               </Button>
-                                            ) : (
-                                              <Button variant="primary" disabled>
-                                                Checked In
-                                              </Button>
-                                            )}
-                                            <Button style={{ marginLeft: "10px" }}variant="outline-danger" onClick={(e) => this.handleCancelAppointment(row)}>
+                                              <Button style={{ marginLeft: "10px" }}variant="outline-danger" onClick={(e) => this.handleCancelAppointment(row)}>
                                               <i class="fa fa-window-close"></i>
                                             </Button>
                                             <Button style={{ margin: "0 10px" }} variant="outline-danger" onClick={(e) => this.setState({ navigateToUpdateAppointment: row })}>
                                               <i class="fa fa-edit"></i>
                                             </Button>
+                                            </>
+                                            ) : (
+                                              <Button variant="primary" disabled>
+                                                Checked In
+                                              </Button>
+                                            )}
+                                            
                                         </TableCell>
                                         </TableRow>
                                     ))}
