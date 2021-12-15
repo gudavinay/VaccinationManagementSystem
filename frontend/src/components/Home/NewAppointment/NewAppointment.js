@@ -83,7 +83,7 @@ class NewAppointment extends Component {
   }
 
   sendEmailToClient() {
-    swal("Success", "Booking successful. Please check your confirmation email for additional details", "success");
+    swal("Success", "Appointment "+((this.props.data && this.props.data.appointmentId) ? "updated" :"created")+ "successfully. Please check your confirmation email for additional details", "success");
     init("user_VU6t0UaXlMzjO5o6MJQjc");
     let data = {
       to_name: getUserProfile().firstName + " "+getUserProfile().lastName,
@@ -205,7 +205,7 @@ class NewAppointment extends Component {
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
-          this.sendEmailToClient(); // TODO: uncomment later to send email
+          // this.sendEmailToClient(); // TODO: uncomment later to send email
           this.setState({
             isSuccess: true,
             error: "",
@@ -452,7 +452,7 @@ class NewAppointment extends Component {
                         !this.state.selectedDate ||
                         !this.state.selectedTime ||
                         !this.state.selectedClinic ||
-                        !this.state.selectedVaccinations
+                        this.state.selectedVaccinations.length ===0
                       }
                     >
                       Submit

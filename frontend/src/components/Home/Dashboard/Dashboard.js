@@ -261,7 +261,7 @@ class Dashboard extends Component {
                   <div className="ReportShow">
                     <div>Total Appointments: {this.state.total}</div>
                     <div>Total No Shows: {this.state.noShow}</div>
-                    <div>No Show Rate: {this.state.ratio}</div>
+                    <div>No Show Rate: {this.state.ratio.toFixed(2)}</div>
                   </div>
                 </>
               ) : null}

@@ -41,6 +41,8 @@ public class UserVaccinationService {
                 return new ResponseEntity<>(res, HttpStatus.OK);
             }
         }
+
+        List<Vaccination> vaccinationListCloned = req.getVaccinations();
         if(currentVaccine.size()>0){
             for(Vaccination vaccination: vaccinationList){
                 for(UserVaccinations current: currentVaccine){
@@ -58,11 +60,14 @@ public class UserVaccinationService {
                          current.setNextAppointmentTime(newDate);
                          UserVaccinations res=userVaccinationRepository.save(current);
                          userVaccinations.add(res);
+
+                         vaccinationListCloned.remove(vaccination);
                      }
                 }
             }
-        }else {
-                for (Vaccination vacc : vaccinationList) {
+        }
+        // else {
+                for (Vaccination vacc : vaccinationListCloned) {
                     if (vacc.getNumberOfShots() - 1 < 0) {
                         throw new IllegalArgumentException("No shots left");
                     }
@@ -78,7 +83,7 @@ public class UserVaccinationService {
                     UserVaccinations res = userVaccinationRepository.save(checkin);
                     userVaccinations.add(res);
                 }
-            }
+            // }
             Optional<Appointment> appointment = appointmentRepository.findById(req.getAppointmentId());
             if (appointment.isPresent()) {
                 Appointment temp = appointment.get();

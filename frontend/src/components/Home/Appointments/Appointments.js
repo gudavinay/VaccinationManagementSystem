@@ -43,7 +43,7 @@ class Appointments extends Component {
     axios.post(`${backendServer}/cancelAppointment`, data).then((response) => {
       if (response.status === 200) {
         this.getAppointmentsForUser();
-        this.sendEmailToClient(appointment);
+        // this.sendEmailToClient(appointment);
       }
     });
   };
@@ -75,6 +75,34 @@ class Appointments extends Component {
       });
   }
 
+
+  sendCheckInEmailToClient(appointment) {
+    swal("Success", "Appointment checked in successfully. Please check your email for additional details", "success");
+    init("user_VU6t0UaXlMzjO5o6MJQjc");
+    let vaccinations = [];
+    for(let vacc of appointment.vaccinations){
+      vaccinations.push(vacc.vaccinationName);
+    }
+    let data = {
+      to_name: getUserProfile().firstName +" "+ getUserProfile().lastName,
+      clinic_name: appointment.clinic.name,
+      vaccination_list: vaccinations.toString(),
+      appointment_date: appointment.appointmentDateStr,
+      start_time: appointment.appointmentTimeStr,
+      to_email: getUserProfile().email,
+      status: "checked in"
+    };
+    console.log(data);
+    emailjs
+      .send("service_10aywqh", "template_8ht3awb", data)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   handleCheckin = (appointment) => {
     console.log(appointment);
     let userData = getUserProfile();
@@ -93,7 +121,7 @@ class Appointments extends Component {
     };
     axios.post(`${backendServer}/checkInAppointment`, data).then((response) => {
       if (response.status === 200) {
-        alert("Checkin Successfull");
+        // this.sendCheckInEmailToClient(appointment);
         this.getAppointmentsForUser();
       }
     });
@@ -140,9 +168,9 @@ class Appointments extends Component {
   getVaccinationsForTable(list){
     let l = [];
     for(let item of list){
-      l.push(item.vaccinationName);
+      l.push(<li>{item.vaccinationName}</li>);
     }
-    return l.toString();
+    return <ul>{l}</ul>;
   }
 
   componentDidMount = () => {
@@ -157,45 +185,6 @@ class Appointments extends Component {
     if (this.state.navigateToUpdateAppointment)
       return <NewAppointment data={this.state.navigateToUpdateAppointment} />;
 
-    let pastAppointments = this.state.pastAppointments.map((item) => (
-      <Card key={item.appointmentId}>
-        <Card.Body>
-          <Row>
-            <Col md={8}>
-              <div>Clinic: {item.clinic.name}</div>
-              <div>
-                Address: {item.clinic.address.street},{" "}
-                {item.clinic.address.city}
-              </div>
-              <div>
-                Appointment Date:{" "}
-                {new Date(item.appointmentDateTime).toDateString()}
-              </div>
-              <div>Appointment Time: {item.appointmentTimeStr}</div>
-              <div>
-                {item.isChecked === 1 ? (
-                  <Button disabled variant="success">
-                    Completed
-                  </Button>
-                ) : (
-                  <Button disabled variant="warning">
-                    No Show
-                  </Button>
-                )}
-              </div>
-            </Col>
-            <Col>
-              List of Vaccinations:
-              <ul>
-                {item.vaccinations.map((elem) => (
-                  <li>{elem.vaccinationName}</li>
-                ))}
-              </ul>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-    ));
     return (
       <React.Fragment>
         <Container>
@@ -222,7 +211,6 @@ class Appointments extends Component {
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Appointment ID</TableCell>
                                         <TableCell >Appointment Date</TableCell>
                                         <TableCell >Appointment Time</TableCell>
                                         <TableCell >Clinic</TableCell>
@@ -234,9 +222,6 @@ class Appointments extends Component {
                                 <TableBody>
                                     {this.state.futureAppointments.map((row) => (
                                         <TableRow key={row.appointmentId}>
-                                            <TableCell component="th" scope="row">
-                                                {row.appointmentId}
-                                            </TableCell>
                                             <TableCell >{row.appointmentDateStr}</TableCell>
                                             <TableCell >{row.appointmentTimeStr}</TableCell>
                                             <TableCell >{row.clinic.name}</TableCell>
@@ -287,7 +272,6 @@ class Appointments extends Component {
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Appointment ID</TableCell>
                                         <TableCell >Appointment Date</TableCell>
                                         <TableCell >Appointment Time</TableCell>
                                         <TableCell >Clinic</TableCell>
@@ -298,9 +282,6 @@ class Appointments extends Component {
                                 <TableBody>
                                     {this.state.cancelledAppointments.map((row) => (
                                         <TableRow key={row.appointmentId}>
-                                            <TableCell component="th" scope="row">
-                                                {row.appointmentId}
-                                            </TableCell>
                                             <TableCell >{row.appointmentDateStr}</TableCell>
                                             <TableCell >{row.appointmentTimeStr}</TableCell>
                                             <TableCell >{row.clinic.name}</TableCell>
@@ -331,7 +312,6 @@ class Appointments extends Component {
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Appointment ID</TableCell>
                                         <TableCell >Appointment Date</TableCell>
                                         <TableCell >Appointment Time</TableCell>
                                         <TableCell >Clinic</TableCell>
@@ -343,9 +323,6 @@ class Appointments extends Component {
                                 <TableBody>
                                     {this.state.pastAppointments.map((row) => (
                                         <TableRow key={row.appointmentId}>
-                                            <TableCell component="th" scope="row">
-                                                {row.appointmentId}
-                                            </TableCell>
                                             <TableCell >{row.appointmentDateStr}</TableCell>
                                             <TableCell >{row.appointmentTimeStr}</TableCell>
                                             <TableCell >{row.clinic.name}</TableCell>
