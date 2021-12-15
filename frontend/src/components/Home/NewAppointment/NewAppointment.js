@@ -49,7 +49,8 @@ class NewAppointment extends Component {
         d.clinic.endBussinessHour,
         false
       );
-      data.selectedDate = moment(d.appointmentDateStr).format("MM-DD-YYYY");
+      data.selectedDate = moment(d.appointmentDateStr).format("YYYY-MM-DD");
+      console.log( data.selectedDate);
       data.selectedTime = d.appointmentTimeStr;
       data.appointmentId = d.appointmentId;
     }
@@ -385,6 +386,7 @@ class NewAppointment extends Component {
                           className="form-control"
                           type="date"
                           id="dateselector"
+                          value={this.state.selectedDate}
                           onChange={(e) => {
                             this.setState({
                               selectedDate: e.target.value,
@@ -396,6 +398,7 @@ class NewAppointment extends Component {
                                 false
                               ),
                             });
+                            console.log(this.state.selectedDate);
                             this.getAllAppointmentsOnDate(e.target.value);
                           }}
                           min={

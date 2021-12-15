@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, Button, Container } from "react-bootstrap";
+import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 import { Form, FormGroup, Label, Input, ButtonGroup } from "reactstrap";
 import backendServer from "../../webConfig";
 import axios from "axios";
@@ -70,7 +70,8 @@ class SignUp extends Component {
 
   SubmitToDB = async () => {
     await firebase.auth().currentUser.reload();
-    if (!this.state.newUser && firebase.auth().currentUser.emailVerified) {
+    console.log(firebase.auth().currentUser);
+    if (this.state.newUser && firebase.auth().currentUser.emailVerified) {
       let gender = "Male";
       if (this.state.gender !== 1)
         gender = this.state.gender === 2 ? "Female" : "Other";
@@ -126,14 +127,23 @@ class SignUp extends Component {
     }
     return (
       <>
-        <Container style={{ border: "1px solid #ddd" }}>
+        <Container style={{ width: "70%", margin: "auto" }}>
           {/* <pre>{JSON.stringify(this.state, "", 2)}</pre>
           <pre>{JSON.stringify(this.props, "", 2)}</pre> */}
-          <div>SignUp</div>
-          <div>Please sign in to continue</div>
+          <div
+            style={{
+              fontSize: "36px",
+              fontWeight: "bold",
+              color: "#333",
+              marginBottom: "25px",
+            }}
+          >
+            Sign Up
+          </div>
+
           <Form onSubmit={(e) => this.handleSubmit(e)} className="form-stacked">
-            {this.state.pageOne ? (
-              <>
+            <Row>
+              <Col>
                 <FormGroup>
                   <Label for="name">Full Name</Label>
                   <Input
@@ -183,91 +193,82 @@ class SignUp extends Component {
                     name="password"
                     placeholder="Password"
                     value={this.state.password}
-                    min="8"
+                    minlength="8"
                     onChange={(e) =>
                       this.setState({ password: e.target.value })
                     }
                     required
                   ></Input>
+                  {this.state.password.length > 0 &&
+                  this.state.password.length < 8 ? (
+                    <div style={{ fontSize: "12px" }}>
+                      Password must be atleast 8 characters
+                    </div>
+                  ) : null}
                 </FormGroup>
-                <FormGroup>
-                  <Button
-                    variant="secondary"
-                    disabled={
-                      !(
-                        this.state.firstName &&
-                        this.state.lastName &&
-                        this.state.email &&
-                        this.state.password
-                      )
-                    }
-                    onClick={(e) => {
-                      e.preventDefault();
-
-                      this.setState({ pageOne: false });
-                    }}
-                  >
-                    Continue
-                  </Button>
-                </FormGroup>
-              </>
-            ) : (
-              <>
-                <FormGroup>
-                  <Label for="gender">Gender</Label>
-                  <br />
-                  <ButtonGroup required>
-                    <Button
-                      variant="outline-info"
-                      name="gender"
-                      value="1"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.setState({ gender: 1 });
-                      }}
-                      active={Number(this.state.gender) === 1}
-                    >
-                      Male
-                    </Button>
-                    <Button
-                      variant="outline-info"
-                      name="gender"
-                      value="2"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.setState({ gender: 2 });
-                      }}
-                      active={Number(this.state.gender) === 2}
-                    >
-                      Female
-                    </Button>
-                    <Button
-                      variant="outline-info"
-                      name="gender"
-                      value="3"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.setState({ gender: 3 });
-                      }}
-                      active={Number(this.state.gender) === 3}
-                    >
-                      Other
-                    </Button>
-                  </ButtonGroup>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="dob">Date of Birth</Label>
-                  <Input
-                    type="date"
-                    id="dob"
-                    name="dob"
-                    value={this.state.dob}
-                    onChange={(e) => {
-                      this.setState({ dob: e.target.value });
-                    }}
-                    required
-                  ></Input>
-                </FormGroup>
+              </Col>
+              <Col>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label for="gender">Gender</Label>
+                      <br />
+                      <ButtonGroup required>
+                        <Button
+                          variant="outline-info"
+                          name="gender"
+                          value="1"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            this.setState({ gender: 1 });
+                          }}
+                          active={Number(this.state.gender) === 1}
+                        >
+                          Male
+                        </Button>
+                        <Button
+                          variant="outline-info"
+                          name="gender"
+                          value="2"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            this.setState({ gender: 2 });
+                          }}
+                          active={Number(this.state.gender) === 2}
+                        >
+                          Female
+                        </Button>
+                        <Button
+                          variant="outline-info"
+                          name="gender"
+                          value="3"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            this.setState({ gender: 3 });
+                          }}
+                          active={Number(this.state.gender) === 3}
+                        >
+                          Other
+                        </Button>
+                      </ButtonGroup>
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="dob">Date of Birth</Label>
+                      <Input
+                        type="date"
+                        id="dob"
+                        name="dob"
+                        value={this.state.dob}
+                        onChange={(e) => {
+                          this.setState({ dob: e.target.value });
+                        }}
+                        required
+                      ></Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
                 <FormGroup>
                   <Label htmlFor="address">Address</Label>
                   <Input
@@ -325,23 +326,13 @@ class SignUp extends Component {
                     required
                   ></Input>
                 </FormGroup>
-                <FormGroup style={{ display: "flex" }}>
-                  <Button
-                    variant="secondary"
-                    style={{ marginRight: "10px" }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.setState({ pageOne: true });
-                    }}
-                  >
-                    Previous
-                  </Button>
-                  <Button type="submit" variant="info">
-                    Sign Me Up
-                  </Button>
-                </FormGroup>
-              </>
-            )}
+              </Col>
+              <FormGroup>
+                <Button type="submit" variant="info">
+                  Sign Me Up
+                </Button>
+              </FormGroup>
+            </Row>
           </Form>
           {this.state.signInFailed ? (
             <Alert variant="warning">

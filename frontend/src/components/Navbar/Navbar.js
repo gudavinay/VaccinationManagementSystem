@@ -41,6 +41,7 @@ class NavigationBar extends Component {
             boxShadow: "1px 1px 15px #808080, -5px -5px 10px #ffffff",
             borderRadius: "15px",
             marginTop: "5px",
+            marginBottom: "15px",
           }}
         >
           <Row>
@@ -116,6 +117,7 @@ class NavigationBar extends Component {
                           justifyContent: "center",
                           marginLeft: "10px",
                           width: "275px",
+                          fontSize: "14px",
                         }}
                       >
                         <span>
@@ -128,8 +130,10 @@ class NavigationBar extends Component {
                           />
                         </span>
                         <span>
-                          Local Clock:{" "}
-                          {moment(this.state.localTime).format("MMM Do YYYY")}{" "}
+                          Local Clock:{"  "}
+                          {moment(this.state.localTime).format(
+                            "MMM Do YYYY"
+                          )}{" "}
                           <Clock
                             format={"HH:mm:ss"}
                             ticking={true}
@@ -174,10 +178,10 @@ class NavigationBar extends Component {
                       }
                       menuVariant="dark"
                     >
-                      <NavDropdown.Item href="#action/3.1">
+                      <NavDropdown.Item>
                         <Link to="/userProfile">User Profile</Link>
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">
+                      <NavDropdown.Item>
                         <Link
                           to="/"
                           onClick={() => {
@@ -202,13 +206,13 @@ class NavigationBar extends Component {
 const AdminSnippet = () => {
   return (
     <React.Fragment>
-      <NavDropdown.Item href="#action/3.1">
+      <NavDropdown.Item>
         <Link to="/addDisease">Add Disease</Link>
       </NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.2">
+      <NavDropdown.Item>
         <Link to="/addClinic">Add Clinic</Link>
       </NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.3">
+      <NavDropdown.Item>
         <Link to="/addVaccination">Add Vaccination</Link>
       </NavDropdown.Item>
     </React.Fragment>
@@ -217,13 +221,13 @@ const AdminSnippet = () => {
 const UserSnippet = () => {
   return (
     <React.Fragment>
-      <NavDropdown.Item href="#action/3.1">
+      <NavDropdown.Item>
         <Link to="/vaccinationHistory">Vaccination History</Link>
       </NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.2">
+      <NavDropdown.Item>
         <Link to="/appointments">Appointments</Link>
       </NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.3">
+      <NavDropdown.Item>
         <Link to="/vaccinationsDue">Vaccinations Due</Link>
       </NavDropdown.Item>
     </React.Fragment>

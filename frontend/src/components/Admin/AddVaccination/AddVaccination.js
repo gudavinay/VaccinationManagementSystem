@@ -6,6 +6,7 @@ import Select from "@material-ui/core/Select";
 import { Checkbox, ListItemText, MenuItem } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import Navbar from "./../../Navbar/Navbar";
+import swal from "sweetalert";
 
 class AddVaccination extends Component {
   constructor(props) {
@@ -80,10 +81,11 @@ class AddVaccination extends Component {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
         this.setState({
-          error: "Error in adding vaccine to the database",
+          error: error.response.data,
         });
+        swal("Error", this.state.error, "error");
       });
   };
 
@@ -134,6 +136,7 @@ class AddVaccination extends Component {
                             type="text"
                             id="manufacturer"
                             name="manufacturer"
+                            minLength="3"
                             placeholder="Manufacturer"
                             onChange={(e) => {
                               this.setState({ manufacturer: e.target.value });
@@ -151,6 +154,7 @@ class AddVaccination extends Component {
                             type="number"
                             id="noOfShot"
                             name="noOfShot"
+                            min="1"
                             placeholder="No of Shot"
                             onChange={(e) => {
                               this.setState({ noOfShot: e.target.value });
@@ -167,6 +171,7 @@ class AddVaccination extends Component {
                             id="duration"
                             name="duration"
                             placeholder="Duration"
+                            min="0"
                             onChange={(e) => {
                               this.setState({ duration: e.target.value });
                             }}
@@ -190,6 +195,7 @@ class AddVaccination extends Component {
                             id="shotIntervalVal"
                             name="shotIntervalVal"
                             placeholder="Short Interval Value"
+                            min="0"
                             onChange={(e) => {
                               this.setState({
                                 shotIntervalVal: e.target.value,

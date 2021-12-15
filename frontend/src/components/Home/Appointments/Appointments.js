@@ -9,11 +9,17 @@ import { Col, Row, Button, Card } from "react-bootstrap";
 import axios from "axios";
 import backendServer from "../../../webConfig";
 import { getUserProfile, getMimicTime } from "../../Services/ControllerUtils";
-import Navbar from "./../../Navbar/Navbar";
 import moment from "moment";
 import NewAppointment from "../NewAppointment/NewAppointment";
 import emailjs from "emailjs-com";
 import { init } from "emailjs-com";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import swal from "sweetalert";
 
 class Appointments extends Component {
@@ -132,6 +138,13 @@ class Appointments extends Component {
         });
     }
   }
+  getVaccinationsForTable(list){
+    let l = [];
+    for(let item of list){
+      l.push(item.vaccinationName);
+    }
+    return l.toString();
+  }
 
   componentDidMount = () => {
     // let date = new Date().today;
@@ -144,102 +157,7 @@ class Appointments extends Component {
     }
     if (this.state.navigateToUpdateAppointment)
       return <NewAppointment data={this.state.navigateToUpdateAppointment} />;
-    let futureAppointments = this.state.futureAppointments.map((item) => (
-      <Card key={item.appointmentId}>
-        <Card.Body>
-          <Row>
-            <Col md={8}>
-              <div>Clinic: {item.clinic.name}</div>
-              <div>
-                Address: {item.clinic.address.street},{" "}
-                {item.clinic.address.city}
-              </div>
-              <div>
-                Appointment Date:{" "}
-                {new Date(item.appointmentDateTime).toDateString()}
-              </div>
-              <div>Appointment Time: {item.appointmentTimeStr}</div>
-              <div>
-                <Col>
-                  <Button
-                    variant="primary"
-                    onClick={(e) => this.handleCancelAppointment(item)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    style={{ margin: "20px" }}
-                    variant="primary"
-                    onClick={(e) =>
-                      this.setState({ navigateToUpdateAppointment: item })
-                    }
-                  >
-                    Update
-                  </Button>
 
-                  {/* {(moment(item.appointmentDateTime)).diff((new Date(getMimicTime())), 'seconds') } */}
-                  {!item.isChecked ? (
-                    <Button
-                      variant="primary"
-                      style={{ marginLeft: "20px" }}
-                      onClick={(e) => this.handleCheckin(item)}
-                      disabled={
-                        moment(item.appointmentDateTime).diff(
-                          new Date(getMimicTime()),
-                          "seconds"
-                        ) > 86400
-                      }
-                    >
-                      Check In
-                    </Button>
-                  ) : (
-                    <Button variant="primary" disabled>
-                      Checked In
-                    </Button>
-                  )}
-                </Col>
-              </div>
-            </Col>
-            <Col>
-              List of Vaccinations:
-              <ul>
-                {item.vaccinations.map((elem) => (
-                  <li>{elem.vaccinationName}</li>
-                ))}
-              </ul>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-    ));
-    let cancelledAppointments = this.state.cancelledAppointments.map((item) => (
-      <Card key={item.appointmentId}>
-        <Card.Body>
-          <Row>
-            <Col md={8}>
-              <div>Clinic: {item.clinic.name}</div>
-              <div>
-                Address: {item.clinic.address.street},{" "}
-                {item.clinic.address.city}
-              </div>
-              <div>
-                Appointment Date:{" "}
-                {new Date(item.appointmentDateTime).toDateString()}
-              </div>
-              <div>Appointment Time: {item.appointmentTimeStr}</div>
-            </Col>
-            <Col>
-              List of Vaccinations:
-              <ul>
-                {item.vaccinations.map((elem) => (
-                  <li>{elem.vaccinationName}</li>
-                ))}
-              </ul>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-    ));
     let pastAppointments = this.state.pastAppointments.map((item) => (
       <Card key={item.appointmentId}>
         <Card.Body>
@@ -282,9 +200,11 @@ class Appointments extends Component {
     return (
       <React.Fragment>
         <Container>
-          <Link to="/newAppointment">
-            <Button variant="outline-primary">New Appointment</Button>
-          </Link>
+          <center style={{margin:'15px'}}>
+            <Link to="/newAppointment">
+              <Button variant="outline-success">New Appointment</Button>
+            </Link>
+          </center>
           <Accordion
             square
             expanded={this.state.expanded === "panel1"}
@@ -298,7 +218,54 @@ class Appointments extends Component {
             >
               <Typography>Future Appointments</Typography>
             </AccordionSummary>
-            <AccordionDetails>{futureAppointments}</AccordionDetails>
+            <AccordionDetails>
+              {this.state.futureAppointments.length > 0 ? <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Appointment ID</TableCell>
+                                        <TableCell >Appointment Date</TableCell>
+                                        <TableCell >Appointment Time</TableCell>
+                                        <TableCell >Clinic</TableCell>
+                                        <TableCell >Address</TableCell>
+                                        <TableCell >Vaccinations</TableCell>
+                                        <TableCell ></TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.state.futureAppointments.map((row) => (
+                                        <TableRow key={row.appointmentId}>
+                                            <TableCell component="th" scope="row">
+                                                {row.appointmentId}
+                                            </TableCell>
+                                            <TableCell >{row.appointmentDateStr}</TableCell>
+                                            <TableCell >{row.appointmentTimeStr}</TableCell>
+                                            <TableCell >{row.clinic.name}</TableCell>
+                                            <TableCell >{row.clinic.address.street+" "+row.clinic.address.city}</TableCell>
+                                            <TableCell >{this.getVaccinationsForTable(row.vaccinations)}</TableCell>
+                                            <TableCell >
+                                            {!row.isChecked ? (
+                                              <Button variant="outline-success" onClick={(e) => this.handleCheckin(row)} disabled={moment(row.appointmentDateTime).diff(new Date(getMimicTime()), "seconds") > 86400} >
+                                                Check In
+                                              </Button>
+                                            ) : (
+                                              <Button variant="primary" disabled>
+                                                Checked In
+                                              </Button>
+                                            )}
+                                            <Button style={{ marginLeft: "10px" }}variant="outline-danger" onClick={(e) => this.handleCancelAppointment(row)}>
+                                              <i class="fa fa-window-close"></i>
+                                            </Button>
+                                            <Button style={{ margin: "0 10px" }} variant="outline-danger" onClick={(e) => this.setState({ navigateToUpdateAppointment: row })}>
+                                              <i class="fa fa-edit"></i>
+                                            </Button>
+                                        </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer> : "No Active Future Appointments"}
+              </AccordionDetails>
           </Accordion>
           <Accordion
             square
@@ -313,7 +280,36 @@ class Appointments extends Component {
             >
               <Typography>Cancelled Appointments</Typography>
             </AccordionSummary>
-            <AccordionDetails>{cancelledAppointments}</AccordionDetails>
+            <AccordionDetails>
+              {this.state.cancelledAppointments.length > 0 ? <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Appointment ID</TableCell>
+                                        <TableCell >Appointment Date</TableCell>
+                                        <TableCell >Appointment Time</TableCell>
+                                        <TableCell >Clinic</TableCell>
+                                        <TableCell >Address</TableCell>
+                                        <TableCell >Vaccinations</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.state.cancelledAppointments.map((row) => (
+                                        <TableRow key={row.appointmentId}>
+                                            <TableCell component="th" scope="row">
+                                                {row.appointmentId}
+                                            </TableCell>
+                                            <TableCell >{row.appointmentDateStr}</TableCell>
+                                            <TableCell >{row.appointmentTimeStr}</TableCell>
+                                            <TableCell >{row.clinic.name}</TableCell>
+                                            <TableCell >{row.clinic.address.street+" "+row.clinic.address.city}</TableCell>
+                                            <TableCell >{this.getVaccinationsForTable(row.vaccinations)}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer> : "No Active Cancelled Appointments"}
+              </AccordionDetails>
           </Accordion>
           <Accordion
             square
@@ -328,7 +324,48 @@ class Appointments extends Component {
             >
               <Typography>Past Appointments</Typography>
             </AccordionSummary>
-            <AccordionDetails>{pastAppointments}</AccordionDetails>
+            <AccordionDetails>
+              {this.state.pastAppointments.length > 0 ? <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Appointment ID</TableCell>
+                                        <TableCell >Appointment Date</TableCell>
+                                        <TableCell >Appointment Time</TableCell>
+                                        <TableCell >Clinic</TableCell>
+                                        <TableCell >Address</TableCell>
+                                        <TableCell >Vaccinations</TableCell>
+                                        <TableCell ></TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.state.pastAppointments.map((row) => (
+                                        <TableRow key={row.appointmentId}>
+                                            <TableCell component="th" scope="row">
+                                                {row.appointmentId}
+                                            </TableCell>
+                                            <TableCell >{row.appointmentDateStr}</TableCell>
+                                            <TableCell >{row.appointmentTimeStr}</TableCell>
+                                            <TableCell >{row.clinic.name}</TableCell>
+                                            <TableCell >{row.clinic.address.street+" "+row.clinic.address.city}</TableCell>
+                                            <TableCell >{this.getVaccinationsForTable(row.vaccinations)}</TableCell>
+                                            <TableCell >
+                                          {row.isChecked === 1 ? (
+                                            <Button disabled variant="outline-success">
+                                              Completed
+                                            </Button>
+                                          ) : (
+                                            <Button disabled variant="outline-warning">
+                                              No Show
+                                            </Button>
+                                          )}
+                                        </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer> : "No Active Future Appointments"}
+            </AccordionDetails>
           </Accordion>
         </Container>
         <pre>{JSON.stringify(this.state, "", 2)}</pre>

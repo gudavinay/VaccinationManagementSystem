@@ -17,7 +17,7 @@ class Login extends Component {
       email: "",
       password: "",
       signInFailed: false,
-      loginError:""
+      loginError: "",
     };
   }
 
@@ -46,12 +46,13 @@ class Login extends Component {
             isSuccess: true,
             loginError: "",
           });
+          window.location.reload();
         } else {
-            this.setState({
-              loginError: response.data,
-              authFlag: false,
-              error: {},
-            });
+          this.setState({
+            loginError: response.data,
+            authFlag: false,
+            error: {},
+          });
         }
       })
       .catch((error) => {
@@ -78,10 +79,19 @@ class Login extends Component {
     else {
       return (
         <>
-          <Container style={{ border: "1px solid #ddd" }}>
+          <Container style={{ width: "30%", margin: "auto" }}>
             {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
-            <div>Login</div>
-            <div>Please sign in to continue</div>
+            <div
+              style={{
+                fontSize: "36px",
+                fontWeight: "bold",
+                color: "#333",
+                marginBottom: "25px",
+              }}
+            >
+              Log In
+            </div>
+
             <Form
               onSubmit={(e) => this.handleSubmit(e)}
               className="form-stacked"
@@ -92,6 +102,7 @@ class Login extends Component {
                   placeholder="Email"
                   value={this.state.email}
                   onChange={(e) => this.setState({ email: e.target.value })}
+                  minLength={8}
                   required
                 ></Input>
               </FormGroup>
@@ -101,14 +112,19 @@ class Login extends Component {
                   placeholder="Password"
                   value={this.state.password}
                   onChange={(e) => this.setState({ password: e.target.value })}
+                  minLength={8}
                   required
                 ></Input>
               </FormGroup>
               <FormGroup>
-               {this.state.loginError?(<div class="alert alert-danger" role="alert">
-                {this.state.loginError} 
-                </div>):""}
-                <Button type="submit" variant="outline-dark">
+                {this.state.loginError ? (
+                  <div class="alert alert-danger" role="alert">
+                    {this.state.loginError}
+                  </div>
+                ) : (
+                  ""
+                )}
+                <Button type="submit" variant="info">
                   Log In
                 </Button>
               </FormGroup>

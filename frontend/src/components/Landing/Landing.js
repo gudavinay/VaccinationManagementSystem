@@ -148,13 +148,52 @@ class Landing extends Component {
     }
     return (
       <>
-        <Container style={{ height: "100vh" }}>
-          <Row
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <div
             style={{
-              height: "100%",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              margin: "70px 0 50px 0",
             }}
           >
-            <Col
+            {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
+            <Container>
+              {this.state.signIn ? (
+                <Button variant="dark" onClick={this.signOut}>
+                  Sign Out
+                </Button>
+              ) : (
+                <Button variant="dark" onClick={this.signInWithFirebase}>
+                  Sign in with google
+                </Button>
+              )}
+            </Container>
+            {this.state.newUser ? (
+              <div>
+                Verify your email and{" "}
+                <span
+                  style={{ color: "blue", cursor: "pointer" }}
+                  onClick={async () => {
+                    await this.setState({ newUser: false });
+                    this.proceedWithSignUp();
+                  }}
+                >
+                  click here
+                </span>{" "}
+                to continue
+              </div>
+            ) : null}
+          </div>
+          <div>
+            <div
               style={{
                 height: "100%",
                 display: "flex",
@@ -162,61 +201,43 @@ class Landing extends Component {
                 justifyContent: "center",
               }}
             >
-              {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
-              <Container>
-                {this.state.signIn ? (
-                  <Button variant="dark" onClick={this.signOut}>
-                    Sign Out
-                  </Button>
-                ) : (
-                  <Button variant="dark" onClick={this.signInWithFirebase}>
-                    Sign in with google
-                  </Button>
-                )}
-              </Container>
-              {this.state.newUser ? (
-                <div>
-                  Verify your email and{" "}
-                  <span
-                    style={{ color: "blue", cursor: "pointer" }}
-                    onClick={async () => {
-                      await this.setState({ newUser: false });
-                      this.proceedWithSignUp();
-                    }}
-                  >
-                    click here
-                  </span>{" "}
-                  to continue
-                </div>
-              ) : null}
-            </Col>
-            <Col
-              style={{
-                backgroundColor: "whitesmoke",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <div style={{ width: "80%", margin: "auto" }}>
-                {this.state.logInFlag ? (
-                  <Login />
-                ) : (
-                  <SignUp allEmails={this.state.allEmails} />
-                )}
+              <div>
                 {this.state.logInFlag ? (
                   <div>
+                    <Login />
+                  </div>
+                ) : (
+                  <div>
+                    <SignUp allEmails={this.state.allEmails} />
+                  </div>
+                )}
+                {this.state.logInFlag ? (
+                  <div
+                    style={{
+                      width: "30%",
+                      margin: "auto",
+                      paddingLeft: "15px",
+                    }}
+                  >
                     Don't have an account?{" "}
                     <span
-                      style={{ color: "blue", cursor: "pointer" }}
+                      style={{
+                        color: "blue",
+                        cursor: "pointer",
+                      }}
                       onClick={() => this.setState({ logInFlag: false })}
                     >
                       Sign Up
                     </span>
                   </div>
                 ) : (
-                  <div>
+                  <div
+                    style={{
+                      width: "70%",
+                      margin: "auto",
+                      paddingLeft: "15px",
+                    }}
+                  >
                     Already have an account?{" "}
                     <span
                       style={{ color: "blue", cursor: "pointer" }}
@@ -227,9 +248,9 @@ class Landing extends Component {
                   </div>
                 )}
               </div>
-            </Col>
-          </Row>
-        </Container>
+            </div>
+          </div>
+        </div>
       </>
     );
   };
