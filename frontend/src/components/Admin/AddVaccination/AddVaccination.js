@@ -136,7 +136,7 @@ class AddVaccination extends Component {
                             type="text"
                             id="manufacturer"
                             name="manufacturer"
-                            min="3"
+                            minLength="3"
                             placeholder="Manufacturer"
                             onChange={(e) => {
                               this.setState({ manufacturer: e.target.value });
@@ -171,6 +171,7 @@ class AddVaccination extends Component {
                             id="duration"
                             name="duration"
                             placeholder="Duration"
+                            min="0"
                             onChange={(e) => {
                               this.setState({ duration: e.target.value });
                             }}
@@ -194,6 +195,7 @@ class AddVaccination extends Component {
                             id="shotIntervalVal"
                             name="shotIntervalVal"
                             placeholder="Short Interval Value"
+                            min="0"
                             onChange={(e) => {
                               this.setState({
                                 shotIntervalVal: e.target.value,
