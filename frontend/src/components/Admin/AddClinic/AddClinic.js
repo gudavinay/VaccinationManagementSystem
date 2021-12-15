@@ -72,7 +72,7 @@ class AddClinic extends Component {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
         this.setState({
           error: error.response.data
         });

@@ -6,6 +6,7 @@ import Select from "@material-ui/core/Select";
 import { Checkbox, ListItemText, MenuItem } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import Navbar from "./../../Navbar/Navbar";
+import swal from "sweetalert";
 
 class AddVaccination extends Component {
   constructor(props) {
@@ -80,7 +81,7 @@ class AddVaccination extends Component {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
         this.setState({
           error: error.response.data,
         });
