@@ -29,12 +29,13 @@ public class AppointmentController {
         }
     }
 
-    @RequestMapping(value = "/getAppointmentsForUser/{user_mrn}", method = RequestMethod.GET, produces = {
+    @RequestMapping(value = "/getAppointmentsForUser", method = RequestMethod.GET, produces = {
             "application/json" })
     public List<Appointment> getAppointmentsForUser(
-            @PathVariable("user_mrn") int user_mrn
+            @RequestParam("mrn") int user_mrn,
+            @RequestParam("time") Date time
     ) {
-        return appointmentService.getAppointmentsForUser(user_mrn);
+        return appointmentService.getAppointmentsForUser(user_mrn, time);
     }
 
     @RequestMapping(value = "/getAllAppointmentsOnDate", method = RequestMethod.GET, produces = {

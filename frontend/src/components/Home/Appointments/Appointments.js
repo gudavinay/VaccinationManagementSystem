@@ -42,15 +42,22 @@ class Appointments extends Component {
   handleCheckin = (appointment) => {
     console.log(appointment);
     let userData = getUserProfile();
+    let noShowStatus=false;
+    if(moment(appointment.appointmentDateTime).diff(new Date(getMimicTime()),"seconds") < 0)
+    {
+      noShowStatus=true;
+      alert("Checkin time has expired. Please book another appointment");
+    }
     var data = {
       user_Id: userData.mrn,
       vaccinations: appointment.vaccinations,
       appointmentId: appointment.appointmentId,
       checkInDate: getMimicTime(),
+      noShow:noShowStatus
     };
     axios.post(`${backendServer}/checkInAppointment`, data).then((response) => {
       if (response.status === 200) {
-        alert(response.data);
+        alert("Checkin Successfull");
         this.getAppointmentsForUser();
       }
     });
@@ -60,17 +67,17 @@ class Appointments extends Component {
     let userData = getUserProfile();
     if (userData != null) {
       axios
-        .get(`${backendServer}/getAppointmentsForUser/${userData.mrn}`)
+        .get(`${backendServer}/getAppointmentsForUser/?mrn=${userData.mrn} &time=${new Date(moment(getMimicTime()))}`)
         .then((response) => {
           let cancelled = [];
           let future = [];
           let past = [];
           if (response.status === 200) {
             this.setState({ allAppointments: response.data });
-            for (let appointment of response.data) {
+            for (let appointment of response.data) {// 0-New 1- checkin , 2- no show, 3 cancelled
               if (appointment.isChecked === 3) {
                 cancelled.push(appointment);
-              } else if (
+              } else if ((appointment.isChecked==0||appointment.isChecked==1)  &&
                 new Date(moment(appointment.appointmentDateTime)) >
                 getMimicTime()
               ) {

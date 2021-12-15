@@ -94,12 +94,25 @@ public class AppointmentService {
         }
     }
 
-    public List<Appointment> getAppointmentsForUser(int user_mrn) {
+    public List<Appointment> getAppointmentsForUser(int user_mrn, Date time) {
         try {
+            List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+            for(Appointment appointment:appointments){
+                boolean isPastAppointmnet=isAppointmnetDue(appointment.getAppointmentDateTime(),time);
+                if(isPastAppointmnet) {
+                    appointment.setIsChecked(2);
+                    appointmentRepository.save(appointment);
+                }
+            }
             return appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+
         } catch (Exception ex) {
             throw new IllegalArgumentException("Error getting appointments for user");
         }
+    }
+
+    public boolean isAppointmnetDue(Date date1, Date date2){
+       return date1.compareTo(date2)>0?false:true;
     }
 
     public List<String> getAllAppointmentsOnDate(String date, int clinicId) throws ParseException {

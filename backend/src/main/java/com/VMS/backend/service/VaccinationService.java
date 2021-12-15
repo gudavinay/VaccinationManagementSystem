@@ -100,10 +100,10 @@ public class VaccinationService {
 
     public ResponseEntity<?> getVaccinationsDueForUser( int user_mrn, Date currentDate) throws ParseException {
         System.out.println("Input Request for getVaccinationsDueForUser:  userMrn: " +user_mrn+ " currentDate: " +currentDate);
-        List<VaccinationDuePojo> vaccinationDueList=null;
+        List<VaccinationDuePojo> vaccinationDueList=new ArrayList<>();
         Date maxDate=Utils.DateAfterAnYear(currentDate);
         List <Appointment> appointments=appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
-        List<Vaccination> allVaccinations=null;
+        List<Vaccination> allVaccinations=new ArrayList<>();
 
         if(CollectionUtils.isEmpty(appointments)){
             //if no appointments or new user- all vaccines are due , NumberofShotdue-1
