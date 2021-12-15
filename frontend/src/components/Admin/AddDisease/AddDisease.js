@@ -100,7 +100,7 @@ class AddDisease extends Component {
               </Button>
             </FormGroup>
           </Form>
-          <pre>{JSON.stringify(this.state, "", 2)}</pre>
+          {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
         </Container>
       </React.Fragment>
     );

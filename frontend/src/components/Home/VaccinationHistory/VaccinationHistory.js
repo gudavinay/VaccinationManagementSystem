@@ -168,7 +168,7 @@ class VaccinationHistory extends Component {
 						<AccordionDetails>{vacciHistory}</AccordionDetails>
 					</Accordion>
 				</Container>
-				<pre>{JSON.stringify(this.state, " ", 5)}</pre>
+				{/* <pre>{JSON.stringify(this.state, " ", 5)}</pre> */}
 			</React.Fragment>
 		);
 	}

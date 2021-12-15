@@ -132,7 +132,7 @@ class VaccinationsDue extends Component {
 						<AccordionDetails>{vacciDue}</AccordionDetails>
 					</Accordion>
 				</Container>
-				<pre>{JSON.stringify(this.state, " ", 5)}</pre>
+				{/* <pre>{JSON.stringify(this.state, " ", 5)}</pre> */}
 			</React.Fragment>
 		);
 	}

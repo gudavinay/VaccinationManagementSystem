@@ -236,7 +236,7 @@ class AddClinic extends Component {
                       </Col>
                     </FormGroup>
                   </Form>
-                  <pre>{JSON.stringify(this.state, "", 2)}</pre>
+                  {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
                 </div>
               </div>
             </div>

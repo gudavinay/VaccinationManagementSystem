@@ -474,8 +474,8 @@ class NewAppointment extends Component {
             <br />
             <br />
             <br />
-            <pre>{JSON.stringify(this.state, " ", 5)}</pre>
-            <pre>{JSON.stringify(this.props, " ", 5)}</pre>
+            {/* <pre>{JSON.stringify(this.state, " ", 5)}</pre>
+            <pre>{JSON.stringify(this.props, " ", 5)}</pre> */}
           </Container>
         </React.Fragment>
       );
