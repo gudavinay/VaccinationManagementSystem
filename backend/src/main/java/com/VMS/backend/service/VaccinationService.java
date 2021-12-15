@@ -78,6 +78,10 @@ public class VaccinationService {
         return res;
     }
 
+    public List<Vaccination> getTotalVaccinationsinRepo(){
+        return vaccinationRepository.findAll();
+    }
+
     public ResponseEntity<?> getVaccinationByName(String vaccinationName) throws NotFoundException {
         Vaccination vaccination= vaccinationRepository.findByVaccinationName(vaccinationName);
         if(vaccination!=null){
@@ -185,13 +189,13 @@ public class VaccinationService {
             System.out.println("scheduledAppointments: " +scheduledAppointments.toString());
             for(VaccinationDuePojo pojo: vaccinationDueListFinal  ){
                 for(Appointment ap :scheduledAppointments){
-                    if(ap.getAppointmentDateTime().before(currentDate)){
+                    if(ap.getCreatedDate().before(currentDate)){
                         List<Vaccination> vaccinationList=ap.getVaccinations();
                         for(Vaccination v: vaccinationList){
                             if(pojo.getVaccinationId()==v.getVaccinationId()){
                                 System.out.println("appointment set to vacc due: " +ap);
                                 pojo.setAppointment(ap);
-                                pojo.setDueDate(ap.getAppointmentDateTime()); //when appointment exists . dueDate Changes
+                               // pojo.setDueDate(ap.getAppointmentDateTime()); //when appointment exists . dueDate Changes
                             }
                         }
 

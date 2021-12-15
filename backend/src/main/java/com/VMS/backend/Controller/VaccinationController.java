@@ -1,6 +1,7 @@
 package com.VMS.backend.Controller;
 
 import com.VMS.backend.POJO.VaccinationPOJO;
+import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.Vaccination;
 import com.VMS.backend.service.VaccinationService;
 import com.VMS.backend.util.BadRequest;
@@ -58,5 +59,10 @@ public class VaccinationController {
         } catch (ParseException e) {
             return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, e.getMessage())));
         }
+    }
+
+    @RequestMapping(value = "/getTotalVaccinationsinRepo", method = RequestMethod.GET, produces = {"application/json"})
+    public List<Vaccination> getTotalVaccinationsinRepo(){
+        return vaccinationService.getTotalVaccinationsinRepo();
     }
 }

@@ -8,6 +8,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import { Container } from "@mui/material";
 import axios from "axios";
 import backendServer from "../../../webConfig";
+import VaccinesIcon from "@mui/icons-material/Vaccines";
 // import Select from "@material-ui/core/Select";
 // import { Checkbox, ListItemText, MenuItem } from "@material-ui/core";
 import moment from "moment";
@@ -121,11 +122,15 @@ class VaccinationsDue extends Component {
 							aria-controls="panel1d-content"
 							id="panel1d-header"
 						>
-							<Typography>Vaccination Due</Typography>
+							<Typography>
+								<VaccinesIcon />
+								Vaccination Due
+							</Typography>
 						</AccordionSummary>
 						<AccordionDetails>{vacciDue}</AccordionDetails>
 					</Accordion>
 				</Container>
+				<pre>{JSON.stringify(this.state, " ", 5)}</pre>
 			</React.Fragment>
 		);
 	}

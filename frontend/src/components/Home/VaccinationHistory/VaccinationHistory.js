@@ -23,11 +23,35 @@ class VaccinationHistory extends Component {
 		super(props);
 		this.state = {
 			expanded: "panel1",
+			vaccinationData: [],
 		};
 	}
 
-	componentDidMount = async () => {
+	componentDidMount() {
 		//const userMrn = localStorage.getItem("user_id");
+		this.getAllVaccinations();
+		this.getVaccinationHistory();
+	}
+
+	getAllVaccinations() {
+		axios
+			.get(`${backendServer}/getTotalVaccinationsinRepo`)
+			.then((result) => {
+				console.log(
+					"response data from getTotalVaccinationsinRepo",
+					result.data
+				);
+				this.setState({
+					vaccinationData: result.data,
+					vaccinationError: false,
+				});
+			})
+			.catch((err) => {
+				this.setState({ vaccinationData: [], vaccinationError: true });
+			});
+	}
+
+	getVaccinationHistory() {
 		const user_mrn = getUserProfile().mrn;
 		//axios.defaults.withCredentials = true;
 		axios
@@ -53,8 +77,7 @@ class VaccinationHistory extends Component {
 					vaccinationHistoryError: true,
 				});
 			});
-	};
-
+	}
 	render() {
 		if (localStorage.getItem("userData") === null) {
 			return <Redirect to="/" />;
@@ -130,6 +153,7 @@ class VaccinationHistory extends Component {
 						<AccordionDetails>{vacciHistory}</AccordionDetails>
 					</Accordion>
 				</Container>
+				<pre>{JSON.stringify(this.state, " ", 5)}</pre>
 			</React.Fragment>
 		);
 	}
