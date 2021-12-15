@@ -205,6 +205,7 @@ class AddClinic extends Component {
                             type="number"
                             id="zipcode"
                             name="zipcode"
+                            min="0"
                             placeholder="Zip Code"
                             onChange={this.handleChange}
                             required
