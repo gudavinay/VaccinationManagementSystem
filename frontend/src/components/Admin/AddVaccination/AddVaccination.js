@@ -186,7 +186,7 @@ class AddVaccination extends Component {
                     </Row>
                     <FormGroup>
                       <Label htmlFor="shotIntervalVal">
-                        Shot Internal Value
+                        Shot Interval Value
                       </Label>
                       <Row>
                         <Col>
@@ -196,12 +196,12 @@ class AddVaccination extends Component {
                             name="shotIntervalVal"
                             placeholder="Short Interval Value"
                             min="0"
+                            disabled={this.state.noOfShot<=1?true:false}
                             onChange={(e) => {
                               this.setState({
                                 shotIntervalVal: e.target.value,
                               });
                             }}
-                            required
                           ></Input>
                         </Col>
                         <Col>
