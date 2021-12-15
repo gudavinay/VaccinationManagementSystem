@@ -145,7 +145,7 @@ class Dashboard extends Component {
                 >
                   {this.isAdmin() ? "System Report" : "Patient Report"}
                 </Col>
-                <Col
+                {!this.isAdmin() && <><Col
                   md={2}
                   className={this.state.window === 2 ? "bgColor" : "windows"}
                   style={{ textAlign: "center", padding: "7px 10px" }}
@@ -173,8 +173,8 @@ class Dashboard extends Component {
                     if (this.state.window !== 4) this.setState({ window: 4 });
                   }}
                 >
-                  {!this.isAdmin() ? "Vaccinations Due" : null}
-                </Col>
+                  Vaccinations Due
+                </Col></>}
               </Row>
             </Card.Header>
             <Card.Body style={{ minHeight: "500px" }}>
