@@ -280,7 +280,7 @@ class SignUp extends Component {
                         type="date"
                         id="dob"
                         name="dob"
-                        maxDate={this.state.maxDate}
+                        max={this.state.maxDate}
                         value={this.state.dob}
                         onChange={(e) => {
                           this.setState({ dob: e.target.value });
@@ -336,10 +336,11 @@ class SignUp extends Component {
                     required
                   ></Input>
                   <Input
-                    type="text"
+                    type="number"
                     id="zipcode"
                     name="zipcode"
                     placeholder="Zip Code"
+                    min="0"
                     value={this.state.zipcode}
                     onChange={(e) => {
                       this.setState({ zipcode: e.target.value });

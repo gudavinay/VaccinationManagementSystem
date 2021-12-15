@@ -110,7 +110,7 @@ class Appointments extends Component {
     if(moment(appointment.appointmentDateTime).diff(new Date(getMimicTime()),"seconds") < 0)
     {
       noShowStatus=true;
-      alert("Checkin time has expired. Please book another appointment");
+      swal("Error", "Checkin time has expired. Please book another appointment", "error");
     }
     var data = {
       user_Id: userData.mrn,

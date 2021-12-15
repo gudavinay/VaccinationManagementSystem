@@ -61,6 +61,7 @@ class AddClinic extends Component {
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
+          swal("Success", "Clinic added successfully", "success");
           this.setState({
             isSuccess: true,
             error: "",

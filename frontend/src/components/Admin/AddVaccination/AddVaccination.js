@@ -71,6 +71,7 @@ class AddVaccination extends Component {
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
+          swal("Success", "Vaccination added successfully", "success");
           this.setState({
             isSuccess: true,
             error: "",

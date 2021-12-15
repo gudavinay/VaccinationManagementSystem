@@ -52,8 +52,9 @@ class VaccinationHistory extends Component {
 	}
 
 	getVaccinationHistory() {
-		const user_mrn = getUserProfile().mrn;
-		//axios.defaults.withCredentials = true;
+		const user_mrn = "";
+		if(getUserProfile())
+		   user_mrn=getUserProfile().mrn
 		axios
 			.get(
 				`${backendServer}/getCheckedInAppointmentsForUser/?user_mrn=${user_mrn}&isChecked=1`
@@ -84,11 +85,6 @@ class VaccinationHistory extends Component {
 		for (let i = 0; i < shotCount.length; i++) {
 			shotCount[i] = 0;
 		}
-
-		// let vaccines = this.state.vaccinationData;
-		// vaccines.forEach(
-		// 	(element) => (shotCount[element.vaccinationId] = element.numberOfShots)
-		// );
 
 		console.log("shotCount: " + shotCount);
 
