@@ -79,7 +79,7 @@ public class AppointmentService {
             List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
             for(Appointment appointment:appointments){
                 boolean isPastAppointmnet=isAppointmnetDue(appointment.getAppointmentDateTime(),time);
-                if(isPastAppointmnet) {
+                if(isPastAppointmnet && appointment.getIsChecked()!=1) {
                     appointment.setIsChecked(2);
                     appointmentRepository.save(appointment);
                 }
