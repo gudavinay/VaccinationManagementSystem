@@ -183,6 +183,7 @@ class SignUp extends Component {
                     name="password"
                     placeholder="Password"
                     value={this.state.password}
+                    min="8"
                     onChange={(e) =>
                       this.setState({ password: e.target.value })
                     }

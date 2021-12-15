@@ -8,6 +8,7 @@ import com.VMS.backend.repository.AppointmentRepository;
 import com.VMS.backend.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +41,13 @@ public class PatientService {
 
     public ResponseEntity<?> loginUser(LoginPOJO req) {
         User isUser = patientRepository.findByEmail(req.getEmail());
-        System.out.println(isUser.getEmail());
+        if(isUser==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body("User Not Found");
+        }
         if (req.getPassword().equals(isUser.getPassword())) {
-            System.out.println("Password verified");
             return new ResponseEntity<>(isUser, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(isUser, HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).contentType(MediaType.APPLICATION_JSON).body("Wrong Username or Password");
         }
     }
 

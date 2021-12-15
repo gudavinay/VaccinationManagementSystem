@@ -17,6 +17,7 @@ class Login extends Component {
       email: "",
       password: "",
       signInFailed: false,
+      loginError:""
     };
   }
 
@@ -46,16 +47,16 @@ class Login extends Component {
             loginError: "",
           });
         } else {
-          this.setState({
-            loginError: "Unable to verify user",
-            authFlag: false,
-            error: {},
-          });
+            this.setState({
+              loginError: response.data,
+              authFlag: false,
+              error: {},
+            });
         }
       })
-      .catch(() => {
+      .catch((error) => {
         this.setState({
-          loginError: "Unable to verify user",
+          loginError: error.response.data,
           authFlag: false,
         });
       });
@@ -104,6 +105,9 @@ class Login extends Component {
                 ></Input>
               </FormGroup>
               <FormGroup>
+               {this.state.loginError?(<div class="alert alert-danger" role="alert">
+                {this.state.loginError} 
+                </div>):""}
                 <Button type="submit" variant="outline-dark">
                   Log In
                 </Button>

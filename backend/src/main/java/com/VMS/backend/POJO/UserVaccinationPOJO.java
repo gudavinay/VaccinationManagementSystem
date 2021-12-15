@@ -9,6 +9,16 @@ public class UserVaccinationPOJO {
     private int appointmentId;
     private List<Vaccination> vaccinations;
 
+    public boolean isNoShow() {
+        return noShow;
+    }
+
+    public void setNoShow(boolean noShow) {
+        this.noShow = noShow;
+    }
+
+    private boolean noShow;
+
     public Date getCheckInDate() {
         return checkInDate;
     }
