@@ -73,7 +73,7 @@ public class AppointmentController {
             "application/json" })
     public List<Appointment> getPatientReportForAdmin(@RequestParam("clinicID") int clinicID,
                                               @RequestParam("startDate") String startDate,
-                                              @RequestParam("startDate") String endDate) {
+                                              @RequestParam("endDate") String endDate) {
         return appointmentService.getPatientReportForAdmin(clinicID,startDate,endDate);
     }
 }
