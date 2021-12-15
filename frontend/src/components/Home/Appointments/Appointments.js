@@ -347,7 +347,7 @@ class Appointments extends Component {
             </AccordionDetails>
           </Accordion>
         </Container>
-        <pre>{JSON.stringify(this.state, "", 2)}</pre>
+        {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
       </React.Fragment>
     );
   }
