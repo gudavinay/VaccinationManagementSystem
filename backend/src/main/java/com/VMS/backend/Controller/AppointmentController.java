@@ -60,4 +60,20 @@ public class AppointmentController {
     public ResponseEntity<?> cancelAppointment(@RequestBody AppointmentPOJO req) {
         return appointmentService.cancelAppointment(req);
     }
+
+    @RequestMapping(value = "/getPatientReport", method = RequestMethod.GET, produces = {
+            "application/json" })
+    public List<Appointment> getPatientReport(@RequestParam("usermrn") int user_mrn,
+                                              @RequestParam("startDate") String startDate,
+                                              @RequestParam("startDate") String endDate) {
+        return appointmentService.getPatientReport(user_mrn,startDate,endDate);
+    }
+
+    @RequestMapping(value = "/getPatientReportForAdmin", method = RequestMethod.GET, produces = {
+            "application/json" })
+    public List<Appointment> getPatientReportForAdmin(@RequestParam("clinicID") int clinicID,
+                                              @RequestParam("startDate") String startDate,
+                                              @RequestParam("startDate") String endDate) {
+        return appointmentService.getPatientReportForAdmin(clinicID,startDate,endDate);
+    }
 }

@@ -40,8 +40,8 @@ class NavigationBar extends Component {
           style={{
             boxShadow: "1px 1px 15px #808080, -5px -5px 10px #ffffff",
             borderRadius: "15px",
-            marginTop: "5px",
-            marginBottom: "15px",
+            marginTop: "25px",
+            marginBottom: "25px",
           }}
         >
           <Row>

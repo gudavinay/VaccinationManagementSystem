@@ -1,0 +1,13 @@
+.bgColor {
+  background-color: #555;
+  color: #fff;
+}
+
+.windows {
+  cursor: pointer;
+}
+
+.windows:hover {
+  background-color: #999;
+  color: #fff;
+}

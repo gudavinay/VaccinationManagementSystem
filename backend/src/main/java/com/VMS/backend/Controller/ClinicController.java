@@ -24,12 +24,8 @@ public class ClinicController {
     // private AppointmentService appointmentService;
 
     @RequestMapping(value = "/addClinic", method = RequestMethod.POST, produces ={"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addClinic( @RequestBody ClinicPOJO req){
-        try {
-            return clinicService.addClinic(req);
-        } catch (Exception ex){
-            return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
-        }
+    public ResponseEntity<?> addClinic( @RequestBody ClinicPOJO req) throws IllegalAccessException {
+        return clinicService.addClinic(req);
     }
 
     @RequestMapping(value = "/getAllClinics", method = RequestMethod.GET, produces = {"application/json"})

@@ -79,7 +79,7 @@ public class AppointmentService {
             List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
             for(Appointment appointment:appointments){
                 boolean isPastAppointmnet=isAppointmnetDue(appointment.getAppointmentDateTime(),time);
-                if(isPastAppointmnet) {
+                if(isPastAppointmnet && appointment.getIsChecked()!=1) {
                     appointment.setIsChecked(2);
                     appointmentRepository.save(appointment);
                 }
@@ -108,6 +108,51 @@ public class AppointmentService {
     public List<Appointment> getCheckedInAppointmentsForUser(int user_mrn, int isChecked) {
         try {
             return appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, isChecked);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Error getting appointments for user");
+        }
+    }
+
+    public List<Appointment> getPatientReport(int user_mrn, String startDate, String endDate) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date start=formatter.parse(startDate);
+            Date end=formatter.parse(endDate);
+            return appointmentRepository.findAllByUserMrnAndAndAppointmentDateTimeBetween(user_mrn,start,end);
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//            List<Appointment> report=new ArrayList<>();
+//            List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+//            Date start=formatter.parse(startDate);
+//            Date end=formatter.parse(endDate);
+//            for(Appointment appointment:appointments){
+//                if(appointment.getAppointmentDateTime().before(end)
+//                        && appointment.getAppointmentDateTime().after(start)){
+//                    report.add(appointment);
+//                }
+//            }
+            //return report;
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Error getting appointments for user");
+        }
+    }
+
+    public List<Appointment> getPatientReportForAdmin(int clinicId, String startDate, String endDate) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date start=formatter.parse(startDate);
+            Date end=formatter.parse(endDate);
+            return appointmentRepository.findAllByClinic_IdAndAppointmentDateTimeBetween(clinicId,start,end);
+//            List<Appointment> report=new ArrayList<>();
+//            List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+//            Date start=formatter.parse(startDate);
+//            Date end=formatter.parse(endDate);
+//            for(Appointment appointment:appointments){
+//                if(appointment.getAppointmentDateTime().before(end)
+//                        && appointment.getAppointmentDateTime().after(start)){
+//                    report.add(appointment);
+//                }
+//            }
+//            return report;
         } catch (Exception ex) {
             throw new IllegalArgumentException("Error getting appointments for user");
         }
