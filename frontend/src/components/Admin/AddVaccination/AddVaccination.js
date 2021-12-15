@@ -82,10 +82,12 @@ class AddVaccination extends Component {
         }
       })
       .catch((error) => {
-        this.setState({
-          error: error.response.data,
-        });
-        swal("Error", this.state.error, "error");
+        if(error.response && error.response.data){
+          this.setState({
+            error: error.response.data,
+          });
+          swal("Error", this.state.error, "error");
+        }
       });
   };
 

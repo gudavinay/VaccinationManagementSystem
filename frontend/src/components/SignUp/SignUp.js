@@ -5,6 +5,8 @@ import backendServer from "../../webConfig";
 import axios from "axios";
 import { firebase } from "./../../Firebase/firebase";
 import { Redirect } from "react-router-dom";
+import {getMimicTime} from "../Services/ControllerUtils";
+import moment from "moment";
 
 class SignUp extends Component {
   constructor(props) {
@@ -25,6 +27,7 @@ class SignUp extends Component {
       signInFailed: false,
       pageOne: true,
       emailExists: false,
+      maxDate: new Date(moment())
     };
   }
 
@@ -260,6 +263,7 @@ class SignUp extends Component {
                         type="date"
                         id="dob"
                         name="dob"
+                        maxDate={this.state.maxDate}
                         value={this.state.dob}
                         onChange={(e) => {
                           this.setState({ dob: e.target.value });

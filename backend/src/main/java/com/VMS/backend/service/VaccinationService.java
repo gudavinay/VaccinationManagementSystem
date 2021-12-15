@@ -57,7 +57,7 @@ public class VaccinationService {
             Vaccination res = vaccinationRepository.save(newVaccination);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
-            throw new IllegalAccessException("Another vaccination with the same name exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Another vaccination with the same name exists");
         }
     }
 
