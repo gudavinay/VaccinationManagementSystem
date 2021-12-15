@@ -132,7 +132,7 @@ class VaccinationHistory extends Component {
 											Vaccination name: {elem.vaccinationName}
 										</li>
 										<li className="list-group-item">
-											Number of shots taken:{" "}
+											Shot number:{" "}
 											{elem.duration == 0
 												? parseInt(elem.numberOfShots)
 												: parseInt(
