@@ -45,7 +45,7 @@ public class AppointmentService {
                 Optional<Vaccination> v = vaccinationRepository.findById(i);
                 v.ifPresent(vaccinations::add);
             }
-            getAppointmentVaccinationDue(vaccinations,req.getUserId());
+
             Optional<Appointment> appointment=appointmentRepository.findById(req.getAppointmentID());
             if(appointment.isPresent()){
                 res=appointment.get();
@@ -72,26 +72,6 @@ public class AppointmentService {
             return new ResponseEntity<>(p, HttpStatus.OK);
         }
         return null;
-    }
-
-    public boolean getAppointmentVaccinationDue(List<Vaccination> vaccinations,int user_mrn) {
-        try {
-            List<Appointment> appointments=appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
-
-            for(Appointment appointment:appointments){
-                for(Vaccination vaccination: appointment.getVaccinations()){
-                    for(Vaccination v:vaccinations){
-                        if(v.getVaccinationId()==vaccination.getVaccinationId()){
-
-                        }
-                    }
-                }
-            }
-            return true;
-        } catch (Exception ex) {
-            throw new IllegalArgumentException("Error getting appointments for user");
-
-        }
     }
 
     public List<Appointment> getAppointmentsForUser(int user_mrn, Date time) {

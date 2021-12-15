@@ -26,7 +26,6 @@ public class DiseaseService {
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Another Disease with the same name exists");
-            //throw new IllegalAccessException("Another Disease with the same name exists");
         }
     }
 

@@ -10,7 +10,9 @@ import Navbar from "./../../Navbar/Navbar";
 class AddDisease extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      error:""
+    };
   }
 
   handleSubmit = async (e) => {
@@ -41,12 +43,12 @@ class AddDisease extends Component {
           swal("Error", "Given disease name already exists", "error");
         }
       })
-      .catch(() => {
+      .catch((error) => {
         this.setState({
-          error: "Error adding disease",
+          error: error.response.data,
           isSuccess: false,
         });
-        swal("Error", "Error adding disease", "error");
+        swal("Error", this.state.error, "error");
       });
   };
 

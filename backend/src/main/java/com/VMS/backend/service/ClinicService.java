@@ -25,7 +25,7 @@ public class ClinicService {
             Clinic res = clinicRepository.save(newClinic);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
-            throw new IllegalAccessException("Another Clinic with the same name exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Another Clinic with the same name exists");
         }
     }
 
@@ -38,7 +38,7 @@ public class ClinicService {
         if(clinic!=null){
             return new ResponseEntity<>(clinic, HttpStatus.OK);
         }else{
-            throw new NotFoundException("Sorry, the requested clinic with name "+clinicName+" does not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, the requested clinic with name "+clinicName+" does not exist");
         }
 
     }
@@ -48,7 +48,7 @@ public class ClinicService {
         if(clinic.isPresent()){
             return new ResponseEntity<>(clinic.get(), HttpStatus.OK);
         }else{
-            throw new NotFoundException("Sorry, the requested clinic with Id "+clinicId+" does not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, the requested clinic with Id "+clinicId+" does not exist");
         }
 
     }

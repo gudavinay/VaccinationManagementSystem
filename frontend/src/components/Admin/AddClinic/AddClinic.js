@@ -4,6 +4,7 @@ import { Button, Form, FormGroup, Label, Input, Col, Row } from "reactstrap";
 import backendServer from "../../../webConfig";
 import { Redirect } from "react-router";
 import Navbar from "./../../Navbar/Navbar";
+import swal from "sweetalert";
 
 class AddClinic extends Component {
   constructor(props) {
@@ -37,6 +38,11 @@ class AddClinic extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     // axios.defaults.headers["Access-Control-Allow-Origin"] = true;
+    if(this.state.startBussinessHour>this.state.endBussinessHour){
+      swal("Error", "Start time can not be greater than end time", "error");
+    }else if(this.state.endBussinessHour-this.state.startBussinessHour<8){
+      swal("Error", "Minimum Bussiness hour should be 8 hours", "error");
+    }else{
     let data = {
       name: this.state.clinicInfo.name,
       noOfPhysician: Number(this.state.clinicInfo.noOfPhysician),
@@ -71,6 +77,7 @@ class AddClinic extends Component {
           error: "Error adding clinic to the Database",
         });
       });
+    }
   };
 
   render() {
@@ -119,6 +126,7 @@ class AddClinic extends Component {
                             id="noOfPhysician"
                             name="noOfPhysician"
                             placeholder="Clinic Name"
+                            min="0"
                             onChange={this.handleChange}
                             required
                           ></Input>
@@ -127,12 +135,13 @@ class AddClinic extends Component {
                     </Row>
                     <Row>
                       <Col>
-                        <Label for="firstName">Start Bussiness Hour</Label>
+                        <Label for="startBussinessHour">Start Bussiness Hour</Label>
                         <Input
                           type="number"
                           id="startBussinessHour"
                           name="startBussinessHour"
-                          placeholder="Clinic Name"
+                          placeholder="Start Bussiness Hour"
+                          min="0"
                           onChange={this.handleChange}
                           required
                         ></Input>
@@ -143,7 +152,8 @@ class AddClinic extends Component {
                           type="number"
                           id="endBussinessHour"
                           name="endBussinessHour"
-                          placeholder="Clinic Name"
+                          min="0"
+                          placeholder="End Bussiness Hour"
                           onChange={this.handleChange}
                           required
                         ></Input>
