@@ -17,7 +17,7 @@ class PasswordReset extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    if (localStorage.getItem("userData")) {
+    if (localStorage.getItem("userData") && this.state.password.length >= 8) {
       let user = JSON.parse(localStorage.getItem("userData"));
       axios
         .post(
@@ -90,18 +90,22 @@ class PasswordReset extends Component {
               this.state.alert ? (
                 <Alert variant="danger">Passwords do not match</Alert>
               ) : null}
-              {this.state.password &&
+              {/* {this.state.password &&
               this.state.confirm &&
               this.state.password === this.state.confirm &&
               this.state.alert ? (
                 <Alert variant="success">Passwords match</Alert>
-              ) : null}
+              ) : null} */}
               {this.state.success ? (
                 <Alert variant="success">Password Reset Complete</Alert>
               ) : null}
             </FormGroup>
             <FormGroup>
-              <Button type="submit" variant="info">
+              <Button
+                disabled={this.state.password.length < 8}
+                type="submit"
+                variant="info"
+              >
                 Reset Password
               </Button>
             </FormGroup>
