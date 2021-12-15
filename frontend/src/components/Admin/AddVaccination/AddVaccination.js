@@ -106,14 +106,6 @@ class AddVaccination extends Component {
               <div className="row" style={{ padding: "120px" }}>
                 <div className="col col-sm-3"></div>
                 <div className="col col-sm-6">
-                  <div
-                    id="error"
-                    hidden={this.state.error.length > 0 ? false : true}
-                    className="alert alert-danger"
-                    role="alert"
-                  >
-                    {this.state.error}
-                  </div>
                   <h3>Add Vaccination</h3>
                   <Form onSubmit={this.handleSubmit} className="form-stacked">
                     <Row>
