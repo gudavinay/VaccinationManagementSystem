@@ -118,7 +118,7 @@ public class AppointmentService {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date start=formatter.parse(startDate);
             Date end=formatter.parse(endDate);
-            return appointmentRepository.findAllUserMrnAndAndAppointmentDateTimeBetween(user_mrn,start,end);
+            return appointmentRepository.findAllByUserMrnAndAndAppointmentDateTimeBetween(user_mrn,start,end);
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //            List<Appointment> report=new ArrayList<>();
 //            List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
