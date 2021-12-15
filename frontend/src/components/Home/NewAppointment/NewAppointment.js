@@ -15,7 +15,7 @@ import moment from "moment";
 import { Redirect } from "react-router-dom";
 import emailjs from "emailjs-com";
 import { init } from "emailjs-com";
-import Navbar from "./../../Navbar/Navbar";
+import swal from "sweetalert";
 
 class NewAppointment extends Component {
   constructor(props) {
@@ -82,15 +82,16 @@ class NewAppointment extends Component {
   }
 
   sendEmailToClient() {
-    alert("booking successful");
+    swal("Success", "Booking successful. Please check your confirmation email for additional details", "success");
     init("user_VU6t0UaXlMzjO5o6MJQjc");
     let data = {
-      to_name: "VINAY GGG TEST",
+      to_name: getUserProfile().firstName + " "+getUserProfile().lastName,
       clinic_name: this.state.selectedClinicFullInfo.name,
       vaccination_list: this.state.selectedVaccinations.toString(),
       appointment_date: this.state.selectedDate,
       start_time: this.state.selectedTime,
-      to_email: "vinayguda05@gmail.com",
+      to_email: getUserProfile().email,
+      status: (this.props.data && this.props.data.appointmentId) ? "updated" :"created"
     };
     console.log(data);
     emailjs
@@ -153,7 +154,7 @@ class NewAppointment extends Component {
               disabledVaccinations.push(vaccine.vaccinationName);
             }
           }
-          if (this.props.data.appointmentId) {
+          if (this.props.data && this.props.data.appointmentId) {
             for (let vacc of this.state.selectedVaccinations) {
               if (disabledVaccinations.indexOf(vacc) !== -1) {
                 disabledVaccinations.splice(
@@ -203,7 +204,7 @@ class NewAppointment extends Component {
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
-          // this.sendEmailToClient(); // TODO: uncomment later to send email
+          this.sendEmailToClient(); // TODO: uncomment later to send email
           this.setState({
             isSuccess: true,
             error: "",

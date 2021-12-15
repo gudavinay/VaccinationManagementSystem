@@ -12,6 +12,9 @@ import { getUserProfile, getMimicTime } from "../../Services/ControllerUtils";
 import Navbar from "./../../Navbar/Navbar";
 import moment from "moment";
 import NewAppointment from "../NewAppointment/NewAppointment";
+import emailjs from "emailjs-com";
+import { init } from "emailjs-com";
+import swal from "sweetalert";
 
 class Appointments extends Component {
   constructor(props) {
@@ -35,9 +38,37 @@ class Appointments extends Component {
       if (response.status === 200) {
         alert(response.data);
         this.getAppointmentsForUser();
+        this.sendEmailToClient(appointment);
       }
     });
   };
+
+  sendEmailToClient(appointment) {
+    swal("Success", "Appointment cancelled successfully. Please check your cancellation email for additional details", "success");
+    init("user_VU6t0UaXlMzjO5o6MJQjc");
+    let vaccinations = [];
+    for(let vacc of appointment.vaccinations){
+      vaccinations.push(vacc.vaccinationName);
+    }
+    let data = {
+      to_name: getUserProfile().firstName +" "+ getUserProfile().lastName,
+      clinic_name: appointment.clinic.name,
+      vaccination_list: vaccinations.toString(),
+      appointment_date: appointment.appointmentDateStr,
+      start_time: appointment.appointmentTimeStr,
+      to_email: getUserProfile().email,
+      status: "cancelled"
+    };
+    console.log(data);
+    emailjs
+      .send("service_10aywqh", "template_8ht3awb", data)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   handleCheckin = (appointment) => {
     console.log(appointment);
