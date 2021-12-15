@@ -180,15 +180,18 @@ public class VaccinationService {
 
             }
 
-            //addition of appointment to vaccinationDues is pending
-            List<Appointment> scheduledAppointments= appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, 1);
+            //addition of appointment to vaccinationDue
+            List<Appointment> scheduledAppointments= appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, 0);
+            System.out.println("scheduledAppointments: " +scheduledAppointments.toString());
             for(VaccinationDuePojo pojo: vaccinationDueListFinal  ){
                 for(Appointment ap :scheduledAppointments){
                     if(ap.getAppointmentDateTime().before(currentDate)){
                         List<Vaccination> vaccinationList=ap.getVaccinations();
                         for(Vaccination v: vaccinationList){
                             if(pojo.getVaccinationId()==v.getVaccinationId()){
+                                System.out.println("appointment set to vacc due: " +ap);
                                 pojo.setAppointment(ap);
+                                pojo.setDueDate(ap.getAppointmentDateTime()); //when appointment exists . dueDate Changes
                             }
                         }
 
