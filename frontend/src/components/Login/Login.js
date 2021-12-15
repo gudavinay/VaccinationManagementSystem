@@ -17,7 +17,7 @@ class Login extends Component {
       email: "",
       password: "",
       signInFailed: false,
-      loginError:""
+      loginError: "",
     };
   }
 
@@ -47,11 +47,11 @@ class Login extends Component {
             loginError: "",
           });
         } else {
-            this.setState({
-              loginError: response.data,
-              authFlag: false,
-              error: {},
-            });
+          this.setState({
+            loginError: response.data,
+            authFlag: false,
+            error: {},
+          });
         }
       })
       .catch((error) => {
@@ -78,10 +78,19 @@ class Login extends Component {
     else {
       return (
         <>
-          <Container style={{ border: "1px solid #ddd" }}>
+          <Container style={{ width: "30%", margin: "auto" }}>
             {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
-            <div>Login</div>
-            <div>Please sign in to continue</div>
+            <div
+              style={{
+                fontSize: "36px",
+                fontWeight: "bold",
+                color: "#333",
+                marginBottom: "25px",
+              }}
+            >
+              Log In
+            </div>
+
             <Form
               onSubmit={(e) => this.handleSubmit(e)}
               className="form-stacked"
@@ -105,10 +114,14 @@ class Login extends Component {
                 ></Input>
               </FormGroup>
               <FormGroup>
-               {this.state.loginError?(<div class="alert alert-danger" role="alert">
-                {this.state.loginError} 
-                </div>):""}
-                <Button type="submit" variant="outline-dark">
+                {this.state.loginError ? (
+                  <div class="alert alert-danger" role="alert">
+                    {this.state.loginError}
+                  </div>
+                ) : (
+                  ""
+                )}
+                <Button type="submit" variant="info">
                   Log In
                 </Button>
               </FormGroup>
