@@ -27,6 +27,7 @@ class NavigationBar extends Component {
   signOut = () => {
     firebase.auth().signOut();
     localStorage.clear();
+    window.location.reload();
     this.setState({ signOut: true });
   };
   render() {
