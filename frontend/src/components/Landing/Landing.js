@@ -166,7 +166,14 @@ class Landing extends Component {
           >
             {/* <pre>{JSON.stringify(this.state, "", 2)}</pre> */}
             <Container>
-              {this.state.signIn ? (
+              <Button
+                variant="dark"
+                disabled={this.state.signIn}
+                onClick={this.signInWithFirebase}
+              >
+                Sign in with google
+              </Button>
+              {/* {this.state.signIn ? (
                 <Button variant="dark" onClick={this.signOut}>
                   Sign Out
                 </Button>
@@ -174,7 +181,7 @@ class Landing extends Component {
                 <Button variant="dark" onClick={this.signInWithFirebase}>
                   Sign in with google
                 </Button>
-              )}
+              )} */}
             </Container>
             {this.state.newUser ? (
               <div>

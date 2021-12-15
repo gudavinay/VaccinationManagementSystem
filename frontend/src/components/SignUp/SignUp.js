@@ -5,7 +5,7 @@ import backendServer from "../../webConfig";
 import axios from "axios";
 import { firebase } from "./../../Firebase/firebase";
 import { Redirect } from "react-router-dom";
-import {getMimicTime} from "../Services/ControllerUtils";
+import { getMimicTime } from "../Services/ControllerUtils";
 import moment from "moment";
 
 class SignUp extends Component {
@@ -27,7 +27,8 @@ class SignUp extends Component {
       signInFailed: false,
       pageOne: true,
       emailExists: false,
-      maxDate: new Date(moment())
+      maxDate: new Date(moment()),
+      disableSignIn: false,
     };
   }
 
@@ -56,8 +57,7 @@ class SignUp extends Component {
   //     //SignUp
   //   };
 
-  handleSubmit = async (e) => {
-    e.preventDefault();
+  createUser = async () => {
     this.setState({ emailExists: false });
     if (!this.props.allEmails.includes(this.state.email)) {
       let res = await firebase
@@ -68,6 +68,21 @@ class SignUp extends Component {
         firebase.auth().currentUser.sendEmailVerification();
     } else {
       this.setState({ emailExists: true });
+    }
+  };
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    if (firebase.auth().currentUser) {
+      await firebase.auth().currentUser.reload();
+      if (!firebase.auth().currentUser.emailVerified) {
+        window.alert("Email not verified");
+      } else {
+        this.setState({ disableSignIn: true });
+        alert("click on message to continue");
+      }
+    } else {
+      this.createUser();
     }
   };
 
@@ -120,6 +135,8 @@ class SignUp extends Component {
           window.location.reload();
         }
       });
+    } else {
+      alert("Email not verified");
     }
   };
 
@@ -332,7 +349,11 @@ class SignUp extends Component {
                 </FormGroup>
               </Col>
               <FormGroup>
-                <Button type="submit" variant="info">
+                <Button
+                  type="submit"
+                  disabled={this.state.disableSignIn}
+                  variant="info"
+                >
                   Sign Me Up
                 </Button>
               </FormGroup>
