@@ -5,7 +5,7 @@ import backendServer from "../../webConfig";
 import axios from "axios";
 import { firebase } from "./../../Firebase/firebase";
 import { Redirect } from "react-router-dom";
-import {getMimicTime} from "../Services/ControllerUtils";
+import { getMimicTime } from "../Services/ControllerUtils";
 import moment from "moment";
 
 class SignUp extends Component {
@@ -27,7 +27,7 @@ class SignUp extends Component {
       signInFailed: false,
       pageOne: true,
       emailExists: false,
-      maxDate: new Date(moment())
+      maxDate: new Date(moment()),
     };
   }
 
@@ -120,6 +120,8 @@ class SignUp extends Component {
           window.location.reload();
         }
       });
+    } else {
+      alert("Email not verified");
     }
   };
 
