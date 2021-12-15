@@ -12,7 +12,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Integer
 
     List<Appointment> findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(int user_mrn, int isCheckedIn);
 
-    List<Appointment> findAllByClinic_IdAndAppointmentDateStrEquals(int clinicId, String appointmentDateStr);
+    List<Appointment> findAllByClinic_IdAndAppointmentDateStrEqualsAndIsCheckedEquals(int clinicId, String appointmentDateStr, int isChecked);
 
     List<Appointment> findAllByUserMrnAndAndAppointmentDateTimeBetween(int user_mrn, Date startDate, Date endDate);
 

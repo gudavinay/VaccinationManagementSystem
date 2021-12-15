@@ -18,7 +18,9 @@ import { Redirect } from "react-router";
 class VaccinationsDue extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			expanded:"panel1"
+		};
 	}
 
 	componentDidMount = async () => {

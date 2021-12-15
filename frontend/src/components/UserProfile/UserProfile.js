@@ -97,7 +97,7 @@ class UserProfile extends Component {
           };
           localStorage.setItem("userData", JSON.stringify(responseUser));
           this.setState({ success: true });
-          window.reload();
+          window.location.reload();
         }
       });
   };

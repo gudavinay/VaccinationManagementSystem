@@ -98,7 +98,7 @@ public class AppointmentService {
     public List<String> getAllAppointmentsOnDate(String date, int clinicId) throws ParseException {
         // SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
         List<String> listOfTimes = new ArrayList<>();
-        List<Appointment> appointments = appointmentRepository.findAllByClinic_IdAndAppointmentDateStrEquals(clinicId, date);
+        List<Appointment> appointments = appointmentRepository.findAllByClinic_IdAndAppointmentDateStrEqualsAndIsCheckedEquals(clinicId, date, 0);
         for(Appointment app: appointments){
             listOfTimes.add(app.getAppointmentTimeStr());
         }

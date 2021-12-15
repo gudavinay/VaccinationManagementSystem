@@ -42,7 +42,6 @@ class Appointments extends Component {
     };
     axios.post(`${backendServer}/cancelAppointment`, data).then((response) => {
       if (response.status === 200) {
-        alert(response.data);
         this.getAppointmentsForUser();
         this.sendEmailToClient(appointment);
       }
