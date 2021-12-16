@@ -44,11 +44,13 @@ class AddDisease extends Component {
         }
       })
       .catch((error) => {
+        if (error.response && error.response.data){
         this.setState({
           error: error.response.data,
           isSuccess: false,
         });
         swal("Error", this.state.error, "error");
+      }
       });
   };
 

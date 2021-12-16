@@ -56,10 +56,13 @@ class Login extends Component {
         }
       })
       .catch((error) => {
-        this.setState({
-          loginError: error.response.data,
-          authFlag: false,
-        });
+        if(error.response && error.response.data){
+          this.setState({
+            loginError: error.response.data,
+            authFlag: false,
+          });
+          swal("Error", this.state.error, "error");
+        }
       });
   };
 
