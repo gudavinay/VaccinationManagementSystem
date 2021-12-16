@@ -7,6 +7,7 @@
 - Payal Ghule :015337036
 
 ## URL to access the application
+http://54.215.128.90:3000/
 
 ## Steps to run
 1. Either you can use the link provided to run the application
