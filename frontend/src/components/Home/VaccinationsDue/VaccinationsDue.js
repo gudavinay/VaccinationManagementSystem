@@ -12,8 +12,14 @@ import VaccinesIcon from "@mui/icons-material/Vaccines";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
-// import Select from "@material-ui/core/Select";
-// import { Checkbox, ListItemText, MenuItem } from "@material-ui/core";
+import ScheduleIcon from "@mui/icons-material/Schedule";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 import moment from "moment";
 import { getUserProfile, getMimicTime } from "../../Services/ControllerUtils";
 import { Redirect } from "react-router";
@@ -98,48 +104,69 @@ class VaccinationsDue extends Component {
 					}}
 				>
 					<Col md={8}>
-						<div>
-							<VaccinesIcon /> <strong>Vaccination Name:</strong>{" "}
-							{item.vaccinationName}
-						</div>
-						<div>
-							<ConfirmationNumberIcon /> <strong>Number of shot due:</strong>{" "}
-							{item.numberOfShotDue}
-							{suffixes[item.numberOfShotDue]} shot
-						</div>
-						<div>
-							<span>
-								<CalendarTodayIcon />
-							</span>{" "}
-							<strong>Due Date:</strong> {new Date(item.dueDate).toDateString()}
-						</div>
-					</Col>
-					<Col>
-						<strong>Scheduled appointment for vaccine</strong>
-						{item.appointment && item.appointment.length > 0 ? (
-							<ul className="list-group">
-								{item.appointment.map((elem) => (
-									<div key={elem.appointmentId}>
-										<li className="list-group-item">
-											{" "}
-											Clinic name: {elem.clinic.name}
-										</li>
-										<li className="list-group-item">
-											Clinic Address:{elem.clinic.address.street},{" "}
-											{elem.clinic.address.city}
-										</li>
-									</div>
-								))}
-							</ul>
-						) : (
-							<div
-								style={{
-									color: "red",
-								}}
-							>
-								<small>You have not booked an appointment yet</small>
+						<Row>
+							<div>
+								<VaccinesIcon /> <strong>Vaccination Name:</strong>{" "}
+								{item.vaccinationName}
 							</div>
-						)}
+							<div>
+								<ConfirmationNumberIcon /> <strong>Number of shot due:</strong>{" "}
+								{item.numberOfShotDue}
+								{suffixes[item.numberOfShotDue]} shot
+							</div>
+							<div>
+								<span>
+									<CalendarTodayIcon />
+								</span>{" "}
+								<strong>Due Date:</strong>{" "}
+								{new Date(item.dueDate).toDateString()}
+							</div>
+						</Row>
+
+						<Row>
+							<strong>
+								<ScheduleIcon /> Scheduled appointment for vaccine:
+							</strong>
+							<br />
+
+							{item.appointment ? (
+								<TableContainer component={Paper}>
+									<Table aria-label="simple table">
+										<TableHead>
+											<TableRow>
+												<TableCell>Appointment Date</TableCell>
+												<TableCell>Appointment Time</TableCell>
+												<TableCell>Clinic Name</TableCell>
+												<TableCell>Address</TableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											<TableRow key={item.appointment.appointmentId}>
+												<TableCell>
+													{item.appointment.appointmentDateStr}
+												</TableCell>
+												<TableCell>
+													{item.appointment.appointmentTimeStr}
+												</TableCell>
+												<TableCell>{item.appointment.clinic.name}</TableCell>
+												<TableCell>
+													{item.appointment.clinic.address.street},{" "}
+													{item.appointment.clinic.address.city}
+												</TableCell>
+											</TableRow>
+										</TableBody>
+									</Table>
+								</TableContainer>
+							) : (
+								<small
+									style={{
+										color: "red",
+									}}
+								>
+									You have not booked an appointment yet
+								</small>
+							)}
+						</Row>
 					</Col>
 				</Row>
 			));
