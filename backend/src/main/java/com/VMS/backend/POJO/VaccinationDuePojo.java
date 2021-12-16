@@ -57,4 +57,15 @@ public class VaccinationDuePojo {
     public void setVaccinationId(int vaccinationId) {
         this.vaccinationId = vaccinationId;
     }
+
+    @Override
+    public String toString() {
+        return "VaccinationDuePojo{" +
+                "vaccinationId=" + vaccinationId +
+                ", numberOfShotDue=" + numberOfShotDue +
+                ", dueDate=" + dueDate +
+                ", vaccinationName='" + vaccinationName + '\'' +
+                ", appointment=" + appointment +
+                '}';
+    }
 }

@@ -85,4 +85,17 @@ public class Vaccination {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
+    @Override
+    public String toString() {
+        return "Vaccination{" +
+                "vaccinationId=" + vaccinationId +
+                ", vaccinationName='" + vaccinationName + '\'' +
+                ", diseases=" + diseases +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", numberOfShots=" + numberOfShots +
+                ", shotInternalVal=" + shotInternalVal +
+                ", duration=" + duration +
+                '}';
+    }
 }

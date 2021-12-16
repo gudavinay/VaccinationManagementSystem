@@ -134,6 +134,7 @@ public class VaccinationService {
             System.out.println("User still have some appointments scheduled" );
             //get remaining vaccines for second /further shots from user_vaccinations
             List<UserVaccinations> remainingVaccinations=userVaccinationRepository.findByUserId(user_mrn);
+            System.out.println("remainingVaccinations fetched : " +remainingVaccinations);
             if(!CollectionUtils.isEmpty(remainingVaccinations)){
                 for(UserVaccinations uv : remainingVaccinations){
                     vaccinatonsDone.add(uv.getVaccination_id());
@@ -175,6 +176,8 @@ public class VaccinationService {
 
 
             //now add other vaccines which are not taken at all & not in remaining section
+            System.out.println("vaccinatonsDone id list: " +vaccinatonsDone.toString());
+            System.out.println("vaccinationDueList prior to compare: " +vaccinationDueList.toString());
             List<VaccinationDuePojo> vaccinationDueListFinal=new ArrayList<>(vaccinationDueList);
             for(Vaccination vacc: allVaccinations){ //all vaccines
                 boolean flag=true;
@@ -183,16 +186,22 @@ public class VaccinationService {
                             flag=false;
                         }else if(!CollectionUtils.isEmpty(vaccinatonsDone)){
                             if(vaccinatonsDone.contains(vacc.getVaccinationId())){
+                                System.out.println("Already done vaccination: " +vacc.getVaccinationId() );
                                 flag=false;
                             }
                         }
                     if(flag){
-                        VaccinationDuePojo  vaccinationDuePojo= new VaccinationDuePojo(1,currentDate ,vacc.getVaccinationName(), vacc.getVaccinationId());
-                        vaccinationDueListFinal.add(vaccinationDuePojo);
+                        if(!CollectionUtils.isEmpty(vaccinatonsDone)) {
+                            if (!vaccinatonsDone.contains(vacc.getVaccinationId())) {
+                                VaccinationDuePojo vaccinationDuePojo = new VaccinationDuePojo(1, currentDate, vacc.getVaccinationName(), vacc.getVaccinationId());
+                                vaccinationDueListFinal.add(vaccinationDuePojo);
+                            }
+                        }
                     }
 
             }
 
+            System.out.println("vaccinationDueListFinal: "+ vaccinationDueListFinal.toString());
             //addition of appointment to vaccinationDue
             List<Appointment> scheduledAppointments= appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, 0);
             System.out.println("scheduledAppointments: " +scheduledAppointments.toString());
