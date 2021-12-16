@@ -87,7 +87,8 @@ public class VaccinationService {
         if(vaccination!=null){
             return new ResponseEntity<>(vaccination, HttpStatus.OK);
         }else{
-            throw new NotFoundException("Sorry, the requested vaccination with name "+vaccinationName+" does not exist");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Sorry, the requested vaccination with name "+vaccinationName+" does not exist");
+
         }
 
     }
@@ -97,7 +98,8 @@ public class VaccinationService {
         if(vaccination.isPresent()){
             return new ResponseEntity<>(vaccination.get(), HttpStatus.OK);
         }else{
-            throw new NotFoundException("Sorry, the requested vaccination with Id "+vaccinationId+" does not exist");
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Sorry, the requested vaccination with Id "+vaccinationId+" does not exist");
         }
 
     }
@@ -105,6 +107,7 @@ public class VaccinationService {
     public ResponseEntity<?> getVaccinationsDueForUser( int user_mrn, Date currentDate) throws ParseException {
         System.out.println("Input Request for getVaccinationsDueForUser:  userMrn: " +user_mrn+ " currentDate: " +currentDate);
         List<VaccinationDuePojo> vaccinationDueList=new ArrayList<>();
+        List<Integer> vaccinatonsDone= new ArrayList<>();
 
         Date maxDate=Utils.DateAfterAnYear(currentDate);
         List <Appointment> appointments=appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
@@ -120,19 +123,20 @@ public class VaccinationService {
                 }
                 return  new ResponseEntity<>(vaccinationDueList, HttpStatus.OK);
             }else{
-               return  ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body("No Vaccinations present in database");
+               return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Vaccinations present in database");
             }
 
         }else
         {
             if(CollectionUtils.isEmpty(allVaccinations)){
-                return  ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body("No Vaccinations present in database");
+                return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Vaccinations present in database");
             }
             System.out.println("User still have some appointments scheduled" );
             //get remaining vaccines for second /further shots from user_vaccinations
             List<UserVaccinations> remainingVaccinations=userVaccinationRepository.findByUserId(user_mrn);
             if(!CollectionUtils.isEmpty(remainingVaccinations)){
                 for(UserVaccinations uv : remainingVaccinations){
+                    vaccinatonsDone.add(uv.getVaccination_id());
                     int noOfShotsLeft=uv.getDosesLeft();
                     String nextAppointmentDate=uv.getNextAppointmentTime();
                     Date nextAppointmentDateFormated= Utils.convertSimpleDateformat(nextAppointmentDate);
@@ -147,13 +151,14 @@ public class VaccinationService {
                                 vaccinationDuePojo= new VaccinationDuePojo(shotNumberDue,nextAppointmentDateFormated,vaccination.get().getVaccinationName(), vaccination.get().getVaccinationId());
                                 vaccinationDueList.add(vaccinationDuePojo);
 
-                            }else if(noOfShotsLeft ==0){
+                            }else if(noOfShotsLeft <=0){
                                 int duration = vaccination.get().getDuration();
                                 if(duration > 0){
                                     shotNumberDue=0; //0- it's next shot after duration expires
                                     vaccinationDuePojo= new VaccinationDuePojo(shotNumberDue,nextAppointmentDateFormated,vaccination.get().getVaccinationName(), vaccination.get().getVaccinationId());
                                     vaccinationDueList.add(vaccinationDuePojo);
                                 }
+
                             }
 
                         }
@@ -176,6 +181,10 @@ public class VaccinationService {
                     for(VaccinationDuePojo pojo: vaccinationDueList) //
                         if(vacc.getVaccinationId()==pojo.getVaccinationId()){
                             flag=false;
+                        }else if(!CollectionUtils.isEmpty(vaccinatonsDone)){
+                            if(vaccinatonsDone.contains(vacc.getVaccinationId())){
+                                flag=false;
+                            }
                         }
                     if(flag){
                         VaccinationDuePojo  vaccinationDuePojo= new VaccinationDuePojo(1,currentDate ,vacc.getVaccinationName(), vacc.getVaccinationId());
@@ -203,11 +212,31 @@ public class VaccinationService {
 
                 }
             }
+            //addition of appointment to Vaccination Due for checkedIn appointments
+
+            List<Appointment> checkedIAppointments= appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, 1);
+            System.out.println("checkedIAppointments: " +scheduledAppointments.toString());
+            for(VaccinationDuePojo pojo: vaccinationDueListFinal  ){
+                for(Appointment ap :checkedIAppointments){
+                    if(ap.getAppointmentDateTime().after(currentDate)){
+                        List<Vaccination> vaccinationList=ap.getVaccinations();
+                        for(Vaccination v: vaccinationList){
+                            if(pojo.getVaccinationId()==v.getVaccinationId()){
+                                System.out.println("appointment set to vacc due: " +ap);
+                                pojo.setAppointment(ap);
+                                // pojo.setDueDate(ap.getAppointmentDateTime()); //when appointment exists . dueDate Changes
+                            }
+                        }
+
+                    }
+
+                }
+            }
 
             if(!CollectionUtils.isEmpty(vaccinationDueListFinal) )
                 return  new ResponseEntity<>(vaccinationDueListFinal, HttpStatus.OK);
             else
-                return  ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body("No Vaccinations are due");
+                return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Vaccinations are due");
         }
 
 

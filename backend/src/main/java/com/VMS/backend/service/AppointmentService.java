@@ -60,7 +60,7 @@ public class AppointmentService {
             Appointment saveAppointment = appointmentRepository.save(res);
             return new ResponseEntity<>(saveAppointment, HttpStatus.OK);
         } catch (Exception ex) {
-            throw new IllegalAccessException("Error in creating appointment");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to create an appointment");
         }
     }
 
@@ -71,10 +71,10 @@ public class AppointmentService {
             Appointment p=appointmentRepository.save(appointment);
             return new ResponseEntity<>(p, HttpStatus.OK);
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unable to cancel as appointment is not present");
     }
 
-    public List<Appointment> getAppointmentsForUser(int user_mrn, Date time) {
+    public ResponseEntity<?>  getAppointmentsForUser(int user_mrn, Date time) {
         try {
             List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
             for(Appointment appointment:appointments){
@@ -84,10 +84,12 @@ public class AppointmentService {
                     appointmentRepository.save(appointment);
                 }
             }
-            return appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+            List<Appointment> appointmentList=appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
+            return new ResponseEntity<>(appointmentList, HttpStatus.OK);
+           // return appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
 
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Error getting appointments for user");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unable to get appointments from database");
         }
     }
 
@@ -105,56 +107,36 @@ public class AppointmentService {
         return listOfTimes;
     }
 
-    public List<Appointment> getCheckedInAppointmentsForUser(int user_mrn, int isChecked) {
+    public ResponseEntity<?> getCheckedInAppointmentsForUser(int user_mrn, int isChecked) {
         try {
-            return appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, isChecked);
+            List<Appointment> checkedinApp= appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, isChecked);
+            return new ResponseEntity<>(checkedinApp, HttpStatus.OK);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Error getting appointments for user");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unable to get checkedIn appointments from database");
         }
     }
 
-    public List<Appointment> getPatientReport(int user_mrn, String startDate, String endDate) {
+    public ResponseEntity<?> getPatientReport(int user_mrn, String startDate, String endDate) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date start=formatter.parse(startDate);
             Date end=formatter.parse(endDate);
-            return appointmentRepository.findAllByUserMrnAndAndAppointmentDateTimeBetween(user_mrn,start,end);
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//            List<Appointment> report=new ArrayList<>();
-//            List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
-//            Date start=formatter.parse(startDate);
-//            Date end=formatter.parse(endDate);
-//            for(Appointment appointment:appointments){
-//                if(appointment.getAppointmentDateTime().before(end)
-//                        && appointment.getAppointmentDateTime().after(start)){
-//                    report.add(appointment);
-//                }
-//            }
-            //return report;
+            List<Appointment> patientreport= appointmentRepository.findAllByUserMrnAndAndAppointmentDateTimeBetween(user_mrn,start,end);
+            return new ResponseEntity<>(patientreport, HttpStatus.OK);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Error getting appointments for user");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unable to get Patient report");
         }
     }
 
-    public List<Appointment> getPatientReportForAdmin(int clinicId, String startDate, String endDate) {
+    public ResponseEntity<?> getPatientReportForAdmin(int clinicId, String startDate, String endDate) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date start=formatter.parse(startDate);
             Date end=formatter.parse(endDate);
-            return appointmentRepository.findAllByClinic_IdAndAppointmentDateTimeBetween(clinicId,start,end);
-//            List<Appointment> report=new ArrayList<>();
-//            List<Appointment> appointments= appointmentRepository.findAllByUserMrnOrderByAppointmentDateTimeDesc(user_mrn);
-//            Date start=formatter.parse(startDate);
-//            Date end=formatter.parse(endDate);
-//            for(Appointment appointment:appointments){
-//                if(appointment.getAppointmentDateTime().before(end)
-//                        && appointment.getAppointmentDateTime().after(start)){
-//                    report.add(appointment);
-//                }
-//            }
-//            return report;
+            List<Appointment> patientReportForAdmin =appointmentRepository.findAllByClinic_IdAndAppointmentDateTimeBetween(clinicId,start,end);
+            return new ResponseEntity<>(patientReportForAdmin, HttpStatus.OK);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Error getting appointments for user");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unable to get Patient report for admin");
         }
     }
 }

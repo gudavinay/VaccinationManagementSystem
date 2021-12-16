@@ -22,16 +22,12 @@ public class AppointmentController {
 
     @RequestMapping(value = "/createAppointment", method = RequestMethod.POST, produces = { "application/json" })
     public ResponseEntity<?> createAppointment(@RequestBody AppointmentPOJO req) throws IllegalAccessException {
-        try {
-            return appointmentService.createAppointment(req);
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body(new ExceptionHandle(new BadRequest(400, ex.getMessage())));
-        }
+        return appointmentService.createAppointment(req);
     }
 
     @RequestMapping(value = "/getAppointmentsForUser", method = RequestMethod.GET, produces = {
             "application/json" })
-    public List<Appointment> getAppointmentsForUser(
+    public ResponseEntity<?>  getAppointmentsForUser(
             @RequestParam("mrn") int user_mrn,
             @RequestParam("time") Date time
     ) {
@@ -48,7 +44,7 @@ public class AppointmentController {
 
     @RequestMapping(value = "/getCheckedInAppointmentsForUser", method = RequestMethod.GET, produces = {
             "application/json" })
-    public List<Appointment> getCheckedInAppointmentsForUser(
+    public ResponseEntity<?> getCheckedInAppointmentsForUser(
         @RequestParam("user_mrn") int user_mrn,
         @RequestParam("isChecked") int isChecked
     ) {
@@ -63,7 +59,7 @@ public class AppointmentController {
 
     @RequestMapping(value = "/getPatientReport", method = RequestMethod.GET, produces = {
             "application/json" })
-    public List<Appointment> getPatientReport(@RequestParam("usermrn") int user_mrn,
+    public ResponseEntity<?> getPatientReport(@RequestParam("usermrn") int user_mrn,
                                               @RequestParam("startDate") String startDate,
                                               @RequestParam("endDate") String endDate) {
         return appointmentService.getPatientReport(user_mrn,startDate,endDate);
@@ -71,7 +67,7 @@ public class AppointmentController {
 
     @RequestMapping(value = "/getPatientReportForAdmin", method = RequestMethod.GET, produces = {
             "application/json" })
-    public List<Appointment> getPatientReportForAdmin(@RequestParam("clinicID") int clinicID,
+    public ResponseEntity<?> getPatientReportForAdmin(@RequestParam("clinicID") int clinicID,
                                               @RequestParam("startDate") String startDate,
                                               @RequestParam("endDate") String endDate) {
         return appointmentService.getPatientReportForAdmin(clinicID,startDate,endDate);

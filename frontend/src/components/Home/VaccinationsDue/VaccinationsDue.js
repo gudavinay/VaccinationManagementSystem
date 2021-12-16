@@ -136,6 +136,7 @@ class VaccinationsDue extends Component {
 											<TableRow>
 												<TableCell>Appointment Date</TableCell>
 												<TableCell>Appointment Time</TableCell>
+												<TableCell>Status</TableCell>
 												<TableCell>Clinic Name</TableCell>
 												<TableCell>Address</TableCell>
 											</TableRow>
@@ -147,6 +148,11 @@ class VaccinationsDue extends Component {
 												</TableCell>
 												<TableCell>
 													{item.appointment.appointmentTimeStr}
+												</TableCell>
+												<TableCell>
+													{item.appointment.isChecked == 0
+														? "Scheduled"
+														: "CheckedIn"}
 												</TableCell>
 												<TableCell>{item.appointment.clinic.name}</TableCell>
 												<TableCell>
@@ -163,7 +169,9 @@ class VaccinationsDue extends Component {
 										color: "red",
 									}}
 								>
-									You have not booked an appointment yet
+									{item.numberOfShotDue == 0
+										? "Currently vaccinated until due date"
+										: "You have not booked an appointment yet"}
 								</small>
 							)}
 						</Row>

@@ -35,7 +35,7 @@ public class PatientService {
             User res = patientRepository.save(newUser);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
-            throw new IllegalArgumentException("Another patient with the same email already exists.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Another patient with the same email already exists.");
         }
     }
 
@@ -103,28 +103,5 @@ public class PatientService {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
-    // need to rework
-    // public List<VaccinationHistoryPojo> getVaccinationHistory (int user_mrn, int
-    // isCheckedIn) {
-    // try {
-    // List<Vaccination> vaccinationList = new ArrayList<>();
-    // List<VaccinationHistoryPojo> vaccinationHistory=new ArrayList<>();
-    // List<Appointment>
-    // appointmentList=appointmentRepository.findAllByUserMrnAndIsCheckedIn(user_mrn,
-    // 1 );
-    // for(Appointment appointment: appointmentList){
-    // VaccinationHistoryPojo vp= new
-    // VaccinationHistoryPojo(appointment.getVaccinations(),
-    // appointment.getClinic(), appointment.getAppointmentDateTime());
-    // vaccinationHistory.add(vp);
-    // }
-    // return vaccinationHistory;
-    //
-    // } catch (Exception ex) {
-    // throw new IllegalArgumentException("Error getting vaccination history for
-    // user");
-    // }
-    //
-    // }
 
 }

@@ -39,7 +39,7 @@ public class DiseaseService {
             Disease disease = diseasePass.get();
             return new ResponseEntity<>(disease, HttpStatus.OK);
         } else {
-            throw new NotFoundException("Sorry, the requested Disease with ID "+diseaseId+" does not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, the requested Disease with ID "+diseaseId+" does not exist");
         }
 
     }
