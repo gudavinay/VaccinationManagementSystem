@@ -9,6 +9,9 @@ import { Container } from "@mui/material";
 import axios from "axios";
 import backendServer from "../../../webConfig";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 // import Select from "@material-ui/core/Select";
 // import { Checkbox, ListItemText, MenuItem } from "@material-ui/core";
 import moment from "moment";
@@ -19,7 +22,7 @@ class VaccinationsDue extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			expanded:"panel1"
+			expanded: "panel1",
 		};
 	}
 
@@ -64,6 +67,21 @@ class VaccinationsDue extends Component {
 	};
 
 	render() {
+		const suffixes = [
+			"",
+			"st",
+			"nd",
+			"rd",
+			"th",
+			"th",
+			"th",
+			"th",
+			"th",
+			"th",
+			"th",
+			"th",
+			"th",
+		];
 		if (localStorage.getItem("userData") === null) {
 			return <Redirect to="/" />;
 		}
@@ -80,12 +98,24 @@ class VaccinationsDue extends Component {
 					}}
 				>
 					<Col md={8}>
-						<div>Vaccination Name: {item.vaccinationName}</div>
-						<div>Vaccination shot number due: {item.numberOfShotDue}</div>
-						<div>Due Date: {new Date(item.dueDate).toDateString()}</div>
+						<div>
+							<VaccinesIcon /> <strong>Vaccination Name:</strong>{" "}
+							{item.vaccinationName}
+						</div>
+						<div>
+							<ConfirmationNumberIcon /> <strong>Number of shot due:</strong>{" "}
+							{item.numberOfShotDue}
+							{suffixes[item.numberOfShotDue]} shot
+						</div>
+						<div>
+							<span>
+								<CalendarTodayIcon />
+							</span>{" "}
+							<strong>Due Date:</strong> {new Date(item.dueDate).toDateString()}
+						</div>
 					</Col>
 					<Col>
-						Appointment Scheduled
+						<strong>Scheduled appointment for vaccine</strong>
 						{item.appointment && item.appointment.length > 0 ? (
 							<ul className="list-group">
 								{item.appointment.map((elem) => (
@@ -102,7 +132,13 @@ class VaccinationsDue extends Component {
 								))}
 							</ul>
 						) : (
-							<div>No Appointment schduled</div>
+							<div
+								style={{
+									color: "red",
+								}}
+							>
+								<small>You have not booked an appointment yet</small>
+							</div>
 						)}
 					</Col>
 				</Row>
@@ -125,8 +161,8 @@ class VaccinationsDue extends Component {
 							id="panel1d-header"
 						>
 							<Typography>
-								<VaccinesIcon />
-								Vaccination Due
+								<MedicalServicesIcon fontSize="large" />{" "}
+								<strong>Vaccinations Due</strong>
 							</Typography>
 						</AccordionSummary>
 						<AccordionDetails>{vacciDue}</AccordionDetails>

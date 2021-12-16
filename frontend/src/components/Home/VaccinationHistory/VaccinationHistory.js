@@ -53,8 +53,7 @@ class VaccinationHistory extends Component {
 
 	getVaccinationHistory() {
 		let user_mrn = "";
-		if(getUserProfile())
-		   user_mrn=getUserProfile().mrn
+		if (getUserProfile()) user_mrn = getUserProfile().mrn;
 		axios
 			.get(
 				`${backendServer}/getCheckedInAppointmentsForUser/?user_mrn=${user_mrn}&isChecked=1`
@@ -129,7 +128,7 @@ class VaccinationHistory extends Component {
 										</li>
 										<li className="list-group-item">
 											Shot number:{" "}
-											{elem.duration == 0
+											{elem.duration == 0 && elem.numberOfShots == 1
 												? parseInt(elem.numberOfShots)
 												: parseInt(
 														elem.numberOfShots -
