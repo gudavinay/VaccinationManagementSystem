@@ -109,7 +109,7 @@ public class AppointmentService {
 
     public ResponseEntity<?> getCheckedInAppointmentsForUser(int user_mrn, int isChecked) {
         try {
-            List<Appointment> checkedinApp= appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeDesc(user_mrn, isChecked);
+            List<Appointment> checkedinApp= appointmentRepository.findAllByUserMrnAndIsCheckedOrderByAppointmentDateTimeAsc(user_mrn, isChecked);
             return new ResponseEntity<>(checkedinApp, HttpStatus.OK);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unable to get checkedIn appointments from database");

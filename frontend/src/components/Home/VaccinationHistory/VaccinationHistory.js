@@ -87,8 +87,6 @@ class VaccinationHistory extends Component {
 			shotCount[i] = 0;
 		}
 
-		console.log("shotCount: " + shotCount);
-
 		if (localStorage.getItem("userData") === null) {
 			return <Redirect to="/" />;
 		}
@@ -139,10 +137,7 @@ class VaccinationHistory extends Component {
 												<strong>Shot number taken:</strong>{" "}
 												{elem.duration == 0 && elem.numberOfShots == 1
 													? parseInt(elem.numberOfShots)
-													: parseInt(
-															elem.numberOfShots -
-																++shotCount[parseInt(elem.vaccinationId)]
-													  )}
+													: parseInt(++shotCount[parseInt(elem.vaccinationId)])}
 											</li>
 										</div>
 									))}
