@@ -4,6 +4,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { Container } from "@mui/material";
+import VaccinesIcon from "@mui/icons-material/Vaccines";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 // import { Link } from "react-router-dom";
 import { Link, Redirect } from "react-router-dom";
 import {
@@ -102,45 +104,53 @@ class VaccinationHistory extends Component {
 						margin: "10px",
 					}}
 				>
-					<Col md={8}>
-						<div>Clinic: {item.clinic.name}</div>
+					<Col>
 						<div>
-							Address: {item.clinic.address.street}, {item.clinic.address.city}
+							<strong>Clinic Name:</strong> {item.clinic.name}
 						</div>
 						<div>
-							Appointment Date:{" "}
-							{new Date(item.appointmentDateTime).toDateString()}
+							<strong>Clinic Address:</strong> {item.clinic.address.street},{" "}
+							{item.clinic.address.city}
 						</div>
 						<div>
-							Appointment Time:{" "}
-							{new Date(item.appointmentDateTime).toTimeString()}
+							<strong>Appointment Date:</strong> {item.appointmentDateStr}
+						</div>
+						<div>
+							<strong>Appointment Time:</strong> {item.appointmentTimeStr}
 						</div>
 					</Col>
+
 					<Col>
-						Vaccinations taken
-						{item.vaccinations && item.vaccinations.length > 0 ? (
-							<ul className="list-group">
-								{item.vaccinations.map((elem) => (
-									<div key={elem.vaccinationId}>
-										<li className="list-group-item">
-											{" "}
-											Vaccination name: {elem.vaccinationName}
-										</li>
-										<li className="list-group-item">
-											Shot number:{" "}
-											{elem.duration == 0 && elem.numberOfShots == 1
-												? parseInt(elem.numberOfShots)
-												: parseInt(
-														elem.numberOfShots -
-															++shotCount[parseInt(elem.vaccinationId)]
-												  )}
-										</li>
-									</div>
-								))}
-							</ul>
-						) : (
-							<div>No vaccinations mapped</div>
-						)}
+						<strong>
+							<VaccinesIcon />
+							Vaccinations taken
+						</strong>
+						<Accordion>
+							{item.vaccinations && item.vaccinations.length > 0 ? (
+								<ul className="list-group">
+									{item.vaccinations.map((elem) => (
+										<div key={elem.vaccinationId}>
+											<li className="list-group-item">
+												{" "}
+												<strong>Vaccination name:</strong>{" "}
+												{elem.vaccinationName}
+											</li>
+											<li className="list-group-item">
+												<strong>Shot number taken:</strong>{" "}
+												{elem.duration == 0 && elem.numberOfShots == 1
+													? parseInt(elem.numberOfShots)
+													: parseInt(
+															elem.numberOfShots -
+																++shotCount[parseInt(elem.vaccinationId)]
+													  )}
+											</li>
+										</div>
+									))}
+								</ul>
+							) : (
+								<small>No vaccinations mapped</small>
+							)}
+						</Accordion>
 					</Col>
 				</Row>
 			));
@@ -162,7 +172,10 @@ class VaccinationHistory extends Component {
 							aria-controls="panel1d-content"
 							id="panel1d-header"
 						>
-							<Typography>Vaccination History</Typography>
+							<Typography>
+								<MedicalServicesIcon />
+								<strong>Vaccination History</strong>
+							</Typography>
 						</AccordionSummary>
 						<AccordionDetails>{vacciHistory}</AccordionDetails>
 					</Accordion>
