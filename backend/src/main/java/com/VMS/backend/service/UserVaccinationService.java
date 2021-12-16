@@ -54,7 +54,8 @@ public class UserVaccinationService {
                              current.setDosesLeft(0);
                          }
                          String newDate="";
-                         if(current.getDosesLeft()-1==0 ){
+                         System.out.println("current.getDosesLeft(): " +current.getDosesLeft());
+                         if(current.getDosesLeft()<=0 ){
                              newDate=addDays(date, vaccination.getDuration());
                          }else{
                               newDate = addDays(date, vaccination.getShotInternalVal());
@@ -106,7 +107,7 @@ public class UserVaccinationService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(date); // Using today's date
-        c.add(Calendar.DATE, 5); // Adding 5 days
+        c.add(Calendar.DATE, noOfDays); // Adding 5 days
         String output = sdf.format(c.getTime());
         System.out.println(output);
         return output;
