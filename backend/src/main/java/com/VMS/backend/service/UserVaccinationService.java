@@ -42,18 +42,22 @@ public class UserVaccinationService {
             }
         }
 
-        List<Vaccination> vaccinationListCloned = req.getVaccinations();
+        List<Vaccination> vaccinationListCloned = new ArrayList<>(vaccinationList);
         if(currentVaccine.size()>0){
             for(Vaccination vaccination: vaccinationList){
                 for(UserVaccinations current: currentVaccine){
                      if(current.getVaccination_id()==vaccination.getVaccinationId()){
                          Date date = req.getCheckInDate();
-                         current.setDosesLeft(current.getDosesLeft()-1);
+                         if (current.getDosesLeft() - 1 >= 0) {
+                             current.setDosesLeft(current.getDosesLeft()-1);
+                         }else{
+                             current.setDosesLeft(0);
+                         }
                          String newDate="";
                          if(current.getDosesLeft()-1==0 ){
                              newDate=addDays(date, vaccination.getDuration());
                          }else{
-                              newDate = addDays(date, vaccination.getShotInternalVal() + 1);
+                              newDate = addDays(date, vaccination.getShotInternalVal());
                          }
 
 
@@ -68,18 +72,21 @@ public class UserVaccinationService {
         }
         // else {
                 for (Vaccination vacc : vaccinationListCloned) {
-                    if (vacc.getNumberOfShots() - 1 < 0) {
-                        throw new IllegalArgumentException("No shots left");
-                    }
+                    int noOfShot=vacc.getNumberOfShots();
                     Date date = req.getCheckInDate();
                     String newDate="";
                     if(vacc.getNumberOfShots()-1==0){
                         newDate=addDays(date, vacc.getDuration());
                     }else{
-                        newDate = addDays(date, vacc.getShotInternalVal() + 1);
+                        newDate = addDays(date, vacc.getShotInternalVal());
+                    }
+                    if (noOfShot - 1 >= 0) {
+                        noOfShot=noOfShot - 1;
+                    }else{
+                        noOfShot=0;
                     }
 
-                    UserVaccinations checkin = new UserVaccinations(req.getUser_Id(), vacc.getNumberOfShots() - 1, vacc.getVaccinationId(), newDate);
+                    UserVaccinations checkin = new UserVaccinations(req.getUser_Id(), noOfShot, vacc.getVaccinationId(), newDate);
                     UserVaccinations res = userVaccinationRepository.save(checkin);
                     userVaccinations.add(res);
                 }
