@@ -18,7 +18,8 @@ import backendServer from "../../../webConfig";
 // import Select from "@material-ui/core/Select";
 // import { Checkbox, ListItemText, MenuItem } from "@material-ui/core";
 import Navbar from "./../../Navbar/Navbar";
-import { getUserProfile } from "../../Services/ControllerUtils";
+import { getUserProfile, getMimicTime } from "../../Services/ControllerUtils";
+import moment from "moment";
 
 class VaccinationHistory extends Component {
 	constructor(props) {
@@ -91,7 +92,12 @@ class VaccinationHistory extends Component {
 			return <Redirect to="/" />;
 		}
 		let vacciHistory = "";
-		if (this.state && this.state.checkedInAppointments) {
+		if (
+			this.state &&
+			this.state.checkedInAppointments &&
+			new Date(moment(this.state.checkedInAppointments.appointmentDateTime)) <
+				getMimicTime()
+		) {
 			vacciHistory = this.state.checkedInAppointments.map((item) => (
 				<Row
 					key={item.appointmentId}
