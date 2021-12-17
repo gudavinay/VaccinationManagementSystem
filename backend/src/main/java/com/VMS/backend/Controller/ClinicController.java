@@ -5,8 +5,6 @@ import com.VMS.backend.POJO.ClinicPOJO;
 import com.VMS.backend.entity.Clinic;
 // import com.VMS.backend.service.AppointmentService;
 import com.VMS.backend.service.ClinicService;
-import com.VMS.backend.util.BadRequest;
-import com.VMS.backend.util.ExceptionHandle;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
