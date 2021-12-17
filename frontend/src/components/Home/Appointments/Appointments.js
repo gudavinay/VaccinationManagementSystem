@@ -136,7 +136,7 @@ class Appointments extends Component {
 		};
 		axios.post(`${backendServer}/checkInAppointment`, data).then((response) => {
 			if (response.status === 200) {
-				//  this.sendCheckInEmailToClient(appointment);
+				 this.sendCheckInEmailToClient(appointment);
 				this.getAppointmentsForUser();
 			}
 		});
