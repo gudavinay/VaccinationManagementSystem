@@ -2,7 +2,6 @@ package com.VMS.backend.Controller;
 
 import com.VMS.backend.POJO.LoginPOJO;
 import com.VMS.backend.POJO.SignUpPOJO;
-import com.VMS.backend.entity.User;
 import com.VMS.backend.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,6 @@
 package com.VMS.backend.Controller;
 
 import com.VMS.backend.POJO.VaccinationPOJO;
-import com.VMS.backend.entity.Disease;
 import com.VMS.backend.entity.Vaccination;
 import com.VMS.backend.service.VaccinationService;
 import com.VMS.backend.util.BadRequest;

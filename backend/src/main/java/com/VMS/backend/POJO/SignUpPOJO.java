@@ -2,9 +2,6 @@ package com.VMS.backend.POJO;
 
 import com.VMS.backend.entity.Address;
 
-import javax.persistence.Embedded;
-import javax.validation.constraints.NotNull;
-
 public class SignUpPOJO {
     private String email;
     private String firstName;

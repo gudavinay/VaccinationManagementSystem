@@ -225,7 +225,7 @@ class NewAppointment extends Component {
 			.then((response) => {
 				console.log("Status Code : ", response.status);
 				if (response.status === 200) {
-					//  this.sendEmailToClient(); // TODO: uncomment later to send email
+					 this.sendEmailToClient(); // TODO: uncomment later to send email
 					this.setState({
 						isSuccess: true,
 						error: "",
